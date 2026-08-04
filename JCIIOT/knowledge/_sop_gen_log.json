@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-07-23T13:40:42",
+  "text_llm": {
+    "base_url": "https://open.bigmodel.cn/api/paas/v4",
+    "model": "glm-5.2",
+    "api_key": "***"
+  },
+  "vlm": {
+    "base_url": "https://open.bigmodel.cn/api/paas/v4",
+    "model": "glm-5v-turbo",
+    "api_key": "***"
+  },
+  "cases": [
+    {
+      "file": "JCIIOT 2026 case 1 SOP.docx",
+      "case": 1,
+      "level": "L1",
+      "started_at": "2026-07-23T13:40:42",
+      "status": "ok",
+      "output": "sop_gen_case_1.md",
+      "paragraphs": 42,
+      "images": 5,
+      "images_described": 2,
+      "structuring": "llm",
+      "used_llm": true,
+      "used_vlm": true,
+      "finished_at": "2026-07-23T13:40:56"
+    },
+    {
+      "file": "JCIIOT 2026 case 3 SOP.docx",
+      "case": 3,
+      "level": "L2",
+      "started_at": "2026-07-23T13:40:56",
+      "status": "ok",
+      "output": "sop_gen_case_3.md",
+      "paragraphs": 200,
+      "images": 5,
+      "images_described": 1,
+      "structuring": "llm",
+      "used_llm": true,
+      "used_vlm": true,
+      "finished_at": "2026-07-23T13:41:10"
+    },
+    {
+      "file": "JCIIOT 2026 case 5 SOP.docx",
+      "case": 5,
+      "level": "L3",
+      "started_at": "2026-07-23T13:41:10",
+      "status": "ok",
+      "output": "sop_gen_case_5.md",
+      "paragraphs": 186,
+      "images": 5,
+      "images_described": 1,
+      "structuring": "llm",
+      "used_llm": true,
+      "used_vlm": true,
+      "finished_at": "2026-07-23T13:41:27"
+    },
+    {
+      "file": "JCIIOT 2026 case 7 SOP.docx",
+      "case": 7,
+      "level": "L4",
+      "started_at": "2026-07-23T13:41:27",
+      "status": "ok",
+      "output": "sop_gen_case_7.md",
+      "paragraphs": 194,
+      "images": 5,
+      "images_described": 1,
+      "structuring": "llm",
+      "used_llm": true,
+      "used_vlm": true,
+      "finished_at": "2026-07-23T13:41:43"
+    },
+    {
+      "file": "JCIIOT 2026 case 9 SOP.docx",
+      "case": 9,
+      "level": "L5",
+      "started_at": "2026-07-23T13:41:43",
+      "status": "ok",
+      "output": "sop_gen_case_9.md",
+      "paragraphs": 150,
+      "images": 5,
+      "images_described": 1,
+      "structuring": "llm",
+      "used_llm": true,
+      "used_vlm": true,
+      "finished_at": "2026-07-23T13:42:00"
+    }
+  ]
+}

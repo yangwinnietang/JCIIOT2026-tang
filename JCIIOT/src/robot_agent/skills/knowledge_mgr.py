@@ -36,7 +36,7 @@ class KnowledgeMgrSkill(BaseSkill):
             description="Knowledge base management: search, list, add, remove docs, view stats",
             keywords=(
                 "knowledge", "kb", "docs", "document", "search",
-                "find", "doc", "document", "kb", "lookup",
+                "find", "doc", "lookup",
             ),
         )
         self._mgr = KnowledgeManager(knowledge_root)
@@ -88,7 +88,7 @@ class KnowledgeMgrSkill(BaseSkill):
     def _do_search(self, inputs: dict) -> SkillResult:
         query = str(inputs.get("query") or inputs.get("q") or "")
         if not query:
-            return SkillResult(skill_name=self.name, success=False, message="search requiresquery 参数")
+            return SkillResult(skill_name=self.name, success=False, message="search requires query 参数")
         top_n = int(inputs.get("top_n", 10))
         results = self._mgr.search(query, top_n=top_n)
         return SkillResult(
@@ -113,7 +113,7 @@ class KnowledgeMgrSkill(BaseSkill):
         title = str(inputs.get("title") or "")
         content = str(inputs.get("content") or "")
         if not title or not content:
-            return SkillResult(skill_name=self.name, success=False, message="add requirestitle 和 content 参数")
+            return SkillResult(skill_name=self.name, success=False, message="add requires title 和 content 参数")
         category = str(inputs.get("category") or "")
         tags = inputs.get("tags") or None
         if isinstance(tags, str):
@@ -130,7 +130,7 @@ class KnowledgeMgrSkill(BaseSkill):
     def _do_remove(self, inputs: dict) -> SkillResult:
         doc_id = str(inputs.get("doc_id") or inputs.get("id") or "")
         if not doc_id:
-            return SkillResult(skill_name=self.name, success=False, message="remove requiresdoc_id 参数")
+            return SkillResult(skill_name=self.name, success=False, message="remove requires doc_id 参数")
         removed = self._mgr.remove_doc(doc_id)
         if removed:
             return SkillResult(skill_name=self.name, success=True, message=f"Document {doc_id} removed")

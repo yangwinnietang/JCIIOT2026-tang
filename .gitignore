@@ -2,3 +2,16 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Model-download transient artifacts
+.model_chunks/
+*.pth.download
+model_download_supervisor.log
+
+# Local tooling / state
+.qwen/
+MUJOCO_LOG.TXT

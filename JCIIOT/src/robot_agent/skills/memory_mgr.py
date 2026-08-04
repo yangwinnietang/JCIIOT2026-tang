@@ -36,7 +36,7 @@ class MemoryMgrSkill(BaseSkill):
             description="Memory management: search history, view recent ops, summarize, clear memory",
             keywords=(
                 "memory", "history", "recall", "retrieve",
-                "history", "ops", "summarize", "summary",
+                "ops", "summarize", "summary",
                 "clear", "forget", "clean",
             ),
         )
@@ -82,7 +82,7 @@ class MemoryMgrSkill(BaseSkill):
     def _do_recall(self, inputs: dict) -> SkillResult:
         query = str(inputs.get("query") or inputs.get("q") or "")
         if not query:
-            return SkillResult(skill_name=self.name, success=False, message="recall requiresquery 参数")
+            return SkillResult(skill_name=self.name, success=False, message="recall requires query 参数")
         top_n = int(inputs.get("top_n", 10))
         results = self._store.recall(query, top_n=top_n)
         return SkillResult(
@@ -123,7 +123,7 @@ class MemoryMgrSkill(BaseSkill):
     def _do_by_skill(self, inputs: dict) -> SkillResult:
         skill_name = str(inputs.get("skill_name") or inputs.get("skill") or "")
         if not skill_name:
-            return SkillResult(skill_name=self.name, success=False, message="by_skill requiresskill_name 参数")
+            return SkillResult(skill_name=self.name, success=False, message="by_skill requires skill_name 参数")
         results = self._store.by_skill(skill_name)
         return SkillResult(
             skill_name=self.name,
@@ -154,7 +154,7 @@ class MemoryMgrSkill(BaseSkill):
     def _do_forget(self, inputs: dict) -> SkillResult:
         query = str(inputs.get("query") or inputs.get("q") or "")
         if not query:
-            return SkillResult(skill_name=self.name, success=False, message="forget requiresquery 参数")
+            return SkillResult(skill_name=self.name, success=False, message="forget requires query 参数")
         removed = self._store.forget(query)
         return SkillResult(
             skill_name=self.name,

@@ -23,6 +23,34 @@ from robot_agent.skills.memory_mgr import MemoryMgrSkill
 from robot_agent.skills.read_document import ReadDocumentSkill
 
 
+def _load_planning_params() -> dict:
+    """Load MoveSkill planning params from ``knowledge/robot_params.json``.
+
+    Returns a dict with ``path_spacing``, ``clearance_weight``,
+    ``tight_clearance_m``. Missing keys fall back to the MoveSkill module
+    defaults, so a missing/empty ``planning`` block never breaks wiring.
+    """
+    defaults = {
+        "path_spacing": 0.35,
+        "clearance_weight": 6.0,
+        "tight_clearance_m": 0.30,
+    }
+    try:
+        from pathlib import Path
+        import json
+        _rp = Path(__file__).resolve().parents[3] / "knowledge" / "robot_params.json"
+        if _rp.exists():
+            _data = json.loads(_rp.read_text(encoding="utf-8"))
+            _plan = _data.get("planning", {}) if isinstance(_data, dict) else {}
+            if isinstance(_plan, dict):
+                for k, v in _plan.items():
+                    if k in defaults and isinstance(v, (int, float)):
+                        defaults[k] = float(v)
+    except Exception:
+        pass
+    return defaults
+
+
 def _detect_vision_api_config() -> dict:
     """Detect vision API configuration from environment / robot_params.
 
@@ -91,20 +119,37 @@ def wired_skills(
 ) -> list[BaseSkill]:
     """Return skills wired to a real (or simulated) backend."""
     _vis_cfg = _detect_vision_api_config()
+    # Planning params: robot_params.json `planning` block is authoritative;
+    # the caller-supplied path_spacing is a fallback when no block is present.
+    _plan = _load_planning_params()
+    _path_spacing = _plan.get("path_spacing", path_spacing)
+    _clearance_weight = _plan.get("clearance_weight", 6.0)
+    _tight_clearance_m = _plan.get("tight_clearance_m", 0.30)
+    move_skill = MoveSkill(
+        backend=backend,
+        scene_context=scene_context,
+        grid=grid,
+        path_spacing=_path_spacing,
+        clearance_weight=_clearance_weight,
+        tight_clearance_m=_tight_clearance_m,
+    )
+    place_skill = PlaceDownSkill(backend=backend, scene_context=scene_context)
     skills: list[BaseSkill] = [
-        MoveSkill(
+        move_skill,
+        PickUpSkill(
             backend=backend,
             scene_context=scene_context,
-            grid=grid,
-            path_spacing=path_spacing,
+            move_skill=move_skill,
+            place_skill=place_skill,
         ),
-        PickUpSkill(backend=backend, scene_context=scene_context),
-        PlaceDownSkill(backend=backend, scene_context=scene_context),
+        place_skill,
         AnalyzeSupplySkill(
             backend=backend,
             scene_context=scene_context,
             grid=grid,
-            path_spacing=path_spacing,
+            path_spacing=_path_spacing,
+            clearance_weight=_clearance_weight,
+            tight_clearance_m=_tight_clearance_m,
         ),
         RecordTrajectorySkill(backend=backend),
         KnowledgeMgrSkill(knowledge_root="knowledge"),
