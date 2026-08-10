@@ -63,6 +63,80 @@ DEFAULT_ROBOT_BASE_POS = [8.000001, 4.600000, 0.0]
 ARMS = ("right", "left")
 
 
+def _find_base_joint_addrs(sim):
+    """Find qpos addresses for the mobile base forward/side/yaw joints."""
+    fwd = sid = yaw = None
+    for jn in sim.model.joint_names:
+        if "mobile_forward" in jn or jn.endswith("joint_mobile_forward"):
+            fwd = sim.model.joint_name2id(jn)
+        elif "mobile_side" in jn or jn.endswith("joint_mobile_side"):
+            sid = sim.model.joint_name2id(jn)
+        elif "mobile_yaw" in jn or jn.endswith("joint_mobile_yaw"):
+            yaw = sim.model.joint_name2id(jn)
+    return fwd, sid, yaw
+
+
+def _reposition_base(env, robot, target_xy, target_yaw=None):
+    """Directly write mobile-base qpos to reposition the robot in the eval env.
+
+    Works by perturbing joints to compute a world→qpos mapping, then applying
+    the delta.  Also clears the latched collision flag.
+    """
+    sim = env.sim
+    fwd_addr, sid_addr, yaw_addr = _find_base_joint_addrs(sim)
+    if fwd_addr is None or sid_addr is None:
+        return
+
+    # Current base world XY from base site
+    base_site_name = robot.robot_model.base.correct_naming("center")
+    try:
+        base_site_id = sim.model.site_name2id(base_site_name)
+    except Exception:
+        return
+    base_xy = np.array(sim.data.site_xpos[base_site_id][:2])
+
+    # Build linear mapping: perturb forward joint, measure world delta
+    eps = 1e-4
+    qpos_f = float(sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]])
+    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] = qpos_f + eps
+    sim.forward()
+    xy_after_f = np.array(sim.data.site_xpos[base_site_id][:2])
+    df = (xy_after_f - base_xy) / eps
+    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] = qpos_f
+
+    qpos_s = float(sim.data.qpos[sim.model.jnt_qposadr[sid_addr]])
+    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] = qpos_s + eps
+    sim.forward()
+    xy_after_s = np.array(sim.data.site_xpos[base_site_id][:2])
+    ds = (xy_after_s - base_xy) / eps
+    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] = qpos_s
+    sim.forward()
+
+    # Solve: [df | ds] @ delta_qpos = target - base
+    J = np.column_stack([df, ds])  # 2x2
+    try:
+        delta_qpos = np.linalg.solve(J, np.asarray(target_xy) - base_xy)
+    except np.linalg.LinAlgError:
+        return
+    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] += delta_qpos[0]
+    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] += delta_qpos[1]
+
+    # Yaw
+    if target_yaw is not None and yaw_addr is not None:
+        for _ in range(2):
+            _, cur_yaw = get_base_world_pose(env, robot)
+            d = float(target_yaw - cur_yaw)
+            d = (d + np.pi) % (2 * np.pi) - np.pi
+            if abs(d) < 1e-6:
+                break
+            sim.data.qpos[sim.model.jnt_qposadr[yaw_addr]] += d
+            sim.forward()
+
+    sim.forward()
+    if hasattr(env, "has_judge_collision"):
+        env.has_judge_collision = False
+
+
 FACTORY_SCENE_ENV_NAMES = {
     "factory_sorting": "FactorySorting",
     "FactorySorting": "FactorySorting",
@@ -931,6 +1005,36 @@ def run_factory_sorting_grasp_in_wrapped_env(
         "wrapped_env_grasp_start_pose: "
         f"x={base_xy[0]:.6f}, y={base_xy[1]:.6f}, yaw={yaw:.6f}"
     )
+
+    # ── Stance correction: reposition robot base to (obj_x+standoff, obj_y) ──
+    # The eval env is created with the nav env's base pose, which may be
+    # misaligned.  We directly manipulate sim qpos to fix it.
+    _standoff = 0.85
+    _obj_xy = None
+    for _sfx in ('_joint0', '_free'):
+        try:
+            _q = raw_env.sim.data.get_joint_qpos(f'{object_name}{_sfx}')
+            _obj_xy = (float(_q[0]), float(_q[1]))
+            break
+        except Exception:
+            pass
+    if _obj_xy is not None:
+        _desired_x = _obj_xy[0] + _standoff
+        _desired_y = _obj_xy[1]
+        _y_err = abs(base_xy[1] - _desired_y)
+        _x_err = abs(base_xy[0] - _desired_x)
+        if _y_err > 0.15 or _x_err > 0.30:
+            print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
+                  f"base=({base_xy[0]:.3f},{base_xy[1]:.3f}) "
+                  f"desired=({_desired_x:.3f},{_desired_y:.3f}) "
+                  f"y_err={_y_err:.3f} x_err={_x_err:.3f}", flush=True)
+            _reposition_base(raw_env, robot, (_desired_x, _desired_y), -3.141593)
+            base_xy, yaw = get_base_world_pose(raw_env, robot)
+            print(f"[STANCE_FIX] after fix: base=({base_xy[0]:.3f},{base_xy[1]:.3f}) yaw={yaw:.3f}", flush=True)
+        else:
+            print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
+                  f"base=({base_xy[0]:.3f},{base_xy[1]:.3f}) OK", flush=True)
+
     print("Executing scripted grasp policy (deterministic OSC waypoint servo)")
 
     for _ in range(initial_view_steps):

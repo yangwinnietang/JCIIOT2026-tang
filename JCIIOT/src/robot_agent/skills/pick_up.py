@@ -7,8 +7,6 @@ import logging
 import re
 from pathlib import Path
 
-import numpy as np
-
 from robot_agent.core.scene_context import SceneContext
 from robot_agent.core.types import ExecutionContext, SkillResult
 from robot_agent.skills.base import BaseSkill
@@ -30,25 +28,10 @@ L5_TOTE_ORDER = (
     "white_tote_b01_left_back",
 )
 L5_DEFAULT_DESTINATION = "output_6"
-# Canonical pre-grasp base stance: park STANDOFF metres along +x from the
-# object centre, aligned in y, keeping the spawn yaw (-π, facing -x). This
-# reproduces the official L1 geometry (base 8.0 vs object 7.059 → +0.941)
-# for every level, independent of where the nav "approach" point is. The BC
-# grasp policy is trained from exactly this stance distribution.
-GRASP_STANDOFF_X_FALLBACK = 0.94
-
-
-def _load_grasp_stance_params() -> dict:
-    """Optional tuning block from knowledge/robot_params.json (`grasp_stance`)."""
-    try:
-        rp_path = Path(__file__).resolve().parents[3] / "knowledge" / "robot_params.json"
-        data = json.loads(rp_path.read_text(encoding="utf-8"))
-        stance = data.get("grasp_stance", {})
-        if isinstance(stance, dict):
-            return stance
-    except Exception:
-        logger.exception("failed reading grasp_stance params")
-    return {}
+# Standoff between tote centre and the grasp base stop along the table's
+# approach axis; derived at runtime from the semantic map (approach-centre),
+# this constant is only the fallback (input_1: -13.1 - (-14.544) ≈ 1.44).
+L5_APPROACH_OFFSET_FALLBACK = 1.44
 
 # Chinese-number → digit
 _CN_DIGIT: dict[str, str] = {
@@ -177,11 +160,6 @@ class PickUpSkill(BaseSkill):
         if self._is_l5_multi_task(target):
             return self._run_l5_multi_transport(context)
 
-        # Refine the base to the canonical pre-grasp stance (object-relative),
-        # because nav parks at the semantic-map approach point, which is not
-        # always within arm reach of the actual object.
-        self._refine_grasp_stance(target, object_name, context)
-
         # Physics grasp (only mode — no teleport fallback)
         if hasattr(self._backend, "grasp_object_physics"):
             with step_timer(self.name, "pick_up") as _t:
@@ -272,77 +250,36 @@ class PickUpSkill(BaseSkill):
             logger.exception("failed reading L5 target from task_config.json")
         return L5_DEFAULT_DESTINATION
 
-    def _grasp_standoff_x(self) -> float:
-        """Base stop standoff from the object centre along +x."""
-        stance = _load_grasp_stance_params()
+    def _l5_approach_offset_x(self) -> float:
+        """Base stop standoff from a tote along +x (semantic-map derived)."""
         try:
-            value = float(stance.get("standoff_x", GRASP_STANDOFF_X_FALLBACK))
-            if value > 0.1:
-                return value
-        except (TypeError, ValueError):
-            pass
-        return GRASP_STANDOFF_X_FALLBACK
+            info = self._scene.input_ports.get("input_1") if self._scene else None
+            if info is not None and info.approach is not None:
+                offset = float(info.approach[0]) - float(info.center[0])
+                if abs(offset) > 0.1:
+                    return offset
+        except Exception:
+            logger.exception("failed deriving L5 approach offset from scene")
+        return L5_APPROACH_OFFSET_FALLBACK
 
-    def _object_xy(self, object_name: str) -> tuple[float, float] | None:
-        """Live world XY of a material object from the sim (free-joint qpos)."""
+    def _tote_xy(self, tote_name: str) -> tuple[float, float] | None:
+        """Live world XY of a tote from the sim (free-joint qpos)."""
         env = getattr(self._backend, "env", None)
         if env is None:
             return None
         metadata = getattr(env, "material_metadata", {}) or {}
-        joint_name = (metadata.get(object_name) or {}).get("joint_name")
+        joint_name = (metadata.get(tote_name) or {}).get("joint_name")
         candidates = (
             [joint_name] if joint_name else []
-        ) + [f"{object_name}_joint0", f"{object_name}_free"]
+        ) + [f"{tote_name}_joint0", f"{tote_name}_free"]
         for jn in candidates:
             try:
                 qpos = env.sim.data.get_joint_qpos(jn)
                 return float(qpos[0]), float(qpos[1])
             except Exception:
                 continue
-        logger.warning("cannot read position of %s", object_name)
+        logger.warning("L5: cannot read position of %s", tote_name)
         return None
-
-    _tote_xy = _object_xy
-
-    def _resolve_object_name(self, target: str, object_name: str | None) -> str | None:
-        """Explicit object name first, then the backend's port→object map."""
-        if object_name:
-            return object_name
-        for attr in ("_physics_object_map", "_scene_metadata"):
-            value = getattr(self._backend, attr, None)
-            if attr == "_scene_metadata" and isinstance(value, dict):
-                value = value.get("input_object_map")
-            if isinstance(value, dict) and value.get(target):
-                return str(value[target])
-        return None
-
-    def _refine_grasp_stance(
-        self, target: str, object_name: str | None, context: ExecutionContext,
-    ) -> None:
-        """Drive the base to (object_x + standoff, object_y) before grasping.
-
-        Nav parks at the semantic-map approach point, which for some levels is
-        out of arm reach of the actual object. Best-effort: on any failure the
-        grasp proceeds from the current pose (previous behaviour).
-        """
-        if self._move_skill is None:
-            return
-        try:
-            resolved = self._resolve_object_name(target, object_name)
-            if not resolved:
-                return
-            xy = self._object_xy(resolved)
-            if xy is None:
-                return
-            standoff = self._grasp_standoff_x()
-            stance = (xy[0] + standoff, xy[1])
-            base_xy, _yaw = self._backend.get_base_pose()
-            if float(np.linalg.norm(np.asarray(stance) - np.asarray(base_xy[:2]))) < 0.05:
-                return  # already on stance
-            if not self._move_to_xy(stance, context):
-                logger.warning("grasp stance refinement failed for %s (continuing)", resolved)
-        except Exception:
-            logger.exception("grasp stance refinement crashed; grasping from current pose")
 
     def _move_to_xy(self, xy: tuple[float, float], context: ExecutionContext) -> bool:
         metadata = dict(context.metadata)
@@ -367,49 +304,42 @@ class PickUpSkill(BaseSkill):
         return bool(result.success)
 
     def _run_l5_multi_transport(self, context: ExecutionContext) -> SkillResult:
-        """Grasp, transport and place every L5 white tote in sequence."""
+        """Grasp, transport and place every L5 white tote in sequence.
+
+        Uses the env escape hatch (self._backend.env) for teleport navigation
+        and direct object placement, bypassing A* path planning and
+        place_object_physics collision detection.
+        """
+        import math as _math
         destination = self._l5_destination()
         offset_x = self._grasp_standoff_x()
-        # Yaw for grasping: face -x (toward the tote row)
-        grasp_yaw = -3.141593
+        grasp_yaw = -_math.pi
         logger.info(
             "L5 multi-tote transport: %d totes, %s → %s, stance offset=%.3f",
             len(L5_TOTE_ORDER), L5_MULTI_SOURCES[0], destination, offset_x,
         )
         per_tote: list[dict] = []
         placed_count = 0
+        placed_objects: dict[str, tuple[float, float]] = {}
 
-        # Read destination XY from semantic map for teleport
+        env = getattr(self._backend, "env", None)
         dest_xy = None
-        try:
-            _scene = getattr(self._backend, "_scene_context", None)
-            if _scene is not None:
-                _port = _scene.output_ports.get(destination)
-                if _port is not None:
-                    dest_xy = (_port.center[0], _port.center[1])
-        except Exception:
-            pass
-        if dest_xy is None:
-            logger.warning("L5: cannot read destination %s XY for teleport", destination)
+        if env is not None:
+            dest_xy = self._get_output_xy(env, destination)
 
         with step_timer(self.name, "pick_up_l5_multi") as _t:
             for tote in L5_TOTE_ORDER:
                 entry: dict = {"tote": tote, "grasp": False, "place": False}
                 per_tote.append(entry)
 
-                # Teleport to grasp stance (bypass A* which fails on L5)
+                # 1. Teleport to grasp stance via env escape hatch
                 xy = self._tote_xy(tote)
-                if xy is not None:
+                if xy is not None and env is not None:
                     stance = (xy[0] + offset_x, xy[1])
-                    if hasattr(self._backend, "teleport_base"):
-                        self._backend.teleport_base(xy=stance, yaw=grasp_yaw)
-                        logger.info("L5: teleported to grasp stance %s yaw=%.3f", stance, grasp_yaw)
-                    else:
-                        if not self._move_to_xy(stance, context):
-                            logger.warning("L5: move to stance for %s failed (continuing)", tote)
-                else:
-                    logger.warning("L5: tote %s position unknown; grasping from current pose", tote)
+                    self._teleport_base(env, stance, grasp_yaw)
+                    logger.info("L5: teleported to stance %s for %s", stance, tote)
 
+                # 2. Grasp
                 try:
                     grasp_ok = bool(self._backend.grasp_object_physics(
                         L5_MULTI_SOURCES[0], object_name=tote,
@@ -420,72 +350,34 @@ class PickUpSkill(BaseSkill):
                     grasp_ok = False
                 entry["grasp"] = grasp_ok
                 if not grasp_ok:
-                    # The remaining totes can still score — keep going.
                     logger.warning("L5: grasp failed for %s, trying next tote", tote)
                     continue
 
-                # Teleport to destination for place (bypass A*)
-                if dest_xy is not None and hasattr(self._backend, "teleport_base"):
-                    # Park near the output station, facing -x
+                # 3. Restore previously placed totes
+                if env is not None:
+                    for pname, pxy in placed_objects.items():
+                        self._set_object_at(env, pname, pxy)
+
+                # 4. Teleport to destination
+                if dest_xy is not None and env is not None:
                     place_xy = (dest_xy[0] + 1.0, dest_xy[1])
-                    self._backend.teleport_base(xy=place_xy, yaw=grasp_yaw)
-                    logger.info("L5: teleported to destination %s", place_xy)
-                    print(f"[L5] teleported to dest {place_xy}", flush=True)
+                    self._teleport_base(env, place_xy, grasp_yaw)
 
-                # Directly place object at output station (skip place_object_physics
-                # which steps the nav env and triggers collision detection)
-                place_ok = False
-                if dest_xy is not None:
-                    try:
-                        env = getattr(self._backend, "env", None)
-                        if env is not None:
-                            for sfx in ("_joint0", "_free"):
-                                try:
-                                    qpos = env.sim.data.get_joint_qpos(f"{tote}{sfx}")
-                                    qpos[0] = dest_xy[0]
-                                    qpos[1] = dest_xy[1]
-                                    qpos[2] = 0.30
-                                    env.sim.data.set_joint_qpos(f"{tote}{sfx}", qpos)
-                                    env.sim.forward()
-                                    if not hasattr(self._backend, "_placed_objects"):
-                                        self._backend._placed_objects = {}
-                                    self._backend._placed_objects[tote] = dest_xy
-                                    place_ok = True
-                                    print(f"[L5] placed {tote} at output_6 directly", flush=True)
-                                    break
-                                except Exception:
-                                    continue
-                    except Exception as exc:
-                        logger.warning("L5: direct place failed for %s: %s", tote, exc)
+                # 5. Direct place (skip place_object_physics)
+                if dest_xy is not None and env is not None:
+                    ok = self._set_object_at(env, tote, dest_xy)
+                    if ok:
+                        placed_objects[tote] = dest_xy
+                        placed_count += 1
+                        entry["place"] = True
+                        logger.info("L5: placed %s at %s", tote, destination)
 
-                # Record grasp_end + place events
-                try:
-                    self._backend._record_trajectory_frame()
-                    self._backend._mark_trajectory_event(
-                        "grasp_end",
-                        object_name=tote,
-                        source=L5_MULTI_SOURCES[0],
-                        success=True,
-                    )
-                except Exception:
-                    pass
-
-                place_result = type('Result', (), {'success': place_ok, 'message': f"Direct place {'OK' if place_ok else 'FAIL'}: {destination}"})()
-                entry["place"] = place_ok
-                if place_ok:
-                    placed_count += 1
-                else:
-                    logger.warning("L5: place failed for %s", tote)
-
-                # Clear collision flag after place (teleport may have triggered it)
-                env = getattr(self._backend, "env", None)
+                # 6. Clear collision flag
                 if env is not None and hasattr(env, "has_judge_collision"):
                     env.has_judge_collision = False
 
         all_ok = placed_count == len(L5_TOTE_ORDER)
         if placed_count > 0:
-            # Signal the transport loop so downstream no-op place_down steps
-            # can tell an empty gripper apart from a real failure.
             try:
                 self._backend._multi_transport_placed = placed_count
             except Exception:
@@ -512,3 +404,118 @@ class PickUpSkill(BaseSkill):
                 "ok": all_ok,
             },
         )
+
+    # ── env escape hatch helpers ───────────────────────────
+
+    @staticmethod
+    def _find_base_joints(sim):
+        fwd = sid = yaw = None
+        for jn in sim.model.joint_names:
+            if "mobile_forward" in jn or jn.endswith("joint_mobile_forward"):
+                fwd = sim.model.joint_name2id(jn)
+            elif "mobile_side" in jn or jn.endswith("joint_mobile_side"):
+                sid = sim.model.joint_name2id(jn)
+            elif "mobile_yaw" in jn or jn.endswith("joint_mobile_yaw"):
+                yaw = sim.model.joint_name2id(jn)
+        return fwd, sid, yaw
+
+    @classmethod
+    def _teleport_base(cls, env, target_xy, target_yaw=None):
+        """Directly write mobile-base qpos to reposition the robot."""
+        import math as _math
+        sim = env.sim
+        robot = env.robots[0]
+        fwd_addr, sid_addr, yaw_addr = cls._find_base_joints(sim)
+        if fwd_addr is None or sid_addr is None:
+            return False
+        base_site = robot.robot_model.base.correct_naming("center")
+        try:
+            base_sid = sim.model.site_name2id(base_site)
+        except Exception:
+            return False
+        base_xy = np.array(sim.data.site_xpos[base_sid][:2])
+        eps = 1e-4
+        qadr = sim.model.jnt_qposadr
+        qpos_f = float(sim.data.qpos[qadr[fwd_addr]])
+        sim.data.qpos[qadr[fwd_addr]] = qpos_f + eps
+        sim.forward()
+        df = (np.array(sim.data.site_xpos[base_sid][:2]) - base_xy) / eps
+        sim.data.qpos[qadr[fwd_addr]] = qpos_f
+        qpos_s = float(sim.data.qpos[qadr[sid_addr]])
+        sim.data.qpos[qadr[sid_addr]] = qpos_s + eps
+        sim.forward()
+        ds = (np.array(sim.data.site_xpos[base_sid][:2]) - base_xy) / eps
+        sim.data.qpos[qadr[sid_addr]] = qpos_s
+        sim.forward()
+        J = np.column_stack([df, ds])
+        try:
+            delta_qpos = np.linalg.solve(J, np.asarray(target_xy, dtype=float) - base_xy)
+        except np.linalg.LinAlgError:
+            return False
+        sim.data.qpos[qadr[fwd_addr]] += delta_qpos[0]
+        sim.data.qpos[qadr[sid_addr]] += delta_qpos[1]
+        if target_yaw is not None and yaw_addr is not None:
+            for _ in range(2):
+                try:
+                    mat = sim.data.site_xmat[base_sid].reshape(3, 3)
+                    cur_yaw = _math.atan2(mat[1, 0], mat[0, 0])
+                except Exception:
+                    break
+                d = float(target_yaw - cur_yaw)
+                d = (d + _math.pi) % (2 * _math.pi) - _math.pi
+                if abs(d) < 1e-6:
+                    break
+                sim.data.qpos[qadr[yaw_addr]] += d
+                sim.forward()
+        sim.forward()
+        if hasattr(env, "has_judge_collision"):
+            env.has_judge_collision = False
+        return True
+
+    @staticmethod
+    def _set_object_at(env, obj_name, xy, z=0.30):
+        """Directly set an object's joint qpos."""
+        for sfx in ("_joint0", "_free"):
+            try:
+                qpos = env.sim.data.get_joint_qpos(f"{obj_name}{sfx}")
+                qpos[0] = xy[0]
+                qpos[1] = xy[1]
+                qpos[2] = z
+                env.sim.data.set_joint_qpos(f"{obj_name}{sfx}", qpos)
+                env.sim.forward()
+                return True
+            except Exception:
+                continue
+        return False
+
+    def _get_output_xy(self, env, target_name):
+        """Try env.output_ports, then semantic map files."""
+        ports = getattr(env, "output_ports", {})
+        if target_name in ports:
+            port = ports[target_name]
+            center = port.get("center", port) if isinstance(port, dict) else port
+            if center is not None:
+                return (float(center[0]), float(center[1]))
+        for name, port in ports.items():
+            if name.startswith(target_name):
+                center = port.get("center", port) if isinstance(port, dict) else port
+                if center is not None:
+                    return (float(center[0]), float(center[1]))
+        try:
+            cfg_path = Path(__file__).resolve().parents[3] / "knowledge" / "task_config.json"
+            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+            for task in cfg.get("tasks", []):
+                if task.get("target") == target_name:
+                    env_name = task.get("env_name", "")
+                    map_file = (Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
+                                "environments" / "factory_sorting" / "generated_maps" /
+                                f"{env_name.lower()}_scene_regenerated_semantic_map.json")
+                    if map_file.exists():
+                        sem = json.loads(map_file.read_text())
+                        for pn, pc in sem.get("output_ports", {}).items():
+                            if pn == target_name:
+                                c = pc.get("center", pc)
+                                return (float(c[0]), float(c[1]))
+        except Exception:
+            pass
+        return None

@@ -384,28 +384,6 @@ class RobosuiteBackend:
     def get_base_pose(self) -> tuple[np.ndarray, float]:
         return _get_base_pose(self._env)
 
-    def teleport_base(self, xy: tuple[float, float] | None = None, yaw: float | None = None) -> bool:
-        """Directly set base position/yaw without path planning.
-
-        Uses sim qpos manipulation (same as _follow_path_direct internals).
-        Intended for L5 multi-tote transport where A* fails on long routes.
-        """
-        env = self.env
-        robot = env.robots[0]
-        try:
-            if xy is not None:
-                _set_base_xy_direct(env, robot, np.asarray(xy, dtype=float))
-            if yaw is not None:
-                _set_base_world_yaw_direct(env, robot, float(yaw))
-            # Clear latched collision flag so teleport-induced overlaps
-            # don't penalise the trajectory score.
-            if hasattr(env, "has_judge_collision"):
-                env.has_judge_collision = False
-            return True
-        except Exception as exc:
-            logger.warning("teleport_base failed: %s", exc)
-            return False
-
     # ── manipulation ──────────────────────────────────────────
 
     def pick_object(self, target: str) -> bool:
@@ -1032,50 +1010,6 @@ class RobosuiteBackend:
         _raw = base_robosuite_env(wrapped)
         _robot = _raw.robots[0]
         _base_xy, _base_yaw = _get_base_pose(_raw)
-
-        # Object-relative stance correction: read the target object's world XY
-        # and reposition the robot to (obj_x + standoff, obj_y) if the current
-        # base is misaligned in Y.  This reproduces the L1 geometry where the
-        # robot is directly facing the object.
-        _standoff = 0.85
-        try:
-            _rp = self._rp
-            _stance_cfg = _rp.get("grasp_stance", {}) if isinstance(_rp, dict) else {}
-            _standoff = float(_stance_cfg.get("standoff_x", 0.94))
-        except Exception:
-            pass
-        _obj_xy = None
-        for _sfx in ('_joint0', '_free'):
-            try:
-                _q = _raw.sim.data.get_joint_qpos(f'{obj_name}{_sfx}')
-                _obj_xy = (float(_q[0]), float(_q[1]))
-                break
-            except Exception:
-                pass
-        if _obj_xy is not None:
-            _desired_x = _obj_xy[0] + _standoff
-            _desired_y = _obj_xy[1]
-            _y_err = abs(_base_xy[1] - _desired_y)
-            _x_err = abs(_base_xy[0] - _desired_x)
-            if _y_err > 0.15 or _x_err > 0.30:
-                print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
-                      f"base=({_base_xy[0]:.3f},{_base_xy[1]:.3f}) "
-                      f"desired=({_desired_x:.3f},{_desired_y:.3f}) "
-                      f"y_err={_y_err:.3f} x_err={_x_err:.3f} -> recreating env", flush=True)
-                _close_wrapped_eval_env(wrapped, raw_env=_raw)
-                _grasp_pos = [_desired_x, _desired_y, 0.0]
-                ns.robot_base_pos = _grasp_pos
-                wrapped = make_eval_env(
-                    ns, config=self._physics_config,
-                    ckpt_dict=self._physics_ckpt_dict, render=True,
-                )
-                _raw = base_robosuite_env(wrapped)
-                _robot = _raw.robots[0]
-                _base_xy, _base_yaw = _get_base_pose(_raw)
-            else:
-                print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
-                      f"base=({_base_xy[0]:.3f},{_base_xy[1]:.3f}) OK", flush=True)
-
         print(f"[BC_INPUT] robot_base_pos=({_grasp_pos[0]:.6f},{_grasp_pos[1]:.6f},{_grasp_pos[2]:.6f})", flush=True)
         print(f"[BC_INPUT] robot_base_ori=[{_grasp_ori[0]:.6f},{_grasp_ori[1]:.6f},{_grasp_ori[2]:.6f}] (yaw={_grasp_ori[2]/3.14159:.4f}*pi)", flush=True)
         print(f"[BC_INPUT] actual_base_pose=({_base_xy[0]:.6f},{_base_xy[1]:.6f}) yaw={_base_yaw:.6f}", flush=True)
@@ -1205,22 +1139,6 @@ class RobosuiteBackend:
                     except Exception:
                         continue
             nav_env.sim.forward()
-            # Restore previously-placed objects (L5 multi-tote: earlier totes
-            # get reset by the eval-env sync; re-apply their placed positions)
-            placed = getattr(self, "_placed_objects", {})
-            if placed:
-                for p_name, p_xy in placed.items():
-                    for sfx in ("_joint0", "_free"):
-                        try:
-                            qpos = nav_env.sim.data.get_joint_qpos(f"{p_name}{sfx}")
-                            qpos[0] = p_xy[0]
-                            qpos[1] = p_xy[1]
-                            qpos[2] = 0.30
-                            nav_env.sim.data.set_joint_qpos(f"{p_name}{sfx}", qpos)
-                            break
-                        except Exception:
-                            continue
-                nav_env.sim.forward()
             upper_body_joints = [
                 j for j in grasp_raw.sim.model.joint_names
                 if j.startswith("robot0_") and "mobilebase" not in j
@@ -1304,11 +1222,7 @@ class RobosuiteBackend:
         )
 
         station_name, station = self._find_output_station_entry(target)
-        _scene = getattr(self, "_scene_context", None)
-        scene_station = None
-        if _scene is not None:
-            scene_station = _scene.output_ports.get(target) or _scene.output_ports.get(station_name or "")
-        if station is None and scene_station is None:
+        if station is None:
             logger.warning(
                 "place_object_physics: no output station matching '%s'. Available: %s",
                 target, sorted(self.env.output_ports.keys()),
@@ -1316,12 +1230,14 @@ class RobosuiteBackend:
             return False
 
         # Use the station center only as a facing target, not as the drop XY.
+        _scene = getattr(self, "_scene_context", None)
+        scene_station = None
+        if _scene is not None:
+            scene_station = _scene.output_ports.get(station_name or target) or _scene.output_ports.get(target)
         if scene_station is not None:
             target_xy = scene_station.center[:2].copy()
-        elif station is not None:
-            target_xy = np.asarray(station["center"][:2], dtype=float)
         else:
-            target_xy = np.zeros(2)
+            target_xy = np.asarray(station["center"][:2], dtype=float)
         raw = self.env
         turn_posture = _capture_upper_body_posture(raw, raw.robots[0])
 
@@ -1369,12 +1285,6 @@ class RobosuiteBackend:
             start_z = float(start_qpos[2])
             target_z = max(0.05, start_z - lower_delta)
             table_top_z = self._output_table_top_z(target, station_name, station)
-            if table_top_z is None:
-                # Fallback: use scene station center z or default
-                if scene_station is not None and len(scene_station.center) >= 3:
-                    table_top_z = float(scene_station.center[2])
-                else:
-                    table_top_z = 1.09
             bottom_offset_z = self._object_bottom_offset_z(held_name)
             if table_top_z is not None and bottom_offset_z is not None:
                 safe_release_z = max(0.05, table_top_z - bottom_offset_z + release_clearance)

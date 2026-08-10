@@ -4,12 +4,12 @@
   "env_name": "FactorySorting1_3FO3ERFHISEM",
   "status": "OK",
   "success": true,
-  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260810_183259_OK.json",
-  "running_trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260810_183259_RUNNING.json",
+  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260810_234822_OK.json",
+  "running_trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260810_234822_RUNNING.json",
   "result": {
     "skill_name": "composed",
     "success": true,
-    "message": "完整4步搬运计划：从 input_5 取走 line_5_container_h01_near，运至 output_4 放下，全程遵循SOP约束（300s超时、不重试、单物体搬运）。",
+    "message": "完整4步搬运计划：先导航至 input_5，抓取 line_5_container_h01_near，再导航至 output_4 放置。全程遵循 SOP 约束，单步超时300s不重试，导航时机械臂保持持握姿态，放置前确认目标区域无障碍。",
     "steps": [
       {
         "skill": "move",
@@ -76,7 +76,7 @@
       },
       {
         "skill": "pick_up",
-        "description": "在取货工位 input_5 抓取蓝色空心塑料箱",
+        "description": "在 input_5 抓取蓝色空心塑料箱 line_5_container_h01_near",
         "success": true,
         "message": "Physics grasp OK: input_5",
         "payload": {
@@ -129,7 +129,7 @@
           "底盘已停稳于 input_5",
           "物体在可达范围内"
         ],
-        "expected_output": "成功抓取 line_5_container_h01_near 并提升至安全高度150mm",
+        "expected_output": "成功抓取物体并提升至安全高度150mm",
         "timeout": 3000.0,
         "retries": 0,
         "attempts": 1
@@ -165,19 +165,19 @@
           },
           "final_base_pose": {
             "xy": [
-              -1.0207827463447778,
-              -7.304471338120963
+              -1.0207797448282914,
+              -7.304470927001557
             ],
-            "yaw": 3.1353304386138916,
+            "yaw": 3.1352288722991943,
             "robot_base_pos": [
-              -1.0207827463447778,
-              -7.304471338120963,
+              -1.0207797448282914,
+              -7.304470927001557,
               0.0
             ],
             "robot_base_ori": [
               0.0,
               0.0,
-              3.1353304386138916
+              3.1352288722991943
             ]
           },
           "waypoints": 70,
@@ -198,7 +198,7 @@
       },
       {
         "skill": "place_down",
-        "description": "在放置工位 output_4 放下蓝色空心塑料箱",
+        "description": "在 output_4 放下蓝色空心塑料箱",
         "success": true,
         "message": "Physics place OK: output_4",
         "payload": {
@@ -212,7 +212,7 @@
         },
         "preconditions": [
           "底盘已停稳于 output_4",
-          "目标桌面已清空"
+          "目标桌面无障碍物"
         ],
         "expected_output": "物体放置成功，夹爪释放并收回机械臂",
         "timeout": 3000.0,
@@ -222,13 +222,13 @@
     ],
     "thinking": {
       "version": "2.0",
-      "task_understanding": "将蓝色空心塑料箱从取货站2搬运至放置站3，遵循标准操作程序。",
-      "selection_reason": "根据知识库，取货站2映射为input_5，放置站3映射为output_4，物体名称为line_5_container_h01_near。按SOP要求执行4步流程：导航至取货点、抓取、导航至放置点、放下。",
+      "task_understanding": "将蓝色空心塑料箱从 Pick Station 2 (input_5) 搬运至 Place Station 3 (output_4)，严格遵循 SOP 约束。",
+      "selection_reason": "根据知识库 SOP 映射，Pick Station 2 对应 input_5，Place Station 3 对应 output_4，物体精确名称为 line_5_container_h01_near。任务需按 move→pick_up→move→place_down 四步执行，超时 300s 且不重试。",
       "execution_steps": [
         "导航至取货工位 input_5 接近点",
-        "在取货工位 input_5 抓取蓝色空心塑料箱",
+        "在 input_5 抓取蓝色空心塑料箱 line_5_container_h01_near",
         "携带物体导航至放置工位 output_4",
-        "在放置工位 output_4 放下蓝色空心塑料箱"
+        "在 output_4 放下蓝色空心塑料箱"
       ],
       "plan_summary": [
         {
@@ -237,7 +237,7 @@
         },
         {
           "skill": "pick_up",
-          "description": "在取货工位 input_5 抓取蓝色空心塑料箱"
+          "description": "在 input_5 抓取蓝色空心塑料箱 line_5_container_h01_near"
         },
         {
           "skill": "move",
@@ -245,18 +245,18 @@
         },
         {
           "skill": "place_down",
-          "description": "在放置工位 output_4 放下蓝色空心塑料箱"
+          "description": "在 output_4 放下蓝色空心塑料箱"
         }
       ],
-      "result_explanation": "完整4步搬运计划：从 input_5 取走 line_5_container_h01_near，运至 output_4 放下，全程遵循SOP约束（300s超时、不重试、单物体搬运）。"
+      "result_explanation": "完整4步搬运计划：先导航至 input_5，抓取 line_5_container_h01_near，再导航至 output_4 放置。全程遵循 SOP 约束，单步超时300s不重试，导航时机械臂保持持握姿态，放置前确认目标区域无障碍。"
     },
-    "planner_raw": "{\n  \"understanding\": \"将蓝色空心塑料箱从取货站2搬运至放置站3，遵循标准操作程序。\",\n  \"reason\": \"根据知识库，取货站2映射为input_5，放置站3映射为output_4，物体名称为line_5_container_h01_near。按SOP要求执行4步流程：导航至取货点、抓取、导航至放置点、放下。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_5 接近点\",\n      \"inputs\": {\"target\": \"input_5\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_5 停止点，距离工位约0.8m\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在取货工位 input_5 抓取蓝色空心塑料箱\",\n      \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_5\", \"物体在可达范围内\"],\n      \"expected_output\": \"成功抓取 line_5_container_h01_near 并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_4\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_4 停止点，机械臂保持持握姿态\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在放置工位 output_4 放下蓝色空心塑料箱\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"底盘已停稳于 output_4\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回机械臂\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"完整4步搬运计划：从 input_5 取走 line_5_container_h01_near，运至 output_4 放下，全程遵循SOP约束（300s超时、不重试、单物体搬运）。\"\n}",
+    "planner_raw": "{\n  \"understanding\": \"将蓝色空心塑料箱从 Pick Station 2 (input_5) 搬运至 Place Station 3 (output_4)，严格遵循 SOP 约束。\",\n  \"reason\": \"根据知识库 SOP 映射，Pick Station 2 对应 input_5，Place Station 3 对应 output_4，物体精确名称为 line_5_container_h01_near。任务需按 move→pick_up→move→place_down 四步执行，超时 300s 且不重试。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_5 接近点\",\n      \"inputs\": {\"target\": \"input_5\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_5 停止点，距离工位约0.8m\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_5 抓取蓝色空心塑料箱 line_5_container_h01_near\",\n      \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_5\", \"物体在可达范围内\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_4\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_4 停止点，机械臂保持持握姿态\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_4 放下蓝色空心塑料箱\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"底盘已停稳于 output_4\", \"目标桌面无障碍物\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回机械臂\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"完整4步搬运计划：先导航至 input_5，抓取 line_5_container_h01_near，再导航至 output_4 放置。全程遵循 SOP 约束，单步超时300s不重试，导航时机械臂保持持握姿态，放置前确认目标区域无障碍。\"\n}",
     "plan_warnings": [],
-    "elapsed_ms": 184207.2
+    "elapsed_ms": 187628.3
   },
-  "elapsed_sec": 199.343,
+  "elapsed_sec": 202.198,
   "error": null,
   "traceback": null,
   "phase": "before_close",
-  "saved_at": "2026-08-10 18:36:23"
+  "saved_at": "2026-08-10 23:51:47"
 }
