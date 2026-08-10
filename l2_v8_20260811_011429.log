@@ -1,0 +1,84 @@
+/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/__init__.py:49: SyntaxWarning: invalid escape sequence '\ '
+  /[_]\  [~]\/    |//  |
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not import robosuite_models. Some robots may not be available. If you want to use these robots, please install robosuite_models from source (https://github.com/ARISE-Initiative/robosuite_models) or through pip install. (__init__.py:31)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_right_eef_pos', 'robot0_left_eef_pos', 'robot0_right_eef_quat', 'robot0_left_eef_quat', 'robot0_right_gripper_qpos', 'robot0_left_gripper_qpos']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Loaded robomimic checkpoint: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_150.pth
+Evaluation device: cuda:0
+[BACKEND v4] grasp_object_physics called
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+Evaluation factory scene: FactorySorting3_3FO3ERRPH7X9
+[BC_INPUT] robot_base_pos=(13.010629,3.923647,0.000000)
+[BC_INPUT] robot_base_ori=[0.000000,0.000000,-3.139453] (yaw=-0.9993*pi)
+[BC_INPUT] actual_base_pose=(13.010629,3.923647) yaw=-3.139453
+[BC_INPUT] object_name=green_tote_b01_upper
+[BC_INPUT] torso_lift=0.3500
+[BC_INPUT] arm_right_1=0.7426
+[BC_INPUT] arm_right_3=2.1378
+[BC_INPUT] arm_right_4=2.1057
+[BC_INPUT] gripper_r=0.0120
+[BC_INPUT] scene=FactorySorting3_3FO3ERRPH7X9
+[BC_INPUT] object green_tote_b01_lower: pos=(11.8676,3.1954,1.2000)
+[BC_INPUT] object green_tote_b01_upper: pos=(11.8676,4.6249,1.2000)
+Target object: green_tote_b01_upper
+Robot base xy at reset: (13.010629, 3.923647)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Below-site grasp targets: {'right': array([ 0.165, -0.215,  0.165]), 'left': array([-0.165, -0.215,  0.165])}
+wrapped_env_grasp_start_pose: x=13.010629, y=3.923647, yaw=-3.139453
+[STANCE_FIX] obj=(11.868,4.625) base=(13.011,3.924) desired=(12.718,4.625) y_err=0.701 x_err=0.293
+[STANCE_FIX] after fix: base=(12.718,4.625) yaw=3.142
+Executing scripted grasp policy (deterministic OSC waypoint servo)
+[SCRIPTED] site_positions (world): {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+[SCRIPTED] right site world pos: [12.032624   4.409856   1.3999995], below_target: [12.032624   4.409856   1.3649995]
+[SCRIPTED] left site world pos: [11.702624   4.409856   1.3999995], below_target: [11.702624   4.409856   1.3649995]
+[SCRIPTED] eef starts: right=[12.34959399  4.89405074  1.1359892 ], left=[12.33329133  4.44039413  1.1086439 ]
+[SCRIPTED] xwall-grasp: obj=(11.868,4.625) targets: right=[12.167624   4.744856   1.3649995], left=[12.167624   4.504856   1.3649995]
+[SCRIPTED] contact rejection disabled (approach phases)
+[SCRIPTED] Phase 1: safe vertical lift (60 steps, safe_z=1.650)
+[SCRIPTED] Phase 2: XY approach (120 steps)
+[SCRIPTED] Phase 3: vertical descent (80 steps)
+[SCRIPTED] Phase 4: settle gripper end centers (max 150 steps)
+gripper end center arrival distances before grasp: {'right': 0.024387915939308658, 'left': 0.0273514194851015}
+[SCRIPTED] Phase 5: grasp close (40 steps)
+After scripted grasp close object collision geoms: ['green_tote_b01_upper_tote_b01_col_bottom', 'green_tote_b01_upper_tote_b01_col_front', 'green_tote_b01_upper_tote_b01_col_back', 'green_tote_b01_upper_tote_b01_col_left', 'green_tote_b01_upper_tote_b01_col_right']
+After scripted grasp close gripper end targets: {'right': [12.1676, 4.7449, 1.365], 'left': [12.1676, 4.5049, 1.365]}
+After scripted grasp close gripper end positions: {'right': [12.176, 4.7414, 1.3803], 'left': [12.1766, 4.5062, 1.3835]}
+After scripted grasp close gripper end deltas current-minus-target: {'right': [0.0084, -0.0034, 0.0153], 'left': [0.009, 0.0013, 0.0185]}
+After scripted grasp close gripper end distances: {'right': 0.017751219665664838, 'left': 0.02061767243869759}
+After scripted grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After scripted grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')]}}
+After scripted grasp close grasp status: {'right': True, 'left': True}
+[SCRIPTED] Phase 6: post-success hold (10 steps)
+Holding final grasp action for 12 steps
+After same-env wrapped policy execution object collision geoms: ['green_tote_b01_upper_tote_b01_col_bottom', 'green_tote_b01_upper_tote_b01_col_front', 'green_tote_b01_upper_tote_b01_col_back', 'green_tote_b01_upper_tote_b01_col_left', 'green_tote_b01_upper_tote_b01_col_right']
+After same-env wrapped policy execution gripper end targets: {'right': [12.1676, 4.7449, 1.365], 'left': [12.1676, 4.5049, 1.365]}
+After same-env wrapped policy execution gripper end positions: {'right': [12.1803, 4.7413, 1.3803], 'left': [12.1809, 4.5063, 1.3836]}
+After same-env wrapped policy execution gripper end deltas current-minus-target: {'right': [0.0127, -0.0036, 0.0153], 'left': [0.0132, 0.0014, 0.0186]}
+After same-env wrapped policy execution gripper end distances: {'right': 0.02019237653423209, 'left': 0.022864130182191775}
+After same-env wrapped policy execution fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After same-env wrapped policy execution fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'green_tote_b01_upper_tote_b01_col_right')]}}
+After same-env wrapped policy execution grasp status: {'right': True, 'left': True}
+Scripted grasp total_steps=310
+Same-env wrapped grasp success: True
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=green_tote_b01_upper, start_object_z=1.411234, target_object_z=1.561234, lift_height=0.150000
+lift_result: success=True, final_object_z=1.524221, lifted=0.112987, target_lift=0.150000, final_grasp_status={'right': True, 'left': True}
+[BACKEND] grasp and lift succeeded, proceeding with transport
+transport_attachment_enabled: object=green_tote_b01_upper, joint=green_tote_b01_upper_joint0, relative_xy=[1.1349, -0.7067], world_z=1.325316, held_gripper_joints=12
+[PLACE_DOWN] target=output_4 held_before=green_tote_b01_upper
+turn_to_output_result: success=True, turn_steps=40, target_yaw=0.025883, final_yaw=0.025911, final_error=-0.000028, xy_drift=0.000000
+[PLACE_DOWN] calling direct_place_fallback for green_tote_b01_upper
+[PLACE_DOWN] direct_place_fallback result: True

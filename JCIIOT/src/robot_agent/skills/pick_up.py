@@ -504,18 +504,19 @@ class PickUpSkill(BaseSkill):
         try:
             cfg_path = Path(__file__).resolve().parents[3] / "knowledge" / "task_config.json"
             cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+            maps_dir = (Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
+                        "environments" / "factory_sorting" / "generated_maps")
             for task in cfg.get("tasks", []):
                 if task.get("target") == target_name:
-                    env_name = task.get("env_name", "")
-                    map_file = (Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
-                                "environments" / "factory_sorting" / "generated_maps" /
-                                f"{env_name.lower()}_scene_regenerated_semantic_map.json")
-                    if map_file.exists():
-                        sem = json.loads(map_file.read_text())
-                        for pn, pc in sem.get("output_ports", {}).items():
-                            if pn == target_name:
-                                c = pc.get("center", pc)
-                                return (float(c[0]), float(c[1]))
+                    env_name = task.get("env_name", "").lower()
+                    normalized = env_name.replace("factorysorting", "factory_sorting_")
+                    for candidate in maps_dir.glob("*semantic_map.json"):
+                        if normalized in candidate.stem.lower():
+                            sem = json.loads(candidate.read_text())
+                            for pn, pc in sem.get("output_ports", {}).items():
+                                if pn == target_name:
+                                    c = pc.get("center", pc)
+                                    return (float(c[0]), float(c[1]))
         except Exception:
             pass
         return None

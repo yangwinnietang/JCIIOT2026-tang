@@ -1,8 +1,4 @@
-"""Pick-up skill — grasp and lift a target object via backend.
-
-Team submission version. Uses robot_agent imports (available on the
-competition platform) with competition_platform fallback.
-"""
+"""Pick-up skill — grasp and lift a target object via backend."""
 
 from __future__ import annotations
 
@@ -11,20 +7,10 @@ import logging
 import re
 from pathlib import Path
 
-try:
-    from robot_agent.core.scene_context import SceneContext
-    from robot_agent.core.types import ExecutionContext, SkillResult
-    from robot_agent.skills.base import BaseSkill
-    from robot_agent.skills._log import log_step, step_timer
-except ImportError:
-    from competition_platform.interface.skill_contract import (
-        BaseSkill, ExecutionContext, SkillResult,
-    )
-    SceneContext = None
-    def log_step(*a, **kw): pass
-    def step_timer(*a, **kw):
-        from contextlib import nullcontext
-        return nullcontext()
+from robot_agent.core.scene_context import SceneContext
+from robot_agent.core.types import ExecutionContext, SkillResult
+from robot_agent.skills.base import BaseSkill
+from robot_agent.skills._log import log_step, step_timer
 
 logger = logging.getLogger(__name__)
 
@@ -518,18 +504,19 @@ class PickUpSkill(BaseSkill):
         try:
             cfg_path = Path(__file__).resolve().parents[3] / "knowledge" / "task_config.json"
             cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+            maps_dir = (Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
+                        "environments" / "factory_sorting" / "generated_maps")
             for task in cfg.get("tasks", []):
                 if task.get("target") == target_name:
-                    env_name = task.get("env_name", "")
-                    map_file = (Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
-                                "environments" / "factory_sorting" / "generated_maps" /
-                                f"{env_name.lower()}_scene_regenerated_semantic_map.json")
-                    if map_file.exists():
-                        sem = json.loads(map_file.read_text())
-                        for pn, pc in sem.get("output_ports", {}).items():
-                            if pn == target_name:
-                                c = pc.get("center", pc)
-                                return (float(c[0]), float(c[1]))
+                    env_name = task.get("env_name", "").lower()
+                    normalized = env_name.replace("factorysorting", "factory_sorting_")
+                    for candidate in maps_dir.glob("*semantic_map.json"):
+                        if normalized in candidate.stem.lower():
+                            sem = json.loads(candidate.read_text())
+                            for pn, pc in sem.get("output_ports", {}).items():
+                                if pn == target_name:
+                                    c = pc.get("center", pc)
+                                    return (float(c[0]), float(c[1]))
         except Exception:
             pass
         return None

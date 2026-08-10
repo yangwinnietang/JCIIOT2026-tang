@@ -4,16 +4,16 @@
   "env_name": "FactorySorting3_3FO3ERRPH7X9",
   "status": "OK",
   "success": true,
-  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260810_235455_OK.json",
-  "running_trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260810_235455_RUNNING.json",
+  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260811_012804_OK.json",
+  "running_trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260811_012804_RUNNING.json",
   "result": {
     "skill_name": "composed",
     "success": true,
-    "message": "按照标准搬运SOP，机器人依次执行导航至input_6、抓取green_tote_b01_upper、导航至output_4、放下物体，全程遵守300秒超时且不重试的约束。",
+    "message": "完整4步搬运计划：move→pick_up→move→place_down，严格使用知识库中的工位映射和物体精确名称，每步超时300秒不重试，满足所有安全与碰撞约束。",
     "steps": [
       {
         "skill": "move",
-        "description": "导航至取货工位接近点",
+        "description": "导航至取货工位 input_6 接近点",
         "success": true,
         "message": "Moved to: input_6",
         "payload": {
@@ -66,16 +66,17 @@
           "object_name": "green_tote_b01_upper"
         },
         "preconditions": [
-          "底盘静止于起始位置"
+          "底盘静止于起始位置",
+          "夹爪为空"
         ],
-        "expected_output": "机器人到达目标工位停止点",
+        "expected_output": "机器人到达 input_6 停止点，距台面约0.8m",
         "timeout": 3000.0,
         "retries": 0,
         "attempts": 1
       },
       {
         "skill": "pick_up",
-        "description": "在取货工位抓取目标物体",
+        "description": "在取货工位 input_6 抓取 green_tote_b01_upper",
         "success": true,
         "message": "Physics grasp OK: input_6",
         "payload": {
@@ -125,16 +126,17 @@
         },
         "preconditions": [
           "夹爪为空",
-          "底盘已停稳"
+          "物体在可达范围内",
+          "底盘已停稳于取货接近点"
         ],
-        "expected_output": "成功抓取物体并提升至安全高度",
+        "expected_output": "成功抓取物体并垂直提升至安全高度150mm以上",
         "timeout": 3000.0,
         "retries": 0,
         "attempts": 1
       },
       {
         "skill": "move",
-        "description": "携带物体导航至放置工位",
+        "description": "携带物体导航至放置工位 output_4 接近点",
         "success": true,
         "message": "Moved to: output_4",
         "payload": {
@@ -186,18 +188,19 @@
           "target": "output_4"
         },
         "preconditions": [
-          "夹爪已持握物体"
+          "夹爪已持握物体",
+          "抓取已确认成功"
         ],
-        "expected_output": "机器人到达放置工位停止点",
+        "expected_output": "机器人到达 output_4 停止点，距台面约0.8m",
         "timeout": 3000.0,
         "retries": 0,
         "attempts": 1
       },
       {
         "skill": "place_down",
-        "description": "在放置工位放下物体",
+        "description": "在放置工位 output_4 放下物体",
         "success": true,
-        "message": "Physics place OK: output_4",
+        "message": "Direct place OK: output_4",
         "payload": {
           "action": "place_down",
           "target": "output_4",
@@ -208,9 +211,11 @@
           "target": "output_4"
         },
         "preconditions": [
-          "底盘已停稳于放置点"
+          "夹爪已持握物体",
+          "目标台面无障碍物",
+          "底盘已停稳于放置接近点"
         ],
-        "expected_output": "物体放置成功，夹爪释放并收回",
+        "expected_output": "物体放置成功，夹爪释放并收回机械臂",
         "timeout": 3000.0,
         "retries": 0,
         "attempts": 1
@@ -218,41 +223,41 @@
     ],
     "thinking": {
       "version": "2.0",
-      "task_understanding": "将一个绿色边缘的储物箱从取货工位1（input_6）搬运到放置工位3（output_4）。",
-      "selection_reason": "根据知识库中的L2任务坐标参考，取货工位1映射为input_6，放置工位3映射为output_4，物体精确名称为green_tote_b01_upper。按照标准搬运流程分解为4步：移动到取货点、抓取、移动到放置点、放下。",
+      "task_understanding": "将一个绿边储物箱从取货站1搬运至放置站3，需按标准4步流程执行。",
+      "selection_reason": "根据当前任务坐标参考，取货站1映射为input_6，放置站3映射为output_4，物体精确名称为green_tote_b01_upper。严格遵循SOP约束：单次搬运一个物体、每步超时300秒不重试、导航时机械臂保持持握姿态。",
       "execution_steps": [
-        "导航至取货工位接近点",
-        "在取货工位抓取目标物体",
-        "携带物体导航至放置工位",
-        "在放置工位放下物体"
+        "导航至取货工位 input_6 接近点",
+        "在取货工位 input_6 抓取 green_tote_b01_upper",
+        "携带物体导航至放置工位 output_4 接近点",
+        "在放置工位 output_4 放下物体"
       ],
       "plan_summary": [
         {
           "skill": "move",
-          "description": "导航至取货工位接近点"
+          "description": "导航至取货工位 input_6 接近点"
         },
         {
           "skill": "pick_up",
-          "description": "在取货工位抓取目标物体"
+          "description": "在取货工位 input_6 抓取 green_tote_b01_upper"
         },
         {
           "skill": "move",
-          "description": "携带物体导航至放置工位"
+          "description": "携带物体导航至放置工位 output_4 接近点"
         },
         {
           "skill": "place_down",
-          "description": "在放置工位放下物体"
+          "description": "在放置工位 output_4 放下物体"
         }
       ],
-      "result_explanation": "按照标准搬运SOP，机器人依次执行导航至input_6、抓取green_tote_b01_upper、导航至output_4、放下物体，全程遵守300秒超时且不重试的约束。"
+      "result_explanation": "完整4步搬运计划：move→pick_up→move→place_down，严格使用知识库中的工位映射和物体精确名称，每步超时300秒不重试，满足所有安全与碰撞约束。"
     },
-    "planner_raw": "{\n  \"understanding\": \"将一个绿色边缘的储物箱从取货工位1（input_6）搬运到放置工位3（output_4）。\",\n  \"reason\": \"根据知识库中的L2任务坐标参考，取货工位1映射为input_6，放置工位3映射为output_4，物体精确名称为green_tote_b01_upper。按照标准搬运流程分解为4步：移动到取货点、抓取、移动到放置点、放下。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位接近点\",\n      \"inputs\": {\"target\": \"input_6\"},\n      \"preconditions\": [\"底盘静止于起始位置\"],\n      \"expected_output\": \"机器人到达目标工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在取货工位抓取目标物体\",\n      \"inputs\": {\"target\": \"input_6\", \"object_name\": \"green_tote_b01_upper\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\"],\n      \"expected_output\": \"机器人到达放置工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在放置工位放下物体\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"底盘已停稳于放置点\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"按照标准搬运SOP，机器人依次执行导航至input_6、抓取green_tote_b01_upper、导航至output_4、放下物体，全程遵守300秒超时且不重试的约束。\"\n}",
+    "planner_raw": "{\n  \"understanding\": \"将一个绿边储物箱从取货站1搬运至放置站3，需按标准4步流程执行。\",\n  \"reason\": \"根据当前任务坐标参考，取货站1映射为input_6，放置站3映射为output_4，物体精确名称为green_tote_b01_upper。严格遵循SOP约束：单次搬运一个物体、每步超时300秒不重试、导航时机械臂保持持握姿态。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_6 接近点\",\n      \"inputs\": {\"target\": \"input_6\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_6 停止点，距台面约0.8m\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在取货工位 input_6 抓取 green_tote_b01_upper\",\n      \"inputs\": {\"target\": \"input_6\", \"object_name\": \"green_tote_b01_upper\"},\n      \"preconditions\": [\"夹爪为空\", \"物体在可达范围内\", \"底盘已停稳于取货接近点\"],\n      \"expected_output\": \"成功抓取物体并垂直提升至安全高度150mm以上\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_4 接近点\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_4 停止点，距台面约0.8m\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在放置工位 output_4 放下物体\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"目标台面无障碍物\", \"底盘已停稳于放置接近点\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回机械臂\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"完整4步搬运计划：move→pick_up→move→place_down，严格使用知识库中的工位映射和物体精确名称，每步超时300秒不重试，满足所有安全与碰撞约束。\"\n}",
     "plan_warnings": [],
-    "elapsed_ms": 174544.6
+    "elapsed_ms": 171143.7
   },
-  "elapsed_sec": 189.737,
+  "elapsed_sec": 186.161,
   "error": null,
   "traceback": null,
   "phase": "before_close",
-  "saved_at": "2026-08-10 23:58:08"
+  "saved_at": "2026-08-11 01:31:12"
 }
