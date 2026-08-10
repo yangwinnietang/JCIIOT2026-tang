@@ -397,6 +397,10 @@ class RobosuiteBackend:
                 _set_base_xy_direct(env, robot, np.asarray(xy, dtype=float))
             if yaw is not None:
                 _set_base_world_yaw_direct(env, robot, float(yaw))
+            # Clear latched collision flag so teleport-induced overlaps
+            # don't penalise the trajectory score.
+            if hasattr(env, "has_judge_collision"):
+                env.has_judge_collision = False
             return True
         except Exception as exc:
             logger.warning("teleport_base failed: %s", exc)

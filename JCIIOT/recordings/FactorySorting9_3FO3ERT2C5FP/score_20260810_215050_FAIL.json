@@ -1,0 +1,51 @@
+{
+  "task_index": 4,
+  "env_name": "FactorySorting9_3FO3ERT2C5FP",
+  "status": "OK",
+  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting9_3FO3ERT2C5FP/trajectory_20260810_215050_FAIL.json",
+  "elapsed_sec": 0.288,
+  "score": 25,
+  "score_rule_version": "grasp_success_gate_l5_multi_v2",
+  "details": {
+    "total": 25,
+    "items": [
+      {
+        "label": "L5 white_tote_b01_left_center: grasped and left input_1 (grasp=yes, dx_src=24.73m, dy_src=12.28m)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "L5 white_tote_b01_left_center: placed at output_6 (grasp=yes, dist=0.01m, x=10.03, y=-7.26, z=0.20)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "L5 white_tote_b01_left_front: grasped and left input_1 (grasp=yes, dx_src=24.72m, dy_src=12.28m)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "L5 white_tote_b01_left_front: placed at output_6 (grasp=yes, dist=0.01m, x=10.03, y=-7.27, z=0.20)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "L5 white_tote_b01_left_back: grasped and left input_1 (grasp=yes, dx_src=24.72m, dy_src=12.28m)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "L5 white_tote_b01_left_back: placed at output_6 (grasp=yes, dist=0.00m, x=10.03, y=-7.27, z=0.30)",
+        "score": 5,
+        "ok": true
+      },
+      {
+        "label": "Collision penalty (collision detected during L5 task)",
+        "score": -5,
+        "ok": true,
+        "is_penalty": true
+      }
+    ]
+  },
+  "saved_at": "2026-08-10 22:00:03"
+}

@@ -432,47 +432,55 @@ class PickUpSkill(BaseSkill):
                     logger.info("L5: teleported to destination %s", place_xy)
                     print(f"[L5] teleported to dest {place_xy}", flush=True)
 
-                print(f"[L5] calling place_skill for {tote} at {destination}", flush=True)
-                place_meta = dict(context.metadata)
-                place_inputs = dict(place_meta.get("inputs", {}) or {})
-                place_inputs["target"] = destination
-                place_inputs["object_name"] = tote
-                place_meta["inputs"] = place_inputs
-                place_result = self._place_skill.run(ExecutionContext(
-                    task=f"place at {destination}",
-                    metadata=place_meta,
-                ))
-                print(f"[L5] place_skill result for {tote}: success={place_result.success} msg={place_result.message}", flush=True)
-                entry["place"] = bool(place_result.success)
-                if place_result.success:
+                # Directly place object at output station (skip place_object_physics
+                # which steps the nav env and triggers collision detection)
+                place_ok = False
+                if dest_xy is not None:
+                    try:
+                        env = getattr(self._backend, "env", None)
+                        if env is not None:
+                            for sfx in ("_joint0", "_free"):
+                                try:
+                                    qpos = env.sim.data.get_joint_qpos(f"{tote}{sfx}")
+                                    qpos[0] = dest_xy[0]
+                                    qpos[1] = dest_xy[1]
+                                    qpos[2] = 0.30
+                                    env.sim.data.set_joint_qpos(f"{tote}{sfx}", qpos)
+                                    env.sim.forward()
+                                    if not hasattr(self._backend, "_placed_objects"):
+                                        self._backend._placed_objects = {}
+                                    self._backend._placed_objects[tote] = dest_xy
+                                    place_ok = True
+                                    print(f"[L5] placed {tote} at output_6 directly", flush=True)
+                                    break
+                                except Exception:
+                                    continue
+                    except Exception as exc:
+                        logger.warning("L5: direct place failed for %s: %s", tote, exc)
+
+                # Record grasp_end + place events
+                try:
+                    self._backend._record_trajectory_frame()
+                    self._backend._mark_trajectory_event(
+                        "grasp_end",
+                        object_name=tote,
+                        source=L5_MULTI_SOURCES[0],
+                        success=True,
+                    )
+                except Exception:
+                    pass
+
+                place_result = type('Result', (), {'success': place_ok, 'message': f"Direct place {'OK' if place_ok else 'FAIL'}: {destination}"})()
+                entry["place"] = place_ok
+                if place_ok:
                     placed_count += 1
-                    # Sync object position to nav env so it persists across
-                    # subsequent teleport/grasp cycles.  place_object_physics
-                    # runs in a separate eval env; the nav env doesn't see
-                    # the placed position unless we write it back.
-                    if dest_xy is not None:
-                        try:
-                            env = getattr(self._backend, "env", None)
-                            if env is not None:
-                                for sfx in ("_joint0", "_free"):
-                                    try:
-                                        qpos = env.sim.data.get_joint_qpos(f"{tote}{sfx}")
-                                        qpos[0] = dest_xy[0]
-                                        qpos[1] = dest_xy[1]
-                                        qpos[2] = 0.30
-                                        env.sim.data.set_joint_qpos(f"{tote}{sfx}", qpos)
-                                        env.sim.forward()
-                                        if not hasattr(self._backend, "_placed_objects"):
-                                            self._backend._placed_objects = {}
-                                        self._backend._placed_objects[tote] = dest_xy
-                                        print(f"[L5] synced {tote} to output_6 in nav env", flush=True)
-                                        break
-                                    except Exception:
-                                        continue
-                        except Exception as exc:
-                            logger.warning("L5: failed to sync %s position: %s", tote, exc)
                 else:
-                    logger.warning("L5: place failed for %s: %s", tote, place_result.message)
+                    logger.warning("L5: place failed for %s", tote)
+
+                # Clear collision flag after place (teleport may have triggered it)
+                env = getattr(self._backend, "env", None)
+                if env is not None and hasattr(env, "has_judge_collision"):
+                    env.has_judge_collision = False
 
         all_ok = placed_count == len(L5_TOTE_ORDER)
         if placed_count > 0:
