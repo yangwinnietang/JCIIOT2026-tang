@@ -1,0 +1,36 @@
+2026-08-10 10:58:16,983 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 10:58:16,989 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 10:58:58,506 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 10:59:01,062 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 10:59:29,302 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:00:26,772 [INFO] __main__: Generated sop_gen_case_1.md (case 1, L1)
+2026-08-10 11:00:33,250 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:00:33,261 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:01:05,863 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:01:12,416 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:01:45,095 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:02:40,655 [INFO] __main__: Generated sop_gen_case_3.md (case 3, L2)
+2026-08-10 11:02:44,692 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:02:44,693 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:03:09,965 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:03:15,846 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:03:46,885 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:04:35,591 [INFO] __main__: Generated sop_gen_case_5.md (case 5, L3)
+2026-08-10 11:04:39,217 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:04:39,221 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:05:19,987 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:05:32,099 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:05:59,990 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:07:04,632 [INFO] __main__: Generated sop_gen_case_7.md (case 7, L4)
+2026-08-10 11:07:08,502 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:07:08,502 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:07:46,598 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:07:47,656 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:08:20,243 [INFO] robot_agent.core.vision_client: ask_vision_auto: detected openai from https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+2026-08-10 11:09:34,786 [INFO] __main__: Generated sop_gen_case_9.md (case 9, L5)
+2026-08-10 11:09:34,935 [INFO] robot_agent.core.knowledge_manager: KnowledgeManager: 15 new document(s) loaded
+2026-08-10 11:09:34,949 [INFO] __main__: Knowledge index refreshed: +15 docs indexed
+
+SOP generation complete: 5/5 cases OK.
+Run log: /mnt/workspace/JCIIOT2026/JCIIOT/knowledge/_sop_gen_log.json
+SOP_EXIT=0

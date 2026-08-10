@@ -1,0 +1,64 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T13:15:06][collect] level=L5 env=FactorySorting9_3FO3ERT2C5FP object=white_tote_b01_left_center base_pos=[-13.824, 4.955, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=2
+
+Rollout 1/2
+[xwall_grasp] targets on +x wall: obj=(-14.674,4.955) x=-14.374 y_span=±0.12
+Target object: white_tote_b01_left_center
+Robot base xy at reset: (-13.824000, 4.955000)
+Tracking sites: {'right': 'white_tote_b01_left_center_right_grasp_site', 'left': 'white_tote_b01_left_center_left_grasp_site'}
+Site positions: {'right': array([-14.374088,   5.074705,   1.489   ]), 'left': array([-14.374088,   4.834705,   1.489   ])}
+Below-site grasp targets: {'right': array([-14.374088,   5.074705,   1.454   ]), 'left': array([-14.374088,   4.834705,   1.454   ])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_b8ml0ihx/ep_1786338919_8184931
+gripper end center arrival distances before grasp: {'right': 0.02553466118728888, 'left': 0.02714501323615957}
+Before grasp close object collision geoms: ['white_tote_b01_left_center_tote_b01_col_bottom', 'white_tote_b01_left_center_tote_b01_col_front', 'white_tote_b01_left_center_tote_b01_col_back', 'white_tote_b01_left_center_tote_b01_col_left', 'white_tote_b01_left_center_tote_b01_col_right']
+Before grasp close gripper end targets: {'right': [-14.3741, 5.0747, 1.454], 'left': [-14.3741, 4.8347, 1.454]}
+Before grasp close gripper end positions: {'right': [-14.3658, 5.0773, 1.478], 'left': [-14.3644, 4.8321, 1.4792]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0083, 0.0026, 0.024], 'left': [0.0096, -0.0026, 0.0252]}
+Before grasp close gripper end distances: {'right': 0.02553466118728888, 'left': 0.02714501323615957}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['white_tote_b01_left_center_tote_b01_col_bottom', 'white_tote_b01_left_center_tote_b01_col_front', 'white_tote_b01_left_center_tote_b01_col_back', 'white_tote_b01_left_center_tote_b01_col_left', 'white_tote_b01_left_center_tote_b01_col_right']
+After grasp close gripper end targets: {'right': [-14.3741, 5.0747, 1.454], 'left': [-14.3741, 4.8347, 1.454]}
+After grasp close gripper end positions: {'right': [-14.3633, 5.0747, 1.4716], 'left': [-14.3624, 4.8337, 1.4736]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0108, -0.0, 0.0176], 'left': [0.0117, -0.001, 0.0196]}
+After grasp close gripper end distances: {'right': 0.02066792352631453, 'left': 0.022839271005681228}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 2/2
+[xwall_grasp] targets on +x wall: obj=(-14.674,4.955) x=-14.374 y_span=±0.12
+Target object: white_tote_b01_left_center
+Robot base xy at reset: (-13.824000, 4.955000)
+Tracking sites: {'right': 'white_tote_b01_left_center_right_grasp_site', 'left': 'white_tote_b01_left_center_left_grasp_site'}
+Site positions: {'right': array([-14.374088,   5.074705,   1.489   ]), 'left': array([-14.374088,   4.834705,   1.489   ])}
+Below-site grasp targets: {'right': array([-14.374088,   5.074705,   1.454   ]), 'left': array([-14.374088,   4.834705,   1.454   ])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_b8ml0ihx/ep_1786339030_5308013
+gripper end center arrival distances before grasp: {'right': 0.02553466118728888, 'left': 0.02714501323615957}
+Before grasp close object collision geoms: ['white_tote_b01_left_center_tote_b01_col_bottom', 'white_tote_b01_left_center_tote_b01_col_front', 'white_tote_b01_left_center_tote_b01_col_back', 'white_tote_b01_left_center_tote_b01_col_left', 'white_tote_b01_left_center_tote_b01_col_right']
+Before grasp close gripper end targets: {'right': [-14.3741, 5.0747, 1.454], 'left': [-14.3741, 4.8347, 1.454]}
+Before grasp close gripper end positions: {'right': [-14.3658, 5.0773, 1.478], 'left': [-14.3644, 4.8321, 1.4792]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0083, 0.0026, 0.024], 'left': [0.0096, -0.0026, 0.0252]}
+Before grasp close gripper end distances: {'right': 0.02553466118728888, 'left': 0.02714501323615957}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['white_tote_b01_left_center_tote_b01_col_bottom', 'white_tote_b01_left_center_tote_b01_col_front', 'white_tote_b01_left_center_tote_b01_col_back', 'white_tote_b01_left_center_tote_b01_col_left', 'white_tote_b01_left_center_tote_b01_col_right']
+After grasp close gripper end targets: {'right': [-14.3741, 5.0747, 1.454], 'left': [-14.3741, 4.8347, 1.454]}
+After grasp close gripper end positions: {'right': [-14.3633, 5.0747, 1.4716], 'left': [-14.3624, 4.8337, 1.4736]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0108, -0.0, 0.0176], 'left': [0.0117, -0.001, 0.0196]}
+After grasp close gripper end distances: {'right': 0.02066792352631453, 'left': 0.022839271005681228}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'white_tote_b01_left_center_tote_b01_col_right')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Attempts: 2, successes: 2, saved demos: 2
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101315/test_l5x_202608101315.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_b8ml0ihx

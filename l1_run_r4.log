@@ -1,0 +1,81 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_right_eef_pos', 'robot0_left_gripper_qpos', 'robot0_left_eef_quat', 'robot0_right_gripper_qpos', 'robot0_right_eef_quat', 'robot0_left_eef_pos']
+using obs modality: rgb with keys: ['robot0_robotview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Loaded robomimic checkpoint: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_150.pth
+Evaluation device: cpu
+[BACKEND v4] grasp_object_physics called
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+Evaluation factory scene: FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] robot_base_pos=(8.000010,4.622681,0.000000)
+[BC_INPUT] robot_base_ori=[0.000000,0.000000,-3.139453] (yaw=-0.9993*pi)
+[BC_INPUT] actual_base_pose=(8.000010,4.622681) yaw=-3.139453
+[BC_INPUT] object_name=line_5_container_h01_near
+[BC_INPUT] torso_lift=0.3500
+[BC_INPUT] arm_right_1=0.7426
+[BC_INPUT] arm_right_3=2.1378
+[BC_INPUT] arm_right_4=2.1057
+[BC_INPUT] gripper_r=0.0120
+[BC_INPUT] scene=FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] object input_1_conveyor_plastic_crate: pos=(-2.0000,-3.8000,0.5048)
+[BC_INPUT] object input_2_shelf_container_h10: pos=(0.0000,-3.8000,0.4850)
+[BC_INPUT] object input_3_table_container_h01: pos=(-2.0000,3.8000,0.5250)
+[BC_INPUT] object input_4_bin_tote_b01: pos=(0.0000,3.8000,0.6000)
+[BC_INPUT] object line_5_container_h01_far: pos=(7.0590,3.2560,1.1255)
+[BC_INPUT] object line_5_container_h01_near: pos=(7.0590,4.6190,1.1255)
+Target object: line_5_container_h01_near
+Robot base xy at reset: (8.000011, 4.622681)
+Tracking sites: {'right': 'line_5_container_h01_near_right_grasp_site', 'left': 'line_5_container_h01_near_left_grasp_site'}
+Below-site grasp targets: {'right': array([7.349     , 4.739     , 1.21548332]), 'left': array([7.349     , 4.499     , 1.21548332])}
+wrapped_env_grasp_start_pose: x=8.000011, y=4.622681, yaw=-3.139453
+Executing grasp policy on the current robomimic-wrapped environment without reset_to
+ObservationKeyToModalityDict: object not found, adding object to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_pos not found, adding robot0_joint_pos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_pos_cos not found, adding robot0_joint_pos_cos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_pos_sin not found, adding robot0_joint_pos_sin to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_vel not found, adding robot0_joint_vel to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_acc not found, adding robot0_joint_acc to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_right_eef_quat_site not found, adding robot0_right_eef_quat_site to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_right_gripper_qvel not found, adding robot0_right_gripper_qvel to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_left_eef_quat_site not found, adding robot0_left_eef_quat_site to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_left_gripper_qvel not found, adding robot0_left_gripper_qvel to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_pos not found, adding robot0_base_pos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_quat not found, adding robot0_base_quat to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_right_eef_pos not found, adding robot0_base_to_right_eef_pos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_right_eef_quat not found, adding robot0_base_to_right_eef_quat to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_right_eef_quat_site not found, adding robot0_base_to_right_eef_quat_site to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_left_eef_pos not found, adding robot0_base_to_left_eef_pos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_left_eef_quat not found, adding robot0_base_to_left_eef_quat to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_base_to_left_eef_quat_site not found, adding robot0_base_to_left_eef_quat_site to mapping with assumed low_dim modality!
+Holding final grasp action for 12 steps
+After same-env wrapped policy execution object collision geoms: ['line_5_container_h01_near_container_h01_col_bottom', 'line_5_container_h01_near_container_h01_col_front', 'line_5_container_h01_near_container_h01_col_back', 'line_5_container_h01_near_container_h01_col_left', 'line_5_container_h01_near_container_h01_col_right']
+After same-env wrapped policy execution gripper end targets: {'right': [7.349, 4.739, 1.2155], 'left': [7.349, 4.499, 1.2155]}
+After same-env wrapped policy execution gripper end positions: {'right': [7.55, 4.8444, 1.3697], 'left': [7.6235, 4.5399, 1.3524]}
+After same-env wrapped policy execution gripper end deltas current-minus-target: {'right': [0.201, 0.1054, 0.1542], 'left': [0.2745, 0.0409, 0.1369]}
+After same-env wrapped policy execution gripper end distances: {'right': 0.27439031542309766, 'left': 0.30944707658667214}
+After same-env wrapped policy execution fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+After same-env wrapped policy execution fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+After same-env wrapped policy execution grasp status: {'right': False, 'left': False}
+Same-env wrapped grasp return: 0.000000
+Same-env wrapped grasp success: False
+lift_initial_grasp_status: {'right': False, 'left': False}
+[BACKEND] grasp pipeline failed, skipping transport attachment: grasp_success=False, lift_success=False, lift_failure=object is not grasped by both grippers: {'right': False, 'left': False}
+Step 1 (pick_up): all 1 attempts failed
+Step 2 (pick_up) failed: Physics grasp FAIL: input_5
+Step 2 failed softly, continuing after pick_up failure
+place_object_physics: no object held
+place_down: failed target=output_4 held=None avail_out=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']
+Step 3 (place_down): all 1 attempts failed
+Step 4 (place_down) failed: Physics place FAIL: output_4 held=None out_ports=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']
+Step 4 failed, fail_fast — stopping

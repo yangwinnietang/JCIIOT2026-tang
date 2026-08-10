@@ -1,0 +1,13 @@
+{
+  "robot_model": "FactorySorting1_3FO3ERFHISEM",
+  "camera": "birdview",
+  "units": {
+    "length": "meter",
+    "angle": "radian"
+  },
+  "joint_names": [],
+  "object_names": [],
+  "object_joints": {},
+  "events": [],
+  "frames": []
+}

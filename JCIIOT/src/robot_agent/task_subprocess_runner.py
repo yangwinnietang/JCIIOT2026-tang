@@ -143,7 +143,7 @@ def _build_agent(app_dir: Path, task_index: int, knowledge_enabled: bool = True)
     # Checkpoint path is resolved from knowledge/robot_params.json at
     # policy-load time — no hardcoded path here.
     backend.set_physics_grasp_config(
-        device="cpu",
+        device="auto",
         object_map=full_object_map,
     )
 

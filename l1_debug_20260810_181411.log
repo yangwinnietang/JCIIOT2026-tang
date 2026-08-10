@@ -1,0 +1,88 @@
+/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/__init__.py:49: SyntaxWarning: invalid escape sequence '\ '
+  /[_]\  [~]\/    |//  |
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not import robosuite_models. Some robots may not be available. If you want to use these robots, please install robosuite_models from source (https://github.com/ARISE-Initiative/robosuite_models) or through pip install. (__init__.py:31)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_right_gripper_qpos', 'robot0_left_gripper_qpos', 'robot0_right_eef_quat', 'robot0_left_eef_quat', 'robot0_left_eef_pos', 'robot0_right_eef_pos']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Loaded robomimic checkpoint: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_150.pth
+Evaluation device: cuda:0
+[BACKEND v4] grasp_object_physics called
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+Evaluation factory scene: FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] robot_base_pos=(8.000010,4.622681,0.000000)
+[BC_INPUT] robot_base_ori=[0.000000,0.000000,-3.139453] (yaw=-0.9993*pi)
+[BC_INPUT] actual_base_pose=(8.000010,4.622681) yaw=-3.139453
+[BC_INPUT] object_name=line_5_container_h01_near
+[BC_INPUT] torso_lift=0.3500
+[BC_INPUT] arm_right_1=0.7426
+[BC_INPUT] arm_right_3=2.1378
+[BC_INPUT] arm_right_4=2.1057
+[BC_INPUT] gripper_r=0.0120
+[BC_INPUT] scene=FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] object line_5_container_h01_far: pos=(7.0590,3.2560,1.1255)
+[BC_INPUT] object line_5_container_h01_near: pos=(7.0590,4.6190,1.1255)
+Target object: line_5_container_h01_near
+Robot base xy at reset: (8.000010, 4.622681)
+Tracking sites: {'right': 'line_5_container_h01_near_right_grasp_site', 'left': 'line_5_container_h01_near_left_grasp_site'}
+Below-site grasp targets: {'right': array([0.29, 0.12, 0.09]), 'left': array([ 0.29, -0.12,  0.09])}
+wrapped_env_grasp_start_pose: x=8.000010, y=4.622681, yaw=-3.139453
+Executing grasp policy on the current robomimic-wrapped environment without reset_to
+[DEBUG] initial obs: {'robot0_left_eef_pos': array([7.61607451, 4.43694803, 1.1086439 ]), 'robot0_left_eef_quat': array([-0.71138068,  0.70135837,  0.01204074, -0.04346247]), 'robot0_left_gripper_qpos': array([ 0.012,  0.065,  0.065, -0.012,  0.065,  0.065]), 'robot0_right_eef_pos': array([7.63140628, 4.89063849, 1.1359892 ]), 'robot0_right_eef_quat': array([ 0.6343171 , -0.77130061, -0.04326481,  0.02941678]), 'robot0_right_gripper_qpos': array([ 0.012,  0.065,  0.065, -0.012,  0.065,  0.065])}
+[DEBUG] eval_steps=312, expected_action_dim=TBD
+[DEBUG] step=0 action=[ 0.03605231 -0.01213693  0.31443578 -0.00214945 -0.00107021  0.01184107]... norm=1.7914
+[DEBUG] step=0 right_eef=[7.63140628 4.89063849 1.1359892 ] left_eef=[7.61607451 4.43694803 1.1086439 ]
+[DEBUG] step=1 action=[ 0.049959   -0.00687957  0.1418079   0.00729429 -0.0114105   0.00253755]... norm=1.6771
+[DEBUG] step=1 right_eef=[7.63143552 4.89051043 1.13748555] left_eef=[7.61611828 4.43699962 1.11040447]
+[DEBUG] step=2 action=[ 0.0208133  -0.00733156  0.16918725  0.00614923 -0.00436133  0.00653074]... norm=1.7180
+[DEBUG] step=2 right_eef=[7.63124716 4.89031221 1.13653446] left_eef=[7.61635263 4.43710407 1.10959467]
+[DEBUG] step=3 action=[-3.12700868e-04 -4.36586142e-03  1.97444633e-01  1.73036940e-04
+ -8.81704735e-04  9.84779466e-03]... norm=1.7377
+[DEBUG] step=3 right_eef=[7.63122987 4.89013033 1.13660471] left_eef=[7.61653768 4.43714098 1.10977492]
+[DEBUG] step=4 action=[-0.01339287 -0.00816656  0.25288683  0.00072615 -0.00595551  0.01500451]... norm=1.7623
+[DEBUG] step=4 right_eef=[7.63155766 4.88998116 1.138525  ] left_eef=[7.61669084 4.43717751 1.11177167]
+[DEBUG] step=50 action=[1.37394562e-01 9.85249691e-03 2.99155980e-01 1.29804038e-03
+ 7.02724792e-05 4.84401220e-03]... norm=1.7891
+[DEBUG] step=50 right_eef=[7.64667936 4.88968367 1.27621794] left_eef=[7.62480261 4.43418109 1.26065953]
+[DEBUG] step=100 action=[ 0.35682091  0.09438401  0.11367844 -0.00198256  0.00156562  0.00398907]... norm=1.8030
+[DEBUG] step=100 right_eef=[7.54861214 4.8352286  1.32423493] left_eef=[7.53103071 4.47022835 1.31886871]
+[DEBUG] step=150 action=[ 0.30208015  0.06969167  0.10905109 -0.00759378  0.00465642  0.00694796]... norm=1.7756
+[DEBUG] step=150 right_eef=[7.41251378 4.75833679 1.36015905] left_eef=[7.39816291 4.52008209 1.35662438]
+[DEBUG] step=200 action=[ 0.15516151  0.04217308  0.05588285 -0.00895243  0.00563234  0.00379836]... norm=1.6882
+[DEBUG] step=200 right_eef=[7.3409754  4.70804583 1.37040075] left_eef=[7.31673364 4.54726069 1.37625636]
+[DEBUG] step=250 action=[ 0.08364128  0.02833952  0.03697073 -0.00923767  0.00618535  0.00076678]... norm=1.5852
+[DEBUG] step=250 right_eef=[7.30907049 4.68563352 1.37112217] left_eef=[7.27177012 4.55562266 1.38822949]
+[DEBUG] step=300 action=[ 0.05954798  0.0269331   0.05060342 -0.00912497  0.00764083 -0.00034458]... norm=1.5100
+[DEBUG] step=300 right_eef=[7.29134    4.68087432 1.37337067] left_eef=[7.24298452 4.5509728  1.39988536]
+Holding final grasp action for 12 steps
+After same-env wrapped policy execution object collision geoms: ['line_5_container_h01_near_container_h01_col_bottom', 'line_5_container_h01_near_container_h01_col_front', 'line_5_container_h01_near_container_h01_col_back', 'line_5_container_h01_near_container_h01_col_left', 'line_5_container_h01_near_container_h01_col_right']
+After same-env wrapped policy execution gripper end targets: {'right': [0.29, 0.12, 0.09], 'left': [0.29, -0.12, 0.09]}
+After same-env wrapped policy execution gripper end positions: {'right': [7.3074, 4.6742, 1.3973], 'left': [7.2541, 4.5506, 1.4271]}
+After same-env wrapped policy execution gripper end deltas current-minus-target: {'right': [7.0174, 4.5542, 1.3073], 'left': [6.9641, 4.6706, 1.3371]}
+After same-env wrapped policy execution gripper end distances: {'right': 8.467199828033543, 'left': 8.491280688831534}
+After same-env wrapped policy execution fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+After same-env wrapped policy execution fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+After same-env wrapped policy execution grasp status: {'right': False, 'left': False}
+Same-env wrapped grasp return: 0.000000
+Same-env wrapped grasp success: False
+lift_initial_grasp_status: {'right': False, 'left': False}
+[BACKEND] grasp pipeline failed, skipping transport attachment: grasp_success=False, lift_success=False, lift_failure=object is not grasped by both grippers: {'right': False, 'left': False}
+Step 1 (pick_up): all 1 attempts failed
+Step 2 (pick_up) failed: Physics grasp FAIL: input_5
+Step 2 failed softly, continuing after pick_up failure
+place_object_physics: no object held
+place_down: failed target=output_4 held=None avail_out=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']
+Step 3 (place_down): all 1 attempts failed
+Step 4 (place_down) failed: Physics place FAIL: output_4 held=None out_ports=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']
+Step 4 failed, fail_fast — stopping

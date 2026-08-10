@@ -1,0 +1,43 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+Traceback (most recent call last):
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py", line 321, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py", line 317, in main
+    return run_task(args)
+           ^^^^^^^^^^^^^^
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py", line 214, in run_task
+    _configure_paths(app_dir)
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py", line 57, in _configure_paths
+    exec(code, rs_patch.__dict__)
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/__init__.py", line 1, in <module>
+    from robosuite.environments.base import make
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/__init__.py", line 1, in <module>
+    from .base import REGISTERED_ENVS, MujocoEnv
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/base.py", line 12, in <module>
+    from robosuite.renderers.viewer import OpenCVViewer
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/renderers/viewer/__init__.py", line 1, in <module>
+    from .mjviewer_renderer import MjviewerRenderer
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/renderers/viewer/mjviewer_renderer.py", line 1, in <module>
+    from mujoco import viewer
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/mujoco/__init__.py", line 68, in <module>
+    from mujoco.rendering.classic.renderer import Renderer  # pytype: disable=import-error
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/mujoco/rendering/classic/renderer.py", line 20, in <module>
+    from mujoco.rendering.classic import gl_context
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/mujoco/rendering/classic/gl_context.py", line 38, in <module>
+    from mujoco.osmesa import GLContext as _GLContext
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/mujoco/osmesa/__init__.py", line 31, in <module>
+    from OpenGL import GL
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/OpenGL/GL/__init__.py", line 4, in <module>
+    from OpenGL.GL.VERSION.GL_1_1 import *
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/OpenGL/GL/VERSION/GL_1_1.py", line 14, in <module>
+    from OpenGL.raw.GL.VERSION.GL_1_1 import *
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/OpenGL/raw/GL/VERSION/GL_1_1.py", line 7, in <module>
+    from OpenGL.raw.GL import _errors
+  File "/mnt/workspace/JCIIOT2026/.venv/lib/python3.11/site-packages/OpenGL/raw/GL/_errors.py", line 4, in <module>
+    _error_checker = _ErrorChecker( _p, _p.GL.glGetError )
+                                        ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'glGetError'

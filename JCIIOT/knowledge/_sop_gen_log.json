@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-23T13:40:42",
+  "generated_at": "2026-08-10T10:58:11",
   "text_llm": {
-    "base_url": "https://open.bigmodel.cn/api/paas/v4",
+    "base_url": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
     "model": "glm-5.2",
     "api_key": "***"
   },
   "vlm": {
-    "base_url": "https://open.bigmodel.cn/api/paas/v4",
-    "model": "glm-5v-turbo",
+    "base_url": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model": "qwen3.8-max",
     "api_key": "***"
   },
   "cases": [
@@ -15,76 +15,79 @@
       "file": "JCIIOT 2026 case 1 SOP.docx",
       "case": 1,
       "level": "L1",
-      "started_at": "2026-07-23T13:40:42",
+      "started_at": "2026-08-10T10:58:11",
       "status": "ok",
       "output": "sop_gen_case_1.md",
       "paragraphs": 42,
       "images": 5,
-      "images_described": 2,
+      "images_described": 5,
       "structuring": "llm",
       "used_llm": true,
       "used_vlm": true,
-      "finished_at": "2026-07-23T13:40:56"
+      "finished_at": "2026-08-10T11:00:26"
     },
     {
       "file": "JCIIOT 2026 case 3 SOP.docx",
       "case": 3,
       "level": "L2",
-      "started_at": "2026-07-23T13:40:56",
+      "started_at": "2026-08-10T11:00:26",
       "status": "ok",
       "output": "sop_gen_case_3.md",
       "paragraphs": 200,
       "images": 5,
-      "images_described": 1,
+      "images_described": 5,
       "structuring": "llm",
       "used_llm": true,
       "used_vlm": true,
-      "finished_at": "2026-07-23T13:41:10"
+      "finished_at": "2026-08-10T11:02:40"
     },
     {
       "file": "JCIIOT 2026 case 5 SOP.docx",
       "case": 5,
       "level": "L3",
-      "started_at": "2026-07-23T13:41:10",
+      "started_at": "2026-08-10T11:02:40",
       "status": "ok",
       "output": "sop_gen_case_5.md",
       "paragraphs": 186,
       "images": 5,
-      "images_described": 1,
+      "images_described": 5,
       "structuring": "llm",
       "used_llm": true,
       "used_vlm": true,
-      "finished_at": "2026-07-23T13:41:27"
+      "finished_at": "2026-08-10T11:04:35"
     },
     {
       "file": "JCIIOT 2026 case 7 SOP.docx",
       "case": 7,
       "level": "L4",
-      "started_at": "2026-07-23T13:41:27",
+      "started_at": "2026-08-10T11:04:35",
       "status": "ok",
       "output": "sop_gen_case_7.md",
       "paragraphs": 194,
       "images": 5,
-      "images_described": 1,
+      "images_described": 5,
       "structuring": "llm",
       "used_llm": true,
       "used_vlm": true,
-      "finished_at": "2026-07-23T13:41:43"
+      "finished_at": "2026-08-10T11:07:04"
     },
     {
       "file": "JCIIOT 2026 case 9 SOP.docx",
       "case": 9,
       "level": "L5",
-      "started_at": "2026-07-23T13:41:43",
+      "started_at": "2026-08-10T11:07:04",
       "status": "ok",
       "output": "sop_gen_case_9.md",
       "paragraphs": 150,
       "images": 5,
-      "images_described": 1,
+      "images_described": 5,
       "structuring": "llm",
       "used_llm": true,
       "used_vlm": true,
-      "finished_at": "2026-07-23T13:42:00"
+      "finished_at": "2026-08-10T11:09:34"
     }
-  ]
+  ],
+  "index_refreshed": {
+    "new_docs_indexed": 15
+  }
 }

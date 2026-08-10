@@ -1,14 +1,18 @@
 {
-  "updated_at": "2026-06-29T16:48:29",
+  "updated_at": "2026-08-10T20:36:00",
   "document_count": 1,
   "documents": {
     "my_strategy.md": {
-      "title": "<!-- TEAM KNOWLEDGE — Customize your strategy here -->",
+      "title": "Grasp & Transport Strategy — JCIIOT 2026",
       "category": "reference",
       "tags": [
-        "reference"
+        "reference",
+        "strategy",
+        "grasp",
+        "l5",
+        "tuning"
       ],
-      "added_at": "2026-06-24T16:32:06"
+      "added_at": "2026-08-10T20:36:00"
     }
   }
 }

@@ -1,0 +1,1051 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T12:53:06][collect] level=L4 env=FactorySorting7_3FO3ERFKY9RN object=blue_container_h01_back_upper base_pos=[-8.998, 5.343, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=40
+
+Rollout 1/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786337596_7216635
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 2/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786337696_0521402
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 3/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786337814_38914
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 4/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786337920_8982198
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 5/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338019_207002
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 6/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338118_1984859
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 7/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338217_1729689
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 8/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338317_3379707
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 9/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338418_931065
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 10/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338533_404403
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 11/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338645_4108105
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 12/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338746_1170986
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 13/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338847_0671828
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 14/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786338953_606658
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 15/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339071_0174086
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 16/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339180_950529
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 17/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339293_0434184
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 18/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339411_9869618
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 19/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339529_7736785
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 20/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339647_8196383
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 21/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339766_358457
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 22/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786339882_1578238
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 23/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340000_9473903
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 24/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340115_5415027
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 25/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340216_1879435
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 26/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340335_3106992
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 27/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340455_563701
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 28/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340576_9159977
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 29/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340696_8559296
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 30/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340816_1551511
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 31/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786340935_1960828
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 32/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341056_3107295
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 33/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341176_3126397
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 34/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341296_8543663
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 35/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341415_7356043
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 36/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341536_0465746
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 37/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341655_6849468
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 38/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341776_1663728
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 39/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786341896_7448943
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Rollout 40/40
+Target object: blue_container_h01_back_upper
+Robot base xy at reset: (-8.998000, 5.343000)
+Tracking sites: {'right': 'blue_container_h01_back_upper_right_grasp_site', 'left': 'blue_container_h01_back_upper_left_grasp_site'}
+Site positions: {'right': array([-9.630312 ,  5.509394 ,  1.3493825]), 'left': array([-9.630312 ,  5.177394 ,  1.3493825])}
+Below-site grasp targets: {'right': array([-9.630312 ,  5.509394 ,  1.3143825]), 'left': array([-9.630312 ,  5.177394 ,  1.3143825])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_uq6dz4nr/ep_1786342012_4094317
+gripper end center arrival distances before grasp: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+Before grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+Before grasp close gripper end positions: {'right': [-9.6229, 5.5091, 1.341], 'left': [-9.6214, 5.1774, 1.3425]}
+Before grasp close gripper end deltas current-minus-target: {'right': [0.0074, -0.0002, 0.0267], 'left': [0.0089, 0.0, 0.0281]}
+Before grasp close gripper end distances: {'right': 0.027659368550878353, 'left': 0.029525830117781975}
+Before grasp close fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+Before grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+Before grasp close grasp status: {'right': False, 'left': False}
+After grasp close object collision geoms: ['blue_container_h01_back_upper_container_h01_col_bottom', 'blue_container_h01_back_upper_container_h01_col_front', 'blue_container_h01_back_upper_container_h01_col_back', 'blue_container_h01_back_upper_container_h01_col_left', 'blue_container_h01_back_upper_container_h01_col_right']
+After grasp close gripper end targets: {'right': [-9.6303, 5.5094, 1.3144], 'left': [-9.6303, 5.1774, 1.3144]}
+After grasp close gripper end positions: {'right': [-9.6181, 5.5091, 1.3334], 'left': [-9.6169, 5.1765, 1.3358]}
+After grasp close gripper end deltas current-minus-target: {'right': [0.0122, -0.0002, 0.0191], 'left': [0.0134, -0.0009, 0.0214]}
+After grasp close gripper end distances: {'right': 0.02261938302308667, 'left': 0.025325409116640038}
+After grasp close fingerpad contact status: {'right': {'left_fingerpad': True, 'right_fingerpad': True}, 'left': {'left_fingerpad': True, 'right_fingerpad': True}}
+After grasp close fingerpad contact pairs: {'right': {'left_fingerpad': [('gripper0_right_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_right_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}, 'left': {'left_fingerpad': [('gripper0_left_left_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')], 'right_fingerpad': [('gripper0_left_right_fingerpad_collision', 'blue_container_h01_back_upper_container_h01_col_front')]}}
+After grasp close grasp status: {'right': True, 'left': True}
+Result: success: both grippers grasped and held the object
+
+Attempts: 40, successes: 40, saved demos: 40
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101253/grasp_l4_202608101253.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_uq6dz4nr
+EXIT_L4_FULL=0

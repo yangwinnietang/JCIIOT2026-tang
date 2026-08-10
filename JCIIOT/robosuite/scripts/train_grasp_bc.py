@@ -41,7 +41,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 _PROJECT_ROOT = _HERE.parents[1]            # .../JCIIOT
 _ROBOMIMIC_ROOT = _PROJECT_ROOT / "robomimic"
-for _p in (_ROBOMIMIC_ROOT,):
+for _p in (_PROJECT_ROOT, _ROBOMIMIC_ROOT):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
@@ -80,10 +80,12 @@ def main(args) -> int:
 
     # ── Build config: upstream-faithful to robomimic/scripts/train.py::main ──
     from robomimic.config import config_factory
-    from robomimic.utils.torch_utils import TorchUtils
+    import robomimic.utils.torch_utils as TorchUtils
 
     with open(args.config, "r") as f:
         ext_cfg = json.load(f)
+    # Drop metadata keys (e.g. "_comment") that robomimic's config doesn't know.
+    ext_cfg = {k: v for k, v in ext_cfg.items() if not k.startswith("_")}
     config = config_factory(ext_cfg["algo_name"])
     with config.values_unlocked():
         config.update(ext_cfg)

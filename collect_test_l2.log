@@ -1,0 +1,257 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T11:26:09][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.808, 4.625, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=3
+
+Rollout 1/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_qvr1qldv/ep_1786332378_6180055
+Result: gripper touched object during XY approach at step 67
+
+Rollout 2/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_qvr1qldv/ep_1786332407_355307
+Result: gripper touched object during XY approach at step 67
+
+Rollout 3/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_qvr1qldv/ep_1786332436_8469586
+Result: gripper touched object during XY approach at step 67
+
+Attempts: 3, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101126/test_l2_202608101126.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_qvr1qldv
+Warning: no successful grasp demos were saved into the HDF5 file.
+EXIT_L2=0
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+usage: load_factory_sorting_collect.py [-h] --level {1,2,3,4,5}
+                                       [{1,2,3,4,5} ...]
+                                       [--num-rollouts NUM_ROLLOUTS]
+                                       [--output-name OUTPUT_NAME]
+                                       [--no-render] [--render]
+                                       [--object-name OBJECT_NAME]
+                                       [--robot-base-pos ROBOT_BASE_POS ROBOT_BASE_POS ROBOT_BASE_POS]
+                                       [--robot-base-ori ROBOT_BASE_ORI ROBOT_BASE_ORI ROBOT_BASE_ORI]
+                                       [--directory DIRECTORY] [--seed SEED]
+load_factory_sorting_collect.py: error: unrecognized arguments: --safe-z 1.75
+EXIT_L2=2
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T11:47:15][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.808, 4.625, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=3
+
+Rollout 1/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_c2gxl8js/ep_1786333643_7048328
+Result: safe vertical lift target tolerance failed after settle: {'right': 0.033723087280542456, 'left': 0.09098275776837718}
+
+Rollout 2/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_c2gxl8js/ep_1786333677_7349758
+Result: safe vertical lift target tolerance failed after settle: {'right': 0.033723087280542456, 'left': 0.09098275776837718}
+
+Rollout 3/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_c2gxl8js/ep_1786333712_8834524
+Result: safe vertical lift target tolerance failed after settle: {'right': 0.033723087280542456, 'left': 0.09098275776837718}
+
+Attempts: 3, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101147/test_l2b_202608101147.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_c2gxl8js
+Warning: no successful grasp demos were saved into the HDF5 file.
+EXIT_L2b=0
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T11:58:39][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.808, 4.625, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=3
+
+Rollout 1/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_cykbohrt/ep_1786334327_612983
+Result: gripper touched object during XY approach settle at step 51
+
+Rollout 2/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_cykbohrt/ep_1786334389_5571911
+Result: gripper touched object during XY approach settle at step 51
+
+Rollout 3/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.808000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_cykbohrt/ep_1786334451_8781326
+Result: gripper touched object during XY approach settle at step 51
+
+Attempts: 3, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101158/test_l2c_202608101158.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_cykbohrt
+Warning: no successful grasp demos were saved into the HDF5 file.
+EXIT_L2c=0
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T12:34:21][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.488, 4.625, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=3
+
+Rollout 1/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.488000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_vtooa66i/ep_1786336469_0956337
+Result: gripper touched object during safe vertical lift at step 1
+
+Rollout 2/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.488000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_vtooa66i/ep_1786336472_9346497
+Result: gripper touched object during safe vertical lift at step 1
+
+Rollout 3/3
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.488000, 4.625000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_vtooa66i/ep_1786336476_6425838
+Result: gripper touched object during safe vertical lift at step 1
+
+Attempts: 3, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101234/test_l2d_202608101234.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_vtooa66i
+Warning: no successful grasp demos were saved into the HDF5 file.
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T12:39:42][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.65, 4.4, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=2
+
+Rollout 1/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.650000, 4.400000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_xo_djgkh/ep_1786336790_071294
+Result: XY approach target tolerance failed after settle: {'right': 0.00018720901105405204, 'left': 0.05120478309794902}
+
+Rollout 2/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.650000, 4.400000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_xo_djgkh/ep_1786336846_7913215
+Result: XY approach target tolerance failed after settle: {'right': 0.00018720901105405204, 'left': 0.05120478309794902}
+
+Attempts: 2, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101239/test_l2e_202608101239.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_xo_djgkh
+Warning: no successful grasp demos were saved into the HDF5 file.
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T12:43:09][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.65, 4.4, 0.0] base_ori=[0.0, 0.0, -3.139453] rollouts=2
+
+Rollout 1/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.650000, 4.400000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_6e82v_j6/ep_1786336997_0052083
+Result: vertical descent below sites target tolerance failed after settle: {'right': 0.009131791208189377, 'left': 0.12162931368656767}
+
+Rollout 2/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.650000, 4.400000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_6e82v_j6/ep_1786337069_8801203
+Result: vertical descent below sites target tolerance failed after settle: {'right': 0.009131791208189377, 'left': 0.12162931368656767}
+
+Attempts: 2, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101243/test_l2f_202608101243.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_6e82v_j6
+Warning: no successful grasp demos were saved into the HDF5 file.
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[2026-08-10T12:54:52][collect] level=L2 env=FactorySorting3_3FO3ERRPH7X9 object=green_tote_b01_upper base_pos=[12.45, 4.3, 0.0] base_ori=[0.0, 0.0, 1.5708] rollouts=2
+
+Rollout 1/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.450000, 4.300000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_7v9tb9nh/ep_1786337704_0152206
+Result: XY approach target tolerance failed after settle: {'right': 0.099189611289456, 'left': 0.0003194520185801784}
+
+Rollout 2/2
+Target object: green_tote_b01_upper
+Robot base xy at reset: (12.450000, 4.300000)
+Tracking sites: {'right': 'green_tote_b01_upper_right_grasp_site', 'left': 'green_tote_b01_upper_left_grasp_site'}
+Site positions: {'right': array([12.032624 ,  4.409856 ,  1.3999995]), 'left': array([11.702624 ,  4.409856 ,  1.3999995])}
+Below-site grasp targets: {'right': array([12.032624 ,  4.409856 ,  1.3649995]), 'left': array([11.702624 ,  4.409856 ,  1.3649995])}
+DataCollectionWrapper: making folder at /tmp/factory_sorting_grasp_raw_7v9tb9nh/ep_1786337782_736745
+Result: XY approach target tolerance failed after settle: {'right': 0.099189611289456, 'left': 0.0003194520185801784}
+
+Attempts: 2, successes: 0, saved demos: 0
+HDF5 saved to: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/models/assets/demonstrations_private/202608101254/test_l2g_202608101254.hdf5
+Raw trajectory directory: /tmp/factory_sorting_grasp_raw_7v9tb9nh
+Warning: no successful grasp demos were saved into the HDF5 file.

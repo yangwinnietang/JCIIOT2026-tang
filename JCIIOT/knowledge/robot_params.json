@@ -29,11 +29,15 @@
     "clearance_weight": 6.0,
     "tight_clearance_m": 0.30
   },
+  "grasp_stance": {
+    "_comment": "抓取前站位细化参数 —— pick_up 在抓取前把底盘开到 (物体x+standoff_x, 物体y)，复现官方 L1 几何(8.0 vs 7.059 ≈ +0.94)；BC 演示采集使用同一站位分布",
+    "standoff_x": 0.85
+  },
   "grasp_policy": {
     "_comment": "BC 抓取策略参数 —— 抓取是评分闸门(grasp_success 门控离开+到达两半分)。checkpoint 指向 model_epoch_150.pth；注意：当前该文件为占位 stub，需用 robosuite/TASK_D_README.md 流水线训练真模型替换。eval_steps/post_hold_steps 适当增大以提升抓取闭合与保持成功率",
     "checkpoint_path": "robosuite/robosuite/model_epoch_150.pth",
     "checkpoint_fallback_path": "robosuite/robosuite/model_epoch_150.pth",
-    "eval_steps": 450,
+    "eval_steps": 312,
     "post_hold_steps": 12,
     "initial_view_steps": 5,
     "debug_policy": false,

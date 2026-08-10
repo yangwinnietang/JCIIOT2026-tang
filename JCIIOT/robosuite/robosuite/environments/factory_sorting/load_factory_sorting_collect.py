@@ -1,7 +1,7 @@
 """Scene-parameterized grasp-demonstration collector for FactorySorting (Task D).
 
 Generalizes ``load_factory_sorting_1_3fo3erfhisem_collect.py`` (which is hardcoded
-to scene 1) to any of the five competition levels (1/3/5/7/9). It reuses the
+to scene 1) to any of the five competition levels (L1..L5 → scenes 1/3/5/7/9). It reuses the
 scene-1 collector's entire OSC two-arm grasp pipeline verbatim — only the
 env name, target object, and robot base pose are derived per level from
 ``knowledge/task_config.json`` (the canonical source/target/object map and
@@ -72,10 +72,12 @@ def _level_config(level: int) -> dict:
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     # nargs="+" accepts both a single level (--level 1) and a batch
-    # (--level 1 3 5 7 9), so one invocation can collect every level.
+    # (--level 1 2 3 4 5), so one invocation can collect every level.
+    # NOTE: these are competition LEVEL numbers (task_config "L{level}"),
+    # not scene numbers — L1..L5 map to scenes 1/3/5/7/9 respectively.
     p.add_argument("--level", type=int, required=True, nargs="+",
-                   choices=[1, 3, 5, 7, 9],
-                   help="competition level(s) to collect: 1/3/5/7/9 (one or more)")
+                   choices=[1, 2, 3, 4, 5],
+                   help="competition level(s) to collect: 1..5 (one or more)")
     p.add_argument("--num-rollouts", type=int, default=30)
     p.add_argument("--output-name", type=str, default=None,
                    help="default: grasp_l<level> (per level)")
@@ -90,7 +92,115 @@ def parse_args():
     p.add_argument("--robot-base-ori", type=float, nargs=3, default=None)
     p.add_argument("--directory", type=str, default=None)
     p.add_argument("--seed", type=int, default=None)
+    # Forwarded grasp-geometry knobs (needed for tall totes whose rim sits
+    # above the default safe-z, so the XY traverse clears the object).
+    p.add_argument("--safe-z", type=float, default=None)
+    p.add_argument("--site-above-clearance", type=float, default=None)
+    p.add_argument("--site-below-offset", type=float, default=None)
+    p.add_argument("--arrival-tolerance", type=float, default=None)
+    p.add_argument("--gripper-end-arrival-tolerance", type=float, default=None)
+    p.add_argument("--wall-clamp", type=str, default=None,
+                   help="'span,max_reach': clamp grasp targets into the reachable "
+                        "part of the object wall (totes whose deep grasp sites are "
+                        "outside the arm workspace from any collision-free base pose)")
+    p.add_argument("--xwall-grasp", type=str, default=None,
+                   help="'inset,span_half': re-target the grasp onto the object's "
+                        "+x (aisle-facing) wall instead of the nominal -y wall. "
+                        "Used for totes whose nominal sites are unreachable; the +x "
+                        "wall reproduces the proven L1-style symmetric two-arm pinch.")
     return p.parse_args()
+
+
+def _install_xwall_grasp(inset: float, span_half: float) -> None:
+    """Patch get_target_positions to place targets on the object's +x wall.
+
+    Some totes sit deep inside the collision-proxy region with their nominal
+    grasp sites on the -y wall, unreachable by the far arm from any
+    collision-free base pose. Their +x wall faces the aisle, though, and a
+    symmetric two-arm pinch there reproduces the proven container geometry.
+    Targets are set to (obj_x + inset, obj_y ± span_half) at the nominal site
+    height.
+    """
+    import numpy as _np
+    _orig = coll.get_target_positions
+
+    def patched(env, object_name, site_below_offset):
+        targets, names = _orig(env, object_name, site_below_offset)
+        try:
+            md = getattr(env, "material_metadata", {}).get(object_name, {})
+            jn = md.get("joint_name") or f"{object_name}_free"
+            qpos = _np.asarray(env.sim.data.get_joint_qpos(jn), dtype=float)
+            obj_x, obj_y = float(qpos[0]), float(qpos[1])
+            z_ref = float(next(iter(targets.values()))[2])
+            new = {}
+            for k, p in targets.items():
+                p = _np.array(p, dtype=float)
+                p[0] = obj_x + inset
+                p[1] = obj_y + (span_half if k.lower().startswith("right") else -span_half)
+                p[2] = z_ref
+                new[k] = p
+            print(f"[xwall_grasp] targets on +x wall: obj=({obj_x:.3f},{obj_y:.3f}) "
+                  f"x={obj_x + inset:.3f} y_span=±{span_half}", flush=True)
+            return new, names
+        except Exception as exc:
+            print(f"[xwall_grasp] patch error (keeping nominal targets): {exc}", flush=True)
+            return targets, names
+
+    coll.get_target_positions = patched
+
+
+def _install_wall_clamp(span: float, max_reach: float) -> None:
+    """Patch the scene-1 collector's get_target_positions.
+
+    Some totes sit deep inside the scene's collision-proxy region: their
+    nominal grasp sites are farther from every collision-free base pose than
+    the arms can reach. The wall they sit on extends toward the aisle, though,
+    so this patch shifts the grasp targets along that wall into the reachable
+    window (keeping the two grippers ``span`` apart, biased aisle-side). The
+    demonstrations then teach a wall-pinch grasp at the reachable positions.
+    """
+    import numpy as _np
+    _orig = coll.get_target_positions
+
+    def patched(env, object_name, site_below_offset):
+        targets, names = _orig(env, object_name, site_below_offset)
+        try:
+            from robosuite.environments.factory_sorting.load_factory_sorting_evalization import (
+                get_base_world_pose,
+            )
+            base_xy, _yaw = get_base_world_pose(env)
+            pts = {k: _np.asarray(v, dtype=float) for k, v in targets.items()}
+            if all(_np.linalg.norm(p[:2] - _np.asarray(base_xy)) <= max_reach
+                   for p in pts.values()):
+                return targets, names  # all reachable — keep nominal targets
+            ys = [float(p[1]) for p in pts.values()]
+            if max(ys) - min(ys) < 0.05:  # wall parallel to x at constant y
+                wall_y = sum(ys) / len(ys)
+                dy = wall_y - float(base_xy[1])
+                w = (max(max_reach, 1e-3) ** 2 - dy * dy) ** 0.5 if abs(dy) < max_reach else 0.1
+                lo = float(base_xy[0]) - w
+                hi = float(base_xy[0]) + w
+                xs = sorted(float(p[0]) for p in pts.values())
+                right_x = min(xs[-1], hi - 0.02)
+                left_x = right_x - span
+                if left_x < lo + 0.02:
+                    left_x = lo + 0.02
+                    right_x = left_x + span
+                new = {}
+                for k, p in targets.items():
+                    p = _np.array(p, dtype=float)
+                    p[0] = left_x if k.lower().startswith("left") else right_x
+                    p[1] = wall_y
+                    new[k] = p
+                print(f"[wall_clamp] targets clamped: left_x={left_x:.3f} "
+                      f"right_x={right_x:.3f} wall_y={wall_y:.3f} "
+                      f"base=({_np.round(base_xy, 3).tolist()})", flush=True)
+                return new, names
+        except Exception as exc:
+            print(f"[wall_clamp] patch error (keeping nominal targets): {exc}", flush=True)
+        return targets, names
+
+    coll.get_target_positions = patched
 
 
 def _collect_one(level: int, args) -> None:
@@ -112,6 +222,13 @@ def _collect_one(level: int, args) -> None:
     # any level's env_name.
     coll.DEFAULT_ENV_NAME = env_name
 
+    if args.wall_clamp:
+        _span, _reach = (float(v) for v in args.wall_clamp.split(","))
+        _install_wall_clamp(_span, _reach)
+    if args.xwall_grasp:
+        _inset, _half = (float(v) for v in args.xwall_grasp.split(","))
+        _install_xwall_grasp(_inset, _half)
+
     coll_argv = [
         "collect",
         "--num-rollouts", str(args.num_rollouts),
@@ -125,6 +242,16 @@ def _collect_one(level: int, args) -> None:
         coll_argv += ["--directory", args.directory]
     if args.seed is not None:
         coll_argv += ["--seed", str(args.seed)]
+    if args.safe_z is not None:
+        coll_argv += ["--safe-z", str(args.safe_z)]
+    if args.site_above_clearance is not None:
+        coll_argv += ["--site-above-clearance", str(args.site_above_clearance)]
+    if args.site_below_offset is not None:
+        coll_argv += ["--site-below-offset", str(args.site_below_offset)]
+    if args.arrival_tolerance is not None:
+        coll_argv += ["--arrival-tolerance", str(args.arrival_tolerance)]
+    if args.gripper_end_arrival_tolerance is not None:
+        coll_argv += ["--gripper-end-arrival-tolerance", str(args.gripper_end_arrival_tolerance)]
     if args.no_render:
         coll_argv.append("--no-render")
 

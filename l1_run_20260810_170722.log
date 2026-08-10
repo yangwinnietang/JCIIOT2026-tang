@@ -1,0 +1,58 @@
+/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/__init__.py:49: SyntaxWarning: invalid escape sequence '\ '
+  /[_]\  [~]\/    |//  |
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/scripts/setup_macros.py (macros.py:59)
+[robosuite WARNING] Could not import robosuite_models. Some robots may not be available. If you want to use these robots, please install robosuite_models from source (https://github.com/ARISE-Initiative/robosuite_models) or through pip install. (__init__.py:31)
+[robosuite WARNING] Could not load the mink-based whole-body IK. Make sure you install related import properly (e.g. pip install mink==0.0.5), otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:41)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_left_gripper_qpos', 'robot0_left_eef_pos', 'robot0_right_eef_quat', 'robot0_right_eef_pos', 'robot0_left_eef_quat', 'robot0_right_gripper_qpos']
+using obs modality: rgb with keys: ['robot0_robotview_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Loaded robomimic checkpoint: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_150.pth
+Evaluation device: cpu
+[BACKEND v4] grasp_object_physics called
+[robosuite INFO] Loading controller configuration from: /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+Evaluation factory scene: FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] robot_base_pos=(8.000010,4.622681,0.000000)
+[BC_INPUT] robot_base_ori=[0.000000,0.000000,-3.139453] (yaw=-0.9993*pi)
+[BC_INPUT] actual_base_pose=(8.000010,4.622681) yaw=-3.139453
+[BC_INPUT] object_name=line_5_container_h01_near
+[BC_INPUT] torso_lift=0.3500
+[BC_INPUT] arm_right_1=0.7426
+[BC_INPUT] arm_right_3=2.1378
+[BC_INPUT] arm_right_4=2.1057
+[BC_INPUT] gripper_r=0.0120
+[BC_INPUT] scene=FactorySorting1_3FO3ERFHISEM
+[BC_INPUT] object line_5_container_h01_far: pos=(7.0590,3.2560,1.1255)
+[BC_INPUT] object line_5_container_h01_near: pos=(7.0590,4.6190,1.1255)
+Target object: line_5_container_h01_near
+Robot base xy at reset: (8.000010, 4.622681)
+Tracking sites: {'right': 'line_5_container_h01_near_right_grasp_site', 'left': 'line_5_container_h01_near_left_grasp_site'}
+Below-site grasp targets: {'right': array([0.29, 0.12, 0.09]), 'left': array([ 0.29, -0.12,  0.09])}
+wrapped_env_grasp_start_pose: x=8.000010, y=4.622681, yaw=-3.139453
+Executing grasp policy on the current robomimic-wrapped environment without reset_to
+Holding final grasp action for 12 steps
+After same-env wrapped policy execution object collision geoms: ['line_5_container_h01_near_container_h01_col_bottom', 'line_5_container_h01_near_container_h01_col_front', 'line_5_container_h01_near_container_h01_col_back', 'line_5_container_h01_near_container_h01_col_left', 'line_5_container_h01_near_container_h01_col_right']
+After same-env wrapped policy execution gripper end targets: {'right': [0.29, 0.12, 0.09], 'left': [0.29, -0.12, 0.09]}
+After same-env wrapped policy execution gripper end positions: {'right': [7.1507, 4.8514, 1.2394], 'left': [7.4819, 4.5131, 1.1718]}
+After same-env wrapped policy execution gripper end deltas current-minus-target: {'right': [6.8607, 4.7314, 1.1494], 'left': [7.1919, 4.6331, 1.0818]}
+After same-env wrapped policy execution gripper end distances: {'right': 8.412873885005872, 'left': 8.623206578304861}
+After same-env wrapped policy execution fingerpad contact status: {'right': {'left_fingerpad': False, 'right_fingerpad': False}, 'left': {'left_fingerpad': False, 'right_fingerpad': False}}
+After same-env wrapped policy execution fingerpad contact pairs: {'right': {'left_fingerpad': [], 'right_fingerpad': []}, 'left': {'left_fingerpad': [], 'right_fingerpad': []}}
+After same-env wrapped policy execution grasp status: {'right': False, 'left': False}
+Same-env wrapped grasp return: 0.000000
+Same-env wrapped grasp success: False
+lift_initial_grasp_status: {'right': False, 'left': False}
+[BACKEND] grasp pipeline failed, skipping transport attachment: grasp_success=False, lift_success=False, lift_failure=object is not grasped by both grippers: {'right': False, 'left': False}
+Step 1 (pick_up): all 1 attempts failed
+Step 2 (pick_up) failed: Physics grasp FAIL: input_5
+Step 2 failed softly, continuing after pick_up failure
+Terminated

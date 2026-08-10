@@ -1,0 +1,27 @@
+[robosuite WARNING] No private macro file found! (macros.py:57)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:58)
+[robosuite WARNING] To setup, run: python /mnt/workspace/JCIIOT2026/JCIIOT/robosuite/scripts/setup_macros.py (macros.py:59)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/factory_sorting/load_factory_sorting_collect.py", line 269, in <module>
+    main()
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/factory_sorting/load_factory_sorting_collect.py", line 265, in main
+    _collect_one(level, args)
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/factory_sorting/load_factory_sorting_collect.py", line 259, in _collect_one
+    coll.main()
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/factory_sorting/load_factory_sorting_1_3fo3erfhisem_collect.py", line 972, in main
+    env_kwargs = make_env_kwargs(args, render=render)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/environments/factory_sorting/load_factory_sorting_1_3fo3erfhisem_collect.py", line 904, in make_env_kwargs
+    controller_config = load_composite_controller_config(controller=args.controller, robot="Tiago")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/workspace/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/composite/composite_controller_factory.py", line 95, in load_composite_controller_config
+    pathlib.Path(robosuite.__file__).parent / f"controllers/config/robots/default_{robot_name}.json"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/pathlib.py", line 1162, in __init__
+    super().__init__(*args)
+  File "/usr/local/lib/python3.12/pathlib.py", line 373, in __init__
+    raise TypeError(
+TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+[2026-08-10T16:26:19][collect] level=L5 env=FactorySorting9_3FO3ERT2C5FP object=white_tote_b01_left_back base_pos=[5.03, -3.84, 0.0] base_ori=[0.0, 0.0, -3.14] rollouts=20

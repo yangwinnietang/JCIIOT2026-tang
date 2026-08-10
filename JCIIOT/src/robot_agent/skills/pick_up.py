@@ -7,6 +7,8 @@ import logging
 import re
 from pathlib import Path
 
+import numpy as np
+
 from robot_agent.core.scene_context import SceneContext
 from robot_agent.core.types import ExecutionContext, SkillResult
 from robot_agent.skills.base import BaseSkill
@@ -28,10 +30,25 @@ L5_TOTE_ORDER = (
     "white_tote_b01_left_back",
 )
 L5_DEFAULT_DESTINATION = "output_6"
-# Standoff between tote centre and the grasp base stop along the table's
-# approach axis; derived at runtime from the semantic map (approach-centre),
-# this constant is only the fallback (input_1: -13.1 - (-14.544) ≈ 1.44).
-L5_APPROACH_OFFSET_FALLBACK = 1.44
+# Canonical pre-grasp base stance: park STANDOFF metres along +x from the
+# object centre, aligned in y, keeping the spawn yaw (-π, facing -x). This
+# reproduces the official L1 geometry (base 8.0 vs object 7.059 → +0.941)
+# for every level, independent of where the nav "approach" point is. The BC
+# grasp policy is trained from exactly this stance distribution.
+GRASP_STANDOFF_X_FALLBACK = 0.94
+
+
+def _load_grasp_stance_params() -> dict:
+    """Optional tuning block from knowledge/robot_params.json (`grasp_stance`)."""
+    try:
+        rp_path = Path(__file__).resolve().parents[3] / "knowledge" / "robot_params.json"
+        data = json.loads(rp_path.read_text(encoding="utf-8"))
+        stance = data.get("grasp_stance", {})
+        if isinstance(stance, dict):
+            return stance
+    except Exception:
+        logger.exception("failed reading grasp_stance params")
+    return {}
 
 # Chinese-number → digit
 _CN_DIGIT: dict[str, str] = {
@@ -160,6 +177,11 @@ class PickUpSkill(BaseSkill):
         if self._is_l5_multi_task(target):
             return self._run_l5_multi_transport(context)
 
+        # Refine the base to the canonical pre-grasp stance (object-relative),
+        # because nav parks at the semantic-map approach point, which is not
+        # always within arm reach of the actual object.
+        self._refine_grasp_stance(target, object_name, context)
+
         # Physics grasp (only mode — no teleport fallback)
         if hasattr(self._backend, "grasp_object_physics"):
             with step_timer(self.name, "pick_up") as _t:
@@ -250,36 +272,77 @@ class PickUpSkill(BaseSkill):
             logger.exception("failed reading L5 target from task_config.json")
         return L5_DEFAULT_DESTINATION
 
-    def _l5_approach_offset_x(self) -> float:
-        """Base stop standoff from a tote along +x (semantic-map derived)."""
+    def _grasp_standoff_x(self) -> float:
+        """Base stop standoff from the object centre along +x."""
+        stance = _load_grasp_stance_params()
         try:
-            info = self._scene.input_ports.get("input_1") if self._scene else None
-            if info is not None and info.approach is not None:
-                offset = float(info.approach[0]) - float(info.center[0])
-                if abs(offset) > 0.1:
-                    return offset
-        except Exception:
-            logger.exception("failed deriving L5 approach offset from scene")
-        return L5_APPROACH_OFFSET_FALLBACK
+            value = float(stance.get("standoff_x", GRASP_STANDOFF_X_FALLBACK))
+            if value > 0.1:
+                return value
+        except (TypeError, ValueError):
+            pass
+        return GRASP_STANDOFF_X_FALLBACK
 
-    def _tote_xy(self, tote_name: str) -> tuple[float, float] | None:
-        """Live world XY of a tote from the sim (free-joint qpos)."""
+    def _object_xy(self, object_name: str) -> tuple[float, float] | None:
+        """Live world XY of a material object from the sim (free-joint qpos)."""
         env = getattr(self._backend, "env", None)
         if env is None:
             return None
         metadata = getattr(env, "material_metadata", {}) or {}
-        joint_name = (metadata.get(tote_name) or {}).get("joint_name")
+        joint_name = (metadata.get(object_name) or {}).get("joint_name")
         candidates = (
             [joint_name] if joint_name else []
-        ) + [f"{tote_name}_joint0", f"{tote_name}_free"]
+        ) + [f"{object_name}_joint0", f"{object_name}_free"]
         for jn in candidates:
             try:
                 qpos = env.sim.data.get_joint_qpos(jn)
                 return float(qpos[0]), float(qpos[1])
             except Exception:
                 continue
-        logger.warning("L5: cannot read position of %s", tote_name)
+        logger.warning("cannot read position of %s", object_name)
         return None
+
+    _tote_xy = _object_xy
+
+    def _resolve_object_name(self, target: str, object_name: str | None) -> str | None:
+        """Explicit object name first, then the backend's port→object map."""
+        if object_name:
+            return object_name
+        for attr in ("_physics_object_map", "_scene_metadata"):
+            value = getattr(self._backend, attr, None)
+            if attr == "_scene_metadata" and isinstance(value, dict):
+                value = value.get("input_object_map")
+            if isinstance(value, dict) and value.get(target):
+                return str(value[target])
+        return None
+
+    def _refine_grasp_stance(
+        self, target: str, object_name: str | None, context: ExecutionContext,
+    ) -> None:
+        """Drive the base to (object_x + standoff, object_y) before grasping.
+
+        Nav parks at the semantic-map approach point, which for some levels is
+        out of arm reach of the actual object. Best-effort: on any failure the
+        grasp proceeds from the current pose (previous behaviour).
+        """
+        if self._move_skill is None:
+            return
+        try:
+            resolved = self._resolve_object_name(target, object_name)
+            if not resolved:
+                return
+            xy = self._object_xy(resolved)
+            if xy is None:
+                return
+            standoff = self._grasp_standoff_x()
+            stance = (xy[0] + standoff, xy[1])
+            base_xy, _yaw = self._backend.get_base_pose()
+            if float(np.linalg.norm(np.asarray(stance) - np.asarray(base_xy[:2]))) < 0.05:
+                return  # already on stance
+            if not self._move_to_xy(stance, context):
+                logger.warning("grasp stance refinement failed for %s (continuing)", resolved)
+        except Exception:
+            logger.exception("grasp stance refinement crashed; grasping from current pose")
 
     def _move_to_xy(self, xy: tuple[float, float], context: ExecutionContext) -> bool:
         metadata = dict(context.metadata)
@@ -306,7 +369,7 @@ class PickUpSkill(BaseSkill):
     def _run_l5_multi_transport(self, context: ExecutionContext) -> SkillResult:
         """Grasp, transport and place every L5 white tote in sequence."""
         destination = self._l5_destination()
-        offset_x = self._l5_approach_offset_x()
+        offset_x = self._grasp_standoff_x()
         logger.info(
             "L5 multi-tote transport: %d totes, %s → %s, stance offset=%.3f",
             len(L5_TOTE_ORDER), L5_MULTI_SOURCES[0], destination, offset_x,

@@ -1,5 +1,4 @@
 {
-  "_comment": "BC 抓取策略训练覆盖配置 (Task D)。基于 robomimic/config/default_templates/bc_transformer.json 的默认值（algo_name=bc, MLP, rnn 关闭, seq_length=1），仅覆盖任务相关字段。与 train_grasp_bc.py 配合使用：python robosuite/scripts/train_grasp_bc.py --dataset <hdf5> --config <本文件>。obs_modality 已按 grasp_l1_test.hdf5 实测 obs key 填写（low_dim: 各 eef/gripper；rgb: robot0_robotview_image）；若采集脚本改了相机/观测，用 robomimic/scripts/get_dataset_info.py --dataset <hdf5> 重新核对后调整。",
   "algo_name": "bc",
   "experiment": {
     "name": "grasp_bc",
@@ -27,16 +26,54 @@
     "hdf5_cache_mode": "all",
     "dataset_keys": ["actions"],
     "hdf5_normalize_obs": false,
-    "num_data_workers": 4
+    "num_data_workers": 4,
+    "cuda": true
+  },
+  "observation": {
+    "modalities": {
+      "obs": {
+        "low_dim": [
+          "robot0_left_eef_pos", "robot0_left_eef_quat", "robot0_left_gripper_qpos",
+          "robot0_right_eef_pos", "robot0_right_eef_quat", "robot0_right_gripper_qpos"
+        ],
+        "rgb": [],
+        "depth": [],
+        "scan": []
+      },
+      "goal": {
+        "low_dim": [],
+        "rgb": [],
+        "depth": [],
+        "scan": []
+      }
+    },
+    "encoder": {
+      "low_dim": {
+        "core_class": null,
+        "core_kwargs": {},
+        "obs_randomizer_class": null,
+        "obs_randomizer_kwargs": {}
+      },
+      "rgb": {
+        "core_class": "VisualCore",
+        "core_kwargs": {
+          "n_layers": 4,
+          "pool_class": "SpatialSoftmax",
+          "pool_kwargs": {},
+          "flatten": true,
+          "feat_dim": 64,
+          "kernel_size": 3,
+          "n_strides": 2,
+          "activation": "relu",
+          "out_channels": [32, 32, 64, 64]
+        },
+        "obs_randomizer_class": null,
+        "obs_randomizer_kwargs": {}
+      }
+    }
   },
   "algo": {
     "rnn": {"enabled": false},
-    "obs_modality": {
-      "low_dim": [
-        "robot0_left_eef_pos", "robot0_left_eef_quat", "robot0_left_gripper_qpos",
-        "robot0_right_eef_pos", "robot0_right_eef_quat", "robot0_right_gripper_qpos"
-      ],
-      "rgb": ["robot0_robotview_image"]
-    }
+    "actor_layer_dims": [1024, 1024]
   }
 }
