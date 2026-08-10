@@ -1,1242 +1,8 @@
 {
-  "updated_at": "2026-08-10T20:30:15",
-  "step_counter": 242,
+  "updated_at": "2026-08-10T21:46:19",
+  "step_counter": 247,
   "limit": 32,
   "steps": [
-    {
-      "task": "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP).",
-      "skill_name": "composed",
-      "success": true,
-      "message": "严格按照 L1 SOP 执行单线搬运任务，使用精确的工位映射和物体名称，确保符合安全约束和操作规范。",
-      "payload": {
-        "skill_name": "composed",
-        "success": true,
-        "message": "严格按照 L1 SOP 执行单线搬运任务，使用精确的工位映射和物体名称，确保符合安全约束和操作规范。",
-        "steps": [
-          {
-            "skill": "move",
-            "description": "导航至取货工位 input_5 的接近点",
-            "success": true,
-            "message": "Moved to: input_5",
-            "payload": {
-              "action": "move",
-              "target": "input_5",
-              "goal_xy": [
-                8.0,
-                4.619
-              ],
-              "start_base_pose": {
-                "xy": [
-                  13.5,
-                  0.0
-                ],
-                "yaw": 3.1415927410125732,
-                "robot_base_pos": [
-                  13.5,
-                  0.0,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.1415927410125732
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  8.00000508502775,
-                  4.599997183816969
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.00000508502775,
-                  4.599997183816969,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "waypoints": 36,
-              "reached": true
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near"
-            },
-            "preconditions": [
-              "底盘静止于起始位置"
-            ],
-            "expected_output": "机器人到达 input_5 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "pick_up",
-            "description": "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "success": true,
-            "message": "Physics grasp OK: input_5",
-            "payload": {
-              "action": "pick_up",
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.00000508502775,
-                  4.599997183816969
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.00000508502775,
-                  4.599997183816969,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "method": "physics",
-              "ok": true
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.00000508502775,
-                  4.599997183816969
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.00000508502775,
-                  4.599997183816969,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              }
-            },
-            "preconditions": [
-              "夹爪为空",
-              "底盘已停稳"
-            ],
-            "expected_output": "成功抓取物体并提升至安全高度",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "move",
-            "description": "携带物体导航至放置工位 output_4",
-            "success": true,
-            "message": "Moved to: output_4",
-            "payload": {
-              "action": "move",
-              "target": "output_4",
-              "goal_xy": [
-                -1.02,
-                -7.29
-              ],
-              "start_base_pose": {
-                "xy": [
-                  8.00000508502775,
-                  4.599997183816969
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.00000508502775,
-                  4.599997183816969,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  -0.9999806944863828,
-                  -7.300006529158716
-                ],
-                "yaw": 3.134787082672119,
-                "robot_base_pos": [
-                  -0.9999806944863828,
-                  -7.300006529158716,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.134787082672119
-                ]
-              },
-              "waypoints": 61,
-              "reached": true
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "夹爪已持握物体"
-            ],
-            "expected_output": "机器人到达 output_4 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "place_down",
-            "description": "在 output_4 放下物体",
-            "success": true,
-            "message": "Physics place OK: output_4",
-            "payload": {
-              "action": "place_down",
-              "target": "output_4",
-              "method": "physics",
-              "ok": true
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "底盘已停稳于放置点"
-            ],
-            "expected_output": "物体放置成功，夹爪释放并收回",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          }
-        ],
-        "thinking": {
-          "version": "2.0",
-          "task_understanding": "将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。",
-          "selection_reason": "根据 SOP 和当前任务坐标参考，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需遵循标准四步流程：移动至取货点、抓取、移动至放置点、放下。",
-          "execution_steps": [
-            "导航至取货工位 input_5 的接近点",
-            "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "携带物体导航至放置工位 output_4",
-            "在 output_4 放下物体"
-          ],
-          "plan_summary": [
-            {
-              "skill": "move",
-              "description": "导航至取货工位 input_5 的接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "在 input_5 抓取目标物体 line_5_container_h01_near"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_4"
-            },
-            {
-              "skill": "place_down",
-              "description": "在 output_4 放下物体"
-            }
-          ],
-          "result_explanation": "严格按照 L1 SOP 执行单线搬运任务，使用精确的工位映射和物体名称，确保符合安全约束和操作规范。"
-        },
-        "planner_raw": "{\"understanding\": \"将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。\", \"reason\": \"根据 SOP 和当前任务坐标参考，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需遵循标准四步流程：移动至取货点、抓取、移动至放置点、放下。\", \"plan\": [{\"skill_name\": \"move\", \"description\": \"导航至取货工位 input_5 的接近点\", \"inputs\": {\"target\": \"input_5\"}, \"preconditions\": [\"底盘静止于起始位置\"], \"expected_output\": \"机器人到达 input_5 停止点\", \"timeout\": 300, \"retries\": 0}, {\"skill_name\": \"pick_up\", \"description\": \"在 input_5 抓取目标物体 line_5_container_h01_near\", \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"}, \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"], \"expected_output\": \"成功抓取物体并提升至安全高度\", \"timeout\": 300, \"retries\": 0}, {\"skill_name\": \"move\", \"description\": \"携带物体导航至放置工位 output_4\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"夹爪已持握物体\"], \"expected_output\": \"机器人到达 output_4 停止点\", \"timeout\": 300, \"retries\": 0}, {\"skill_name\": \"place_down\", \"description\": \"在 output_4 放下物体\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"底盘已停稳于放置点\"], \"expected_output\": \"物体放置成功，夹爪释放并收回\", \"timeout\": 300, \"retries\": 0}], \"explanation\": \"严格按照 L1 SOP 执行单线搬运任务，使用精确的工位映射和物体名称，确保符合安全约束和操作规范。\"}",
-        "plan_warnings": [],
-        "elapsed_ms": 184115.4
-      }
-    },
-    {
-      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
-      "skill_name": "composed",
-      "success": false,
-      "message": "任务要求搬运三个物体。根据知识库映射，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。input_1 处有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，规划分为三轮完整的 move-pick-move-place 流程，依次搬运这三个物体。",
-      "payload": {
-        "skill_name": "composed",
-        "success": false,
-        "message": "任务要求搬运三个物体。根据知识库映射，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。input_1 处有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，规划分为三轮完整的 move-pick-move-place 流程，依次搬运这三个物体。",
-        "steps": [
-          {
-            "skill": "move",
-            "description": "导航至取货工位 input_1 接近点",
-            "success": true,
-            "message": "Moved to: input_1",
-            "payload": {
-              "action": "move",
-              "target": "input_1",
-              "goal_xy": [
-                -13.1,
-                5.01
-              ],
-              "start_base_pose": {
-                "xy": [
-                  13.5,
-                  0.0
-                ],
-                "yaw": 3.1415927410125732,
-                "robot_base_pos": [
-                  13.5,
-                  0.0,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.1415927410125732
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  -13.09949116781045,
-                  5.000508833602144
-                ],
-                "yaw": -1.7605540752410889,
-                "robot_base_pos": [
-                  -13.09949116781045,
-                  5.000508833602144,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -1.7605540752410889
-                ]
-              },
-              "waypoints": 90,
-              "reached": true
-            },
-            "inputs": {
-              "target": "input_1",
-              "object_name": "white_tote_b01_left_center"
-            },
-            "preconditions": [
-              "底盘静止于起始位置"
-            ],
-            "expected_output": "机器人到达 input_1 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "pick_up",
-            "description": "抓取第一个白色储物箱 white_tote_b01_left_center",
-            "success": false,
-            "message": "Physics grasp FAIL: input_1",
-            "payload": {
-              "action": "pick_up",
-              "target": "input_1",
-              "object_name": "white_tote_b01_left_center",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  -13.09949116781045,
-                  5.000508833602144
-                ],
-                "yaw": -1.7605540752410889,
-                "robot_base_pos": [
-                  -13.09949116781045,
-                  5.000508833602144,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -1.7605540752410889
-                ]
-              },
-              "method": "physics",
-              "ok": false,
-              "soft_failure": true,
-              "continued_after_failure": true,
-              "failure_policy": "continue_after_pick_up_failure"
-            },
-            "inputs": {
-              "target": "input_1",
-              "object_name": "white_tote_b01_left_center",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  -13.09949116781045,
-                  5.000508833602144
-                ],
-                "yaw": -1.7605540752410889,
-                "robot_base_pos": [
-                  -13.09949116781045,
-                  5.000508833602144,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -1.7605540752410889
-                ]
-              }
-            },
-            "preconditions": [
-              "夹爪为空",
-              "底盘已停稳"
-            ],
-            "expected_output": "成功抓取物体并提升至安全高度",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "move",
-            "description": "携带物体导航至放置工位 output_6",
-            "success": false,
-            "message": "A* planning failed: output_6",
-            "payload": {
-              "action": "move",
-              "target": "output_6",
-              "start": [
-                -13.09949116781045,
-                5.000508833602144
-              ]
-            },
-            "inputs": {
-              "target": "output_6"
-            },
-            "preconditions": [
-              "夹爪已持握物体"
-            ],
-            "expected_output": "机器人到达 output_6 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          }
-        ],
-        "thinking": {
-          "version": "2.0",
-          "task_understanding": "将三个白色边缘的储物箱从取货工位 6（input_1）搬运至放置工位 1（output_6）。",
-          "selection_reason": "根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。Object Mapping 显示 input_1 有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，需要分三次执行完整的 move-pick-move-place 流程。",
-          "execution_steps": [
-            "导航至取货工位 input_1 接近点",
-            "抓取第一个白色储物箱 white_tote_b01_left_center",
-            "携带物体导航至放置工位 output_6",
-            "在放置工位 output_6 放下第一个物体",
-            "返回取货工位 input_1 接近点",
-            "抓取第二个白色储物箱 white_tote_b01_left_front",
-            "携带物体导航至放置工位 output_6",
-            "在放置工位 output_6 放下第二个物体",
-            "返回取货工位 input_1 接近点",
-            "抓取第三个白色储物箱 white_tote_b01_left_back",
-            "携带物体导航至放置工位 output_6",
-            "在放置工位 output_6 放下第三个物体"
-          ],
-          "plan_summary": [
-            {
-              "skill": "move",
-              "description": "导航至取货工位 input_1 接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "抓取第一个白色储物箱 white_tote_b01_left_center"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_6"
-            },
-            {
-              "skill": "place_down",
-              "description": "在放置工位 output_6 放下第一个物体"
-            },
-            {
-              "skill": "move",
-              "description": "返回取货工位 input_1 接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "抓取第二个白色储物箱 white_tote_b01_left_front"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_6"
-            },
-            {
-              "skill": "place_down",
-              "description": "在放置工位 output_6 放下第二个物体"
-            },
-            {
-              "skill": "move",
-              "description": "返回取货工位 input_1 接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "抓取第三个白色储物箱 white_tote_b01_left_back"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_6"
-            },
-            {
-              "skill": "place_down",
-              "description": "在放置工位 output_6 放下第三个物体"
-            }
-          ],
-          "result_explanation": "任务要求搬运三个物体。根据知识库映射，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。input_1 处有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，规划分为三轮完整的 move-pick-move-place 流程，依次搬运这三个物体。"
-        },
-        "planner_raw": "{\"understanding\": \"将三个白色边缘的储物箱从取货工位 6（input_1）搬运至放置工位 1（output_6）。\",\n\"reason\": \"根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。Object Mapping 显示 input_1 有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，需要分三次执行完整的 move-pick-move-place 流程。\",\n\"plan\": [\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"导航至取货工位 input_1 接近点\",\n        \"inputs\": {\"target\": \"input_1\"},\n        \"preconditions\": [\"底盘静止于起始位置\"],\n        \"expected_output\": \"机器人到达 input_1 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"pick_up\",\n        \"description\": \"抓取第一个白色储物箱 white_tote_b01_left_center\",\n        \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n        \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n        \"expected_output\": \"成功抓取物体并提升至安全高度\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"携带物体导航至放置工位 output_6\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"夹爪已持握物体\"],\n        \"expected_output\": \"机器人到达 output_6 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"place_down\",\n        \"description\": \"在放置工位 output_6 放下第一个物体\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"底盘已停稳于放置点\"],\n        \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"返回取货工位 input_1 接近点\",\n        \"inputs\": {\"target\": \"input_1\"},\n        \"preconditions\": [\"夹爪为空\"],\n        \"expected_output\": \"机器人到达 input_1 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"pick_up\",\n        \"description\": \"抓取第二个白色储物箱 white_tote_b01_left_front\",\n        \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_front\"},\n        \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n        \"expected_output\": \"成功抓取物体并提升至安全高度\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"携带物体导航至放置工位 output_6\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"夹爪已持握物体\"],\n        \"expected_output\": \"机器人到达 output_6 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"place_down\",\n        \"description\": \"在放置工位 output_6 放下第二个物体\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"底盘已停稳于放置点\"],\n        \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"返回取货工位 input_1 接近点\",\n        \"inputs\": {\"target\": \"input_1\"},\n        \"preconditions\": [\"夹爪为空\"],\n        \"expected_output\": \"机器人到达 input_1 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"pick_up\",\n        \"description\": \"抓取第三个白色储物箱 white_tote_b01_left_back\",\n        \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_back\"},\n        \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n        \"expected_output\": \"成功抓取物体并提升至安全高度\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"move\",\n        \"description\": \"携带物体导航至放置工位 output_6\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"夹爪已持握物体\"],\n        \"expected_output\": \"机器人到达 output_6 停止点\",\n        \"timeout\": 300,\n        \"retries\": 0\n    },\n    {\n        \"skill_name\": \"place_down\",\n        \"description\": \"在放置工位 output_6 放下第三个物体\",\n        \"inputs\": {\"target\": \"output_6\"},\n        \"preconditions\": [\"底盘已停稳于放置点\"],\n        \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n        \"timeout\": 300,\n        \"retries\": 0\n    }\n],\n\"explanation\": \"任务要求搬运三个物体。根据知识库映射，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。input_1 处有三个白色储物箱：white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back。由于一次只能搬运一个物体，规划分为三轮完整的 move-pick-move-place 流程，依次搬运这三个物体。\"\n}",
-        "plan_warnings": [],
-        "elapsed_ms": 160770.2
-      }
-    },
-    {
-      "task": "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP).",
-      "skill_name": "composed",
-      "success": false,
-      "message": "该计划严格遵循 L1 SOP 流程，使用精确的工位映射（input_5 -> output_4）和物体名称（line_5_container_h01_near），确保搬运任务安全、有序执行。",
-      "payload": {
-        "skill_name": "composed",
-        "success": false,
-        "message": "该计划严格遵循 L1 SOP 流程，使用精确的工位映射（input_5 -> output_4）和物体名称（line_5_container_h01_near），确保搬运任务安全、有序执行。",
-        "steps": [
-          {
-            "skill": "move",
-            "description": "导航至取货工位 input_5 的接近点",
-            "success": true,
-            "message": "Moved to: input_5",
-            "payload": {
-              "action": "move",
-              "target": "input_5",
-              "goal_xy": [
-                8.0,
-                4.619
-              ],
-              "start_base_pose": {
-                "xy": [
-                  13.5,
-                  0.0
-                ],
-                "yaw": 3.1415927410125732,
-                "robot_base_pos": [
-                  13.5,
-                  0.0,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.1415927410125732
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "waypoints": 36,
-              "reached": true
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near"
-            },
-            "preconditions": [
-              "底盘静止于起始位置"
-            ],
-            "expected_output": "机器人到达 input_5 停止点并停稳",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "pick_up",
-            "description": "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "success": false,
-            "message": "Physics grasp FAIL: input_5",
-            "payload": {
-              "action": "pick_up",
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "method": "physics",
-              "ok": false,
-              "soft_failure": true,
-              "continued_after_failure": true,
-              "failure_policy": "continue_after_pick_up_failure"
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              }
-            },
-            "preconditions": [
-              "夹爪为空",
-              "底盘已停稳于 input_5"
-            ],
-            "expected_output": "成功抓取物体并提升至安全高度（150mm）",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "move",
-            "description": "携带物体导航至放置工位 output_4 的接近点",
-            "success": true,
-            "message": "Moved to: output_4",
-            "payload": {
-              "action": "move",
-              "target": "output_4",
-              "goal_xy": [
-                -1.02,
-                -7.29
-              ],
-              "start_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  -1.0000007178223802,
-                  -7.300011741008362
-                ],
-                "yaw": 3.133918046951294,
-                "robot_base_pos": [
-                  -1.0000007178223802,
-                  -7.300011741008362,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.133918046951294
-                ]
-              },
-              "waypoints": 61,
-              "reached": true
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "夹爪已持握物体"
-            ],
-            "expected_output": "机器人到达 output_4 停止点并停稳",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "place_down",
-            "description": "在 output_4 放置物体并释放",
-            "success": false,
-            "message": "Physics place FAIL: output_4 held=None out_ports=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']",
-            "payload": {
-              "action": "place_down",
-              "target": "output_4",
-              "method": "physics",
-              "ok": false
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "底盘已停稳于 output_4"
-            ],
-            "expected_output": "物体放置成功，夹爪释放并收回",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          }
-        ],
-        "thinking": {
-          "version": "2.0",
-          "task_understanding": "将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。",
-          "selection_reason": "根据 SOP L1 任务定义，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需严格遵循 move -> pick_up -> move -> place_down 的四步流程，并遵守安全约束（如夹爪状态检查、超时设置等）。",
-          "execution_steps": [
-            "导航至取货工位 input_5 的接近点",
-            "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "携带物体导航至放置工位 output_4 的接近点",
-            "在 output_4 放置物体并释放"
-          ],
-          "plan_summary": [
-            {
-              "skill": "move",
-              "description": "导航至取货工位 input_5 的接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "在 input_5 抓取目标物体 line_5_container_h01_near"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_4 的接近点"
-            },
-            {
-              "skill": "place_down",
-              "description": "在 output_4 放置物体并释放"
-            }
-          ],
-          "result_explanation": "该计划严格遵循 L1 SOP 流程，使用精确的工位映射（input_5 -> output_4）和物体名称（line_5_container_h01_near），确保搬运任务安全、有序执行。"
-        },
-        "planner_raw": "{\"understanding\": \"将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。\", \"reason\": \"根据 SOP L1 任务定义，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需严格遵循 move -> pick_up -> move -> place_down 的四步流程，并遵守安全约束（如夹爪状态检查、超时设置等）。\", \"plan\": [ { \"skill_name\": \"move\", \"description\": \"导航至取货工位 input_5 的接近点\", \"inputs\": {\"target\": \"input_5\"}, \"preconditions\": [\"底盘静止于起始位置\"], \"expected_output\": \"机器人到达 input_5 停止点并停稳\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"pick_up\", \"description\": \"在 input_5 抓取目标物体 line_5_container_h01_near\", \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"}, \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_5\"], \"expected_output\": \"成功抓取物体并提升至安全高度（150mm）\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"move\", \"description\": \"携带物体导航至放置工位 output_4 的接近点\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"夹爪已持握物体\"], \"expected_output\": \"机器人到达 output_4 停止点并停稳\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"place_down\", \"description\": \"在 output_4 放置物体并释放\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"底盘已停稳于 output_4\"], \"expected_output\": \"物体放置成功，夹爪释放并收回\", \"timeout\": 300, \"retries\": 0 } ], \"explanation\": \"该计划严格遵循 L1 SOP 流程，使用精确的工位映射（input_5 -> output_4）和物体名称（line_5_container_h01_near），确保搬运任务安全、有序执行。\"}",
-        "plan_warnings": [],
-        "elapsed_ms": 124215.2
-      }
-    },
-    {
-      "task": "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP).",
-      "skill_name": "composed",
-      "success": false,
-      "message": "按照标准搬运流程，依次执行移动、抓取、移动、放置四个步骤，严格遵守安全约束和超时设置。",
-      "payload": {
-        "skill_name": "composed",
-        "success": false,
-        "message": "按照标准搬运流程，依次执行移动、抓取、移动、放置四个步骤，严格遵守安全约束和超时设置。",
-        "steps": [
-          {
-            "skill": "move",
-            "description": "导航至取货工位 input_5 的接近点",
-            "success": true,
-            "message": "Moved to: input_5",
-            "payload": {
-              "action": "move",
-              "target": "input_5",
-              "goal_xy": [
-                8.0,
-                4.619
-              ],
-              "start_base_pose": {
-                "xy": [
-                  13.5,
-                  0.0
-                ],
-                "yaw": 3.1415927410125732,
-                "robot_base_pos": [
-                  13.5,
-                  0.0,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.1415927410125732
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "waypoints": 36,
-              "reached": true
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near"
-            },
-            "preconditions": [
-              "底盘静止于起始位置"
-            ],
-            "expected_output": "机器人到达 input_5 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "pick_up",
-            "description": "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "success": false,
-            "message": "Physics grasp FAIL: input_5",
-            "payload": {
-              "action": "pick_up",
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "method": "physics",
-              "ok": false,
-              "soft_failure": true,
-              "continued_after_failure": true,
-              "failure_policy": "continue_after_pick_up_failure"
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              }
-            },
-            "preconditions": [
-              "夹爪为空",
-              "底盘已停稳"
-            ],
-            "expected_output": "成功抓取物体并提升至安全高度",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "move",
-            "description": "携带物体导航至放置工位 output_4",
-            "success": true,
-            "message": "Moved to: output_4",
-            "payload": {
-              "action": "move",
-              "target": "output_4",
-              "goal_xy": [
-                -1.02,
-                -7.29
-              ],
-              "start_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  -1.0000007178223802,
-                  -7.300011741008362
-                ],
-                "yaw": 3.133918046951294,
-                "robot_base_pos": [
-                  -1.0000007178223802,
-                  -7.300011741008362,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.133918046951294
-                ]
-              },
-              "waypoints": 61,
-              "reached": true
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "夹爪已持握物体"
-            ],
-            "expected_output": "机器人到达 output_4 停止点",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "place_down",
-            "description": "在 output_4 放下物体",
-            "success": false,
-            "message": "Physics place FAIL: output_4 held=None out_ports=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']",
-            "payload": {
-              "action": "place_down",
-              "target": "output_4",
-              "method": "physics",
-              "ok": false
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "底盘已停稳于放置点"
-            ],
-            "expected_output": "物体放置成功，夹爪释放并收回",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          }
-        ],
-        "thinking": {
-          "version": "2.0",
-          "task_understanding": "将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。",
-          "selection_reason": "根据 SOP 和当前任务坐标参考，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需遵循标准流程：移动至取货点 -> 抓取 -> 移动至放置点 -> 放置。",
-          "execution_steps": [
-            "导航至取货工位 input_5 的接近点",
-            "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "携带物体导航至放置工位 output_4",
-            "在 output_4 放下物体"
-          ],
-          "plan_summary": [
-            {
-              "skill": "move",
-              "description": "导航至取货工位 input_5 的接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "在 input_5 抓取目标物体 line_5_container_h01_near"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_4"
-            },
-            {
-              "skill": "place_down",
-              "description": "在 output_4 放下物体"
-            }
-          ],
-          "result_explanation": "按照标准搬运流程，依次执行移动、抓取、移动、放置四个步骤，严格遵守安全约束和超时设置。"
-        },
-        "planner_raw": "{\"understanding\": \"将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。\", \"reason\": \"根据 SOP 和当前任务坐标参考，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需遵循标准流程：移动至取货点 -> 抓取 -> 移动至放置点 -> 放置。\", \"plan\": [ { \"skill_name\": \"move\", \"description\": \"导航至取货工位 input_5 的接近点\", \"inputs\": {\"target\": \"input_5\"}, \"preconditions\": [\"底盘静止于起始位置\"], \"expected_output\": \"机器人到达 input_5 停止点\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"pick_up\", \"description\": \"在 input_5 抓取目标物体 line_5_container_h01_near\", \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"}, \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"], \"expected_output\": \"成功抓取物体并提升至安全高度\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"move\", \"description\": \"携带物体导航至放置工位 output_4\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"夹爪已持握物体\"], \"expected_output\": \"机器人到达 output_4 停止点\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"place_down\", \"description\": \"在 output_4 放下物体\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"底盘已停稳于放置点\"], \"expected_output\": \"物体放置成功，夹爪释放并收回\", \"timeout\": 300, \"retries\": 0 } ], \"explanation\": \"按照标准搬运流程，依次执行移动、抓取、移动、放置四个步骤，严格遵守安全约束和超时设置。\"}",
-        "plan_warnings": [],
-        "elapsed_ms": 141977.4
-      }
-    },
-    {
-      "task": "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP).",
-      "skill_name": "composed",
-      "success": false,
-      "message": "规划严格遵循 L1 SOP：先移动至 input_5，抓取指定物体 line_5_container_h01_near，再移动至 output_4，最后放置。所有步骤均设置 300s 超时且不重试，符合安全约束。",
-      "payload": {
-        "skill_name": "composed",
-        "success": false,
-        "message": "规划严格遵循 L1 SOP：先移动至 input_5，抓取指定物体 line_5_container_h01_near，再移动至 output_4，最后放置。所有步骤均设置 300s 超时且不重试，符合安全约束。",
-        "steps": [
-          {
-            "skill": "move",
-            "description": "导航至取货工位 input_5 的接近点",
-            "success": true,
-            "message": "Moved to: input_5",
-            "payload": {
-              "action": "move",
-              "target": "input_5",
-              "goal_xy": [
-                8.0,
-                4.619
-              ],
-              "start_base_pose": {
-                "xy": [
-                  13.5,
-                  0.0
-                ],
-                "yaw": 3.1415927410125732,
-                "robot_base_pos": [
-                  13.5,
-                  0.0,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.1415927410125732
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "waypoints": 36,
-              "reached": true
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near"
-            },
-            "preconditions": [
-              "底盘静止于起始位置"
-            ],
-            "expected_output": "机器人到达 input_5 停止点并停稳",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "pick_up",
-            "description": "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "success": false,
-            "message": "Physics grasp FAIL: input_5",
-            "payload": {
-              "action": "pick_up",
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "method": "physics",
-              "ok": false,
-              "soft_failure": true,
-              "continued_after_failure": true,
-              "failure_policy": "continue_after_pick_up_failure"
-            },
-            "inputs": {
-              "target": "input_5",
-              "object_name": "line_5_container_h01_near",
-              "grasp_initial_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              }
-            },
-            "preconditions": [
-              "夹爪为空",
-              "底盘已停稳于 input_5"
-            ],
-            "expected_output": "成功抓取物体并提升至安全高度（150mm）",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "move",
-            "description": "携带物体导航至放置工位 output_4 的接近点",
-            "success": true,
-            "message": "Moved to: output_4",
-            "payload": {
-              "action": "move",
-              "target": "output_4",
-              "goal_xy": [
-                -1.02,
-                -7.29
-              ],
-              "start_base_pose": {
-                "xy": [
-                  8.000005084391821,
-                  4.599997183905759
-                ],
-                "yaw": -3.1394529342651367,
-                "robot_base_pos": [
-                  8.000005084391821,
-                  4.599997183905759,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  -3.1394529342651367
-                ]
-              },
-              "final_base_pose": {
-                "xy": [
-                  -1.0000007178223802,
-                  -7.300011741008362
-                ],
-                "yaw": 3.133918046951294,
-                "robot_base_pos": [
-                  -1.0000007178223802,
-                  -7.300011741008362,
-                  0.0
-                ],
-                "robot_base_ori": [
-                  0.0,
-                  0.0,
-                  3.133918046951294
-                ]
-              },
-              "waypoints": 61,
-              "reached": true
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "夹爪已持握物体"
-            ],
-            "expected_output": "机器人到达 output_4 停止点并停稳",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          },
-          {
-            "skill": "place_down",
-            "description": "在 output_4 放置物体并释放",
-            "success": false,
-            "message": "Physics place FAIL: output_4 held=None out_ports=['output_1_table', 'output_2_bin', 'output_3_conveyor', 'output_4_shelf']",
-            "payload": {
-              "action": "place_down",
-              "target": "output_4",
-              "method": "physics",
-              "ok": false
-            },
-            "inputs": {
-              "target": "output_4"
-            },
-            "preconditions": [
-              "底盘已停稳于 output_4"
-            ],
-            "expected_output": "物体放置成功，夹爪释放并收回",
-            "timeout": 3000.0,
-            "retries": 0,
-            "attempts": 1
-          }
-        ],
-        "thinking": {
-          "version": "2.0",
-          "task_understanding": "将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。",
-          "selection_reason": "根据 SOP L1 任务定义，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需严格遵循 move -> pick_up -> move -> place_down 的四步流程，并遵守安全约束（单次搬运、超时 300s、不重试）。",
-          "execution_steps": [
-            "导航至取货工位 input_5 的接近点",
-            "在 input_5 抓取目标物体 line_5_container_h01_near",
-            "携带物体导航至放置工位 output_4 的接近点",
-            "在 output_4 放置物体并释放"
-          ],
-          "plan_summary": [
-            {
-              "skill": "move",
-              "description": "导航至取货工位 input_5 的接近点"
-            },
-            {
-              "skill": "pick_up",
-              "description": "在 input_5 抓取目标物体 line_5_container_h01_near"
-            },
-            {
-              "skill": "move",
-              "description": "携带物体导航至放置工位 output_4 的接近点"
-            },
-            {
-              "skill": "place_down",
-              "description": "在 output_4 放置物体并释放"
-            }
-          ],
-          "result_explanation": "规划严格遵循 L1 SOP：先移动至 input_5，抓取指定物体 line_5_container_h01_near，再移动至 output_4，最后放置。所有步骤均设置 300s 超时且不重试，符合安全约束。"
-        },
-        "planner_raw": "{\"understanding\": \"将蓝色空心塑料箱从取货工位 Pick Station 2（input_5）搬运至放置工位 Place Station 3（output_4）。\", \"reason\": \"根据 SOP L1 任务定义，Pick Station 2 对应 input_5，Place Station 3 对应 output_4。目标物体为 line_5_container_h01_near。需严格遵循 move -> pick_up -> move -> place_down 的四步流程，并遵守安全约束（单次搬运、超时 300s、不重试）。\", \"plan\": [ {\"skill_name\": \"move\", \"description\": \"导航至取货工位 input_5 的接近点\", \"inputs\": {\"target\": \"input_5\"}, \"preconditions\": [\"底盘静止于起始位置\"], \"expected_output\": \"机器人到达 input_5 停止点并停稳\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"pick_up\", \"description\": \"在 input_5 抓取目标物体 line_5_container_h01_near\", \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"}, \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_5\"], \"expected_output\": \"成功抓取物体并提升至安全高度（150mm）\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"move\", \"description\": \"携带物体导航至放置工位 output_4 的接近点\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"夹爪已持握物体\"], \"expected_output\": \"机器人到达 output_4 停止点并停稳\", \"timeout\": 300, \"retries\": 0 }, { \"skill_name\": \"place_down\", \"description\": \"在 output_4 放置物体并释放\", \"inputs\": {\"target\": \"output_4\"}, \"preconditions\": [\"底盘已停稳于 output_4\"], \"expected_output\": \"物体放置成功，夹爪释放并收回\", \"timeout\": 300, \"retries\": 0 } ], \"explanation\": \"规划严格遵循 L1 SOP：先移动至 input_5，抓取指定物体 line_5_container_h01_near，再移动至 output_4，最后放置。所有步骤均设置 300s 超时且不重试，符合安全约束。\"}",
-        "plan_warnings": [],
-        "elapsed_ms": 107695.4
-      }
-    },
     {
       "task": "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP).",
       "skill_name": "composed",
@@ -7619,6 +6385,1135 @@
         "planner_raw": "{\n  \"understanding\": \"将三个白色边缘储物箱从 Pick Station 6 (input_1) 依次搬运到 Place Station 1 (output_6)。\",\n  \"reason\": \"根据 SOP 和约束，机器人每次只能携带一个物体，因此必须将三个储物箱的搬运任务拆解为三组独立的 move→pick_up→move→place_down 序列。取货点为 input_1，放置点为 output_6，object_name 使用当前场景映射中的精确名称。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第一个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\", \"物体在可达范围内\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第一个白色储物箱\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于放置点\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"返回取货工位 input_1 取第二个储物箱\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第二个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_front\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\", \"物体在可达范围内\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第二个物体导航至 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第二个白色储物箱\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于放置点\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"返回取货工位 input_1 取第三个储物箱\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第三个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_back\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\", \"物体在可达范围内\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第三个物体导航至 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第三个白色储物箱\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于放置点\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"由于每次只能搬运一个物体，三个储物箱需要三组完整的 move→pick_up→move→place_down 流程，依次从 input_1 搬至 output_6。\"\n}",
         "plan_warnings": [],
         "elapsed_ms": 343750.8
+      }
+    },
+    {
+      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
+      "skill_name": "composed",
+      "success": false,
+      "message": "任务要求搬运三个储物箱，受限于每次只能搬运一个物体的约束，规划了三轮完整的取放循环。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6。当前场景对象映射中 input_1 仅列出 white_tote_b01_left_center，因此所有 pick_up 步骤均使用该精确名称。每步超时 300s，不重试。",
+      "payload": {
+        "skill_name": "composed",
+        "success": false,
+        "message": "任务要求搬运三个储物箱，受限于每次只能搬运一个物体的约束，规划了三轮完整的取放循环。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6。当前场景对象映射中 input_1 仅列出 white_tote_b01_left_center，因此所有 pick_up 步骤均使用该精确名称。每步超时 300s，不重试。",
+        "steps": [
+          {
+            "skill": "move",
+            "description": "导航至取货工位 input_1 接近点",
+            "success": true,
+            "message": "Moved to: input_1",
+            "payload": {
+              "action": "move",
+              "target": "input_1",
+              "goal_xy": [
+                -13.1,
+                5.01
+              ],
+              "start_base_pose": {
+                "xy": [
+                  13.5,
+                  0.0
+                ],
+                "yaw": 3.1415927410125732,
+                "robot_base_pos": [
+                  13.5,
+                  0.0,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  3.1415927410125732
+                ]
+              },
+              "final_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              },
+              "waypoints": 95,
+              "reached": true,
+              "had_collision": false
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center"
+            },
+            "preconditions": [
+              "底盘静止于起始位置",
+              "夹爪为空"
+            ],
+            "expected_output": "机器人到达 input_1 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "pick_up",
+            "description": "在 input_1 抓取 white_tote_b01_left_center",
+            "success": true,
+            "message": "L5 multi-tote transport: 3/3 totes placed at output_6",
+            "payload": {
+              "action": "pick_up",
+              "method": "l5_multi_transport",
+              "source": "input_1",
+              "destination": "output_6",
+              "totes": [
+                {
+                  "tote": "white_tote_b01_left_center",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_front",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_back",
+                  "grasp": true,
+                  "place": true
+                }
+              ],
+              "placed_count": 3,
+              "ok": true
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center",
+              "grasp_initial_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              }
+            },
+            "preconditions": [
+              "夹爪为空",
+              "底盘已停稳于 input_1"
+            ],
+            "expected_output": "成功抓取物体并提升至安全高度",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "move",
+            "description": "携带物体导航至放置工位 output_6",
+            "success": false,
+            "message": "A* planning failed: output_6",
+            "payload": {
+              "action": "move",
+              "target": "output_6",
+              "start": [
+                10.31912704403228,
+                -7.287944025763049
+              ]
+            },
+            "inputs": {
+              "target": "output_6"
+            },
+            "preconditions": [
+              "夹爪已持握物体",
+              "手臂保持持握姿态"
+            ],
+            "expected_output": "机器人到达 output_6 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          }
+        ],
+        "thinking": {
+          "version": "2.0",
+          "task_understanding": "将三个带白色边缘的储物箱从 Pick Station 6（input_1）搬运至 Place Station 1（output_6）。",
+          "selection_reason": "根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。由于机器人每次只能搬运一个物体，需要执行三轮完整的 move→pick_up→move→place_down 流程。input_1 映射的物体名称为 white_tote_b01_left_center，其余两个物体名称不在当前场景映射中，因此使用映射中唯一可用的精确名称。",
+          "execution_steps": [
+            "导航至取货工位 input_1 接近点",
+            "在 input_1 抓取 white_tote_b01_left_center",
+            "携带物体导航至放置工位 output_6",
+            "在 output_6 放下物体",
+            "返回取货工位 input_1 取第二个物体",
+            "在 input_1 抓取第二个物体",
+            "携带第二个物体导航至 output_6",
+            "在 output_6 放下第二个物体",
+            "返回取货工位 input_1 取第三个物体",
+            "在 input_1 抓取第三个物体",
+            "携带第三个物体导航至 output_6",
+            "在 output_6 放下第三个物体"
+          ],
+          "plan_summary": [
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取 white_tote_b01_left_center"
+            },
+            {
+              "skill": "move",
+              "description": "携带物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下物体"
+            },
+            {
+              "skill": "move",
+              "description": "返回取货工位 input_1 取第二个物体"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第二个物体"
+            },
+            {
+              "skill": "move",
+              "description": "携带第二个物体导航至 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第二个物体"
+            },
+            {
+              "skill": "move",
+              "description": "返回取货工位 input_1 取第三个物体"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第三个物体"
+            },
+            {
+              "skill": "move",
+              "description": "携带第三个物体导航至 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第三个物体"
+            }
+          ],
+          "result_explanation": "任务要求搬运三个储物箱，受限于每次只能搬运一个物体的约束，规划了三轮完整的取放循环。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6。当前场景对象映射中 input_1 仅列出 white_tote_b01_left_center，因此所有 pick_up 步骤均使用该精确名称。每步超时 300s，不重试。"
+        },
+        "planner_raw": "{\n  \"understanding\": \"将三个带白色边缘的储物箱从 Pick Station 6（input_1）搬运至 Place Station 1（output_6）。\",\n  \"reason\": \"根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。由于机器人每次只能搬运一个物体，需要执行三轮完整的 move→pick_up→move→place_down 流程。input_1 映射的物体名称为 white_tote_b01_left_center，其余两个物体名称不在当前场景映射中，因此使用映射中唯一可用的精确名称。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取 white_tote_b01_left_center\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"返回取货工位 input_1 取第二个物体\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"上一物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第二个物体\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第二个物体导航至 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第二个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"返回取货工位 input_1 取第三个物体\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"前两个物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第三个物体\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第三个物体导航至 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第三个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"任务要求搬运三个储物箱，受限于每次只能搬运一个物体的约束，规划了三轮完整的取放循环。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6。当前场景对象映射中 input_1 仅列出 white_tote_b01_left_center，因此所有 pick_up 步骤均使用该精确名称。每步超时 300s，不重试。\"\n}",
+        "plan_warnings": [],
+        "elapsed_ms": 376357.6
+      }
+    },
+    {
+      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
+      "skill_name": "composed",
+      "success": false,
+      "message": "任务要求搬运三个白色储物箱，受限于每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。取货工位为 input_1，放置工位为 output_6，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，均来自当前场景对象映射。每步超时300秒，不重试。",
+      "payload": {
+        "skill_name": "composed",
+        "success": false,
+        "message": "任务要求搬运三个白色储物箱，受限于每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。取货工位为 input_1，放置工位为 output_6，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，均来自当前场景对象映射。每步超时300秒，不重试。",
+        "steps": [
+          {
+            "skill": "move",
+            "description": "导航至取货工位 input_1 接近点（第1个物体）",
+            "success": true,
+            "message": "Moved to: input_1",
+            "payload": {
+              "action": "move",
+              "target": "input_1",
+              "goal_xy": [
+                -13.1,
+                5.01
+              ],
+              "start_base_pose": {
+                "xy": [
+                  13.5,
+                  0.0
+                ],
+                "yaw": 3.1415927410125732,
+                "robot_base_pos": [
+                  13.5,
+                  0.0,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  3.1415927410125732
+                ]
+              },
+              "final_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              },
+              "waypoints": 95,
+              "reached": true,
+              "had_collision": false
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center"
+            },
+            "preconditions": [
+              "底盘静止于起始位置",
+              "夹爪为空"
+            ],
+            "expected_output": "机器人到达 input_1 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "pick_up",
+            "description": "在 input_1 抓取第1个白色储物箱",
+            "success": true,
+            "message": "L5 multi-tote transport: 3/3 totes placed at output_6",
+            "payload": {
+              "action": "pick_up",
+              "method": "l5_multi_transport",
+              "source": "input_1",
+              "destination": "output_6",
+              "totes": [
+                {
+                  "tote": "white_tote_b01_left_center",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_front",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_back",
+                  "grasp": true,
+                  "place": true
+                }
+              ],
+              "placed_count": 3,
+              "ok": true
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center",
+              "grasp_initial_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              }
+            },
+            "preconditions": [
+              "夹爪为空",
+              "底盘已停稳于 input_1"
+            ],
+            "expected_output": "成功抓取物体并提升至安全高度150mm",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "move",
+            "description": "携带第1个物体导航至放置工位 output_6",
+            "success": false,
+            "message": "A* planning failed: output_6",
+            "payload": {
+              "action": "move",
+              "target": "output_6",
+              "start": [
+                10.31912704403228,
+                -7.287944025763049
+              ]
+            },
+            "inputs": {
+              "target": "output_6"
+            },
+            "preconditions": [
+              "夹爪已持握物体",
+              "手臂保持持握姿态"
+            ],
+            "expected_output": "机器人到达 output_6 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          }
+        ],
+        "thinking": {
+          "version": "2.0",
+          "task_understanding": "将三个白色边缘的储物箱从取货工位6（input_1）搬运至放置工位1（output_6），由于约束限制每次只能搬运一个物体，需执行三轮完整的取放流程。",
+          "selection_reason": "根据约束规则，机器人每次只能携带一个物体，因此必须将三个储物箱的搬运任务拆分为三轮独立的 move→pick_up→move→place_down 序列。取货工位为 input_1，放置工位为 output_6，物体名称使用场景映射中的精确名称。",
+          "execution_steps": [
+            "导航至取货工位 input_1 接近点（第1个物体）",
+            "在 input_1 抓取第1个白色储物箱",
+            "携带第1个物体导航至放置工位 output_6",
+            "在 output_6 放下第1个物体",
+            "导航至取货工位 input_1 接近点（第2个物体）",
+            "在 input_1 抓取第2个白色储物箱",
+            "携带第2个物体导航至放置工位 output_6",
+            "在 output_6 放下第2个物体",
+            "导航至取货工位 input_1 接近点（第3个物体）",
+            "在 input_1 抓取第3个白色储物箱",
+            "携带第3个物体导航至放置工位 output_6",
+            "在 output_6 放下第3个物体"
+          ],
+          "plan_summary": [
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第1个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第1个白色储物箱"
+            },
+            {
+              "skill": "move",
+              "description": "携带第1个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第1个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第2个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第2个白色储物箱"
+            },
+            {
+              "skill": "move",
+              "description": "携带第2个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第2个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第3个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第3个白色储物箱"
+            },
+            {
+              "skill": "move",
+              "description": "携带第3个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第3个物体"
+            }
+          ],
+          "result_explanation": "任务要求搬运三个白色储物箱，受限于每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。取货工位为 input_1，放置工位为 output_6，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，均来自当前场景对象映射。每步超时300秒，不重试。"
+        },
+        "planner_raw": "{\n  \"understanding\": \"将三个白色边缘的储物箱从取货工位6（input_1）搬运至放置工位1（output_6），由于约束限制每次只能搬运一个物体，需执行三轮完整的取放流程。\",\n  \"reason\": \"根据约束规则，机器人每次只能携带一个物体，因此必须将三个储物箱的搬运任务拆分为三轮独立的 move→pick_up→move→place_down 序列。取货工位为 input_1，放置工位为 output_6，物体名称使用场景映射中的精确名称。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第1个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第1个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第1个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第1个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第2个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"第1个物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第2个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_front\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第2个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第2个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第3个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"第2个物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第3个白色储物箱\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_back\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第3个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"手臂保持持握姿态\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第3个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"任务要求搬运三个白色储物箱，受限于每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。取货工位为 input_1，放置工位为 output_6，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，均来自当前场景对象映射。每步超时300秒，不重试。\"\n}",
+        "plan_warnings": [],
+        "elapsed_ms": 372435.7
+      }
+    },
+    {
+      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
+      "skill_name": "composed",
+      "success": false,
+      "message": "任务要求搬运三个白色边缘储物箱，受每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，三个物体分别使用精确名称 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。每步超时300秒，不重试，导航时机械臂保持持握姿态。",
+      "payload": {
+        "skill_name": "composed",
+        "success": false,
+        "message": "任务要求搬运三个白色边缘储物箱，受每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，三个物体分别使用精确名称 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。每步超时300秒，不重试，导航时机械臂保持持握姿态。",
+        "steps": [
+          {
+            "skill": "move",
+            "description": "导航至取货工位 input_1 接近点（第1个物体）",
+            "success": true,
+            "message": "Moved to: input_1",
+            "payload": {
+              "action": "move",
+              "target": "input_1",
+              "goal_xy": [
+                -13.1,
+                5.01
+              ],
+              "start_base_pose": {
+                "xy": [
+                  13.5,
+                  0.0
+                ],
+                "yaw": 3.1415927410125732,
+                "robot_base_pos": [
+                  13.5,
+                  0.0,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  3.1415927410125732
+                ]
+              },
+              "final_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              },
+              "waypoints": 95,
+              "reached": true,
+              "had_collision": false
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center"
+            },
+            "preconditions": [
+              "底盘静止于起始位置",
+              "夹爪为空"
+            ],
+            "expected_output": "机器人到达 input_1 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "pick_up",
+            "description": "在 input_1 抓取第1个物体 white_tote_b01_left_center",
+            "success": true,
+            "message": "L5 multi-tote transport: 3/3 totes placed at output_6",
+            "payload": {
+              "action": "pick_up",
+              "method": "l5_multi_transport",
+              "source": "input_1",
+              "destination": "output_6",
+              "totes": [
+                {
+                  "tote": "white_tote_b01_left_center",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_front",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_back",
+                  "grasp": true,
+                  "place": true
+                }
+              ],
+              "placed_count": 3,
+              "ok": true
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center",
+              "grasp_initial_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              }
+            },
+            "preconditions": [
+              "夹爪为空",
+              "底盘已停稳于 input_1"
+            ],
+            "expected_output": "成功抓取物体并提升至安全高度150mm",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "move",
+            "description": "携带第1个物体导航至放置工位 output_6",
+            "success": false,
+            "message": "A* planning failed: output_6",
+            "payload": {
+              "action": "move",
+              "target": "output_6",
+              "start": [
+                10.31912704403228,
+                -7.287944025763049
+              ]
+            },
+            "inputs": {
+              "target": "output_6"
+            },
+            "preconditions": [
+              "夹爪已持握物体",
+              "抓取已确认成功"
+            ],
+            "expected_output": "机器人到达 output_6 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          }
+        ],
+        "thinking": {
+          "version": "2.0",
+          "task_understanding": "将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 搬运至 Place Station 1 (output_6)，由于约束限制每次只能搬运一个物体，需分三轮完成。",
+          "selection_reason": "根据知识库约束，机器人每次只能携带一个物体，且取货前必须确认夹爪为空、放置前必须确认目标区域无物。任务要求搬运三个物体，因此必须串行执行三轮完整的 move→pick_up→move→place_down 流程。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，物体精确名称为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。",
+          "execution_steps": [
+            "导航至取货工位 input_1 接近点（第1个物体）",
+            "在 input_1 抓取第1个物体 white_tote_b01_left_center",
+            "携带第1个物体导航至放置工位 output_6",
+            "在 output_6 放下第1个物体",
+            "导航至取货工位 input_1 接近点（第2个物体）",
+            "在 input_1 抓取第2个物体 white_tote_b01_left_front",
+            "携带第2个物体导航至放置工位 output_6",
+            "在 output_6 放下第2个物体",
+            "导航至取货工位 input_1 接近点（第3个物体）",
+            "在 input_1 抓取第3个物体 white_tote_b01_left_back",
+            "携带第3个物体导航至放置工位 output_6",
+            "在 output_6 放下第3个物体"
+          ],
+          "plan_summary": [
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第1个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第1个物体 white_tote_b01_left_center"
+            },
+            {
+              "skill": "move",
+              "description": "携带第1个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第1个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第2个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第2个物体 white_tote_b01_left_front"
+            },
+            {
+              "skill": "move",
+              "description": "携带第2个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第2个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第3个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第3个物体 white_tote_b01_left_back"
+            },
+            {
+              "skill": "move",
+              "description": "携带第3个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第3个物体"
+            }
+          ],
+          "result_explanation": "任务要求搬运三个白色边缘储物箱，受每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，三个物体分别使用精确名称 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。每步超时300秒，不重试，导航时机械臂保持持握姿态。"
+        },
+        "planner_raw": "{\n  \"understanding\": \"将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 搬运至 Place Station 1 (output_6)，由于约束限制每次只能搬运一个物体，需分三轮完成。\",\n  \"reason\": \"根据知识库约束，机器人每次只能携带一个物体，且取货前必须确认夹爪为空、放置前必须确认目标区域无物。任务要求搬运三个物体，因此必须串行执行三轮完整的 move→pick_up→move→place_down 流程。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，物体精确名称为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第1个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"底盘静止于起始位置\", \"夹爪为空\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第1个物体 white_tote_b01_left_center\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_center\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第1个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第1个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第2个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"第1个物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第2个物体 white_tote_b01_left_front\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_front\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第2个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第2个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第3个物体）\",\n      \"inputs\": {\"target\": \"input_1\"},\n      \"preconditions\": [\"夹爪为空\", \"第2个物体已放置完成\"],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第3个物体 white_tote_b01_left_back\",\n      \"inputs\": {\"target\": \"input_1\", \"object_name\": \"white_tote_b01_left_back\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳于 input_1\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第3个物体导航至放置工位 output_6\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"夹爪已持握物体\", \"抓取已确认成功\"],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第3个物体\",\n      \"inputs\": {\"target\": \"output_6\"},\n      \"preconditions\": [\"底盘已停稳于 output_6\", \"目标桌面已清空\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"任务要求搬运三个白色边缘储物箱，受每次只能携带一个物体的约束，规划为三轮完整的取放循环（共12步）。Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，三个物体分别使用精确名称 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back。每步超时300秒，不重试，导航时机械臂保持持握姿态。\"\n}",
+        "plan_warnings": [],
+        "elapsed_ms": 371794.5
+      }
+    },
+    {
+      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
+      "skill_name": "composed",
+      "success": false,
+      "message": "由于每次只能搬运一个物体，三个白色储物箱需要三轮完整的 move→pick_up→move→place_down 流程。取货工位为 input_1，放置工位为 output_6，物体名称严格使用场景映射中的精确名称。所有步骤遵循300秒超时、不自动重试的约束。",
+      "payload": {
+        "skill_name": "composed",
+        "success": false,
+        "message": "由于每次只能搬运一个物体，三个白色储物箱需要三轮完整的 move→pick_up→move→place_down 流程。取货工位为 input_1，放置工位为 output_6，物体名称严格使用场景映射中的精确名称。所有步骤遵循300秒超时、不自动重试的约束。",
+        "steps": [
+          {
+            "skill": "move",
+            "description": "导航至取货工位 input_1 接近点（第1个物体）",
+            "success": true,
+            "message": "Moved to: input_1",
+            "payload": {
+              "action": "move",
+              "target": "input_1",
+              "goal_xy": [
+                -13.1,
+                5.01
+              ],
+              "start_base_pose": {
+                "xy": [
+                  13.5,
+                  0.0
+                ],
+                "yaw": 3.1415927410125732,
+                "robot_base_pos": [
+                  13.5,
+                  0.0,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  3.1415927410125732
+                ]
+              },
+              "final_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              },
+              "waypoints": 95,
+              "reached": true,
+              "had_collision": false
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center"
+            },
+            "preconditions": [
+              "底盘静止于起始位置",
+              "夹爪为空"
+            ],
+            "expected_output": "机器人到达 input_1 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "pick_up",
+            "description": "在 input_1 抓取第一个白色储物箱 white_tote_b01_left_center",
+            "success": true,
+            "message": "L5 multi-tote transport: 3/3 totes placed at output_6",
+            "payload": {
+              "action": "pick_up",
+              "method": "l5_multi_transport",
+              "source": "input_1",
+              "destination": "output_6",
+              "totes": [
+                {
+                  "tote": "white_tote_b01_left_center",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_front",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_back",
+                  "grasp": true,
+                  "place": true
+                }
+              ],
+              "placed_count": 3,
+              "ok": true
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center",
+              "grasp_initial_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              }
+            },
+            "preconditions": [
+              "夹爪为空",
+              "底盘已停稳于 input_1",
+              "物体在可达范围内"
+            ],
+            "expected_output": "成功抓取物体并提升至安全高度150mm",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "move",
+            "description": "携带第1个物体导航至放置工位 output_6",
+            "success": false,
+            "message": "A* planning failed: output_6",
+            "payload": {
+              "action": "move",
+              "target": "output_6",
+              "start": [
+                10.319266205534202,
+                -7.287929570775347
+              ]
+            },
+            "inputs": {
+              "target": "output_6"
+            },
+            "preconditions": [
+              "夹爪已持握物体",
+              "抓取已确认成功"
+            ],
+            "expected_output": "机器人到达 output_6 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          }
+        ],
+        "thinking": {
+          "version": "2.0",
+          "task_understanding": "将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 依次搬运到 Place Station 1 (output_6)，每次只能搬运一个物体，需执行三轮完整的取放流程。",
+          "selection_reason": "根据知识库约束，机器人每次只能携带一个物体，因此必须将三个物体的搬运任务拆分为三个独立的 move→pick_up→move→place_down 序列。根据当前场景映射，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，取货工位为 input_1，放置工位为 output_6。",
+          "execution_steps": [
+            "导航至取货工位 input_1 接近点（第1个物体）",
+            "在 input_1 抓取第一个白色储物箱 white_tote_b01_left_center",
+            "携带第1个物体导航至放置工位 output_6",
+            "在 output_6 放下第一个物体",
+            "导航返回取货工位 input_1（第2个物体）",
+            "在 input_1 抓取第二个白色储物箱 white_tote_b01_left_front",
+            "携带第2个物体导航至放置工位 output_6",
+            "在 output_6 放下第二个物体",
+            "导航返回取货工位 input_1（第3个物体）",
+            "在 input_1 抓取第三个白色储物箱 white_tote_b01_left_back",
+            "携带第3个物体导航至放置工位 output_6",
+            "在 output_6 放下第三个物体"
+          ],
+          "plan_summary": [
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点（第1个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第一个白色储物箱 white_tote_b01_left_center"
+            },
+            {
+              "skill": "move",
+              "description": "携带第1个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第一个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航返回取货工位 input_1（第2个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第二个白色储物箱 white_tote_b01_left_front"
+            },
+            {
+              "skill": "move",
+              "description": "携带第2个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第二个物体"
+            },
+            {
+              "skill": "move",
+              "description": "导航返回取货工位 input_1（第3个物体）"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取第三个白色储物箱 white_tote_b01_left_back"
+            },
+            {
+              "skill": "move",
+              "description": "携带第3个物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下第三个物体"
+            }
+          ],
+          "result_explanation": "由于每次只能搬运一个物体，三个白色储物箱需要三轮完整的 move→pick_up→move→place_down 流程。取货工位为 input_1，放置工位为 output_6，物体名称严格使用场景映射中的精确名称。所有步骤遵循300秒超时、不自动重试的约束。"
+        },
+        "planner_raw": "{\n  \"understanding\": \"将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 依次搬运到 Place Station 1 (output_6)，每次只能搬运一个物体，需执行三轮完整的取放流程。\",\n  \"reason\": \"根据知识库约束，机器人每次只能携带一个物体，因此必须将三个物体的搬运任务拆分为三个独立的 move→pick_up→move→place_down 序列。根据当前场景映射，三个物体名称分别为 white_tote_b01_left_center、white_tote_b01_left_front、white_tote_b01_left_back，取货工位为 input_1，放置工位为 output_6。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点（第1个物体）\",\n      \"inputs\": {\n        \"target\": \"input_1\"\n      },\n      \"preconditions\": [\n        \"底盘静止于起始位置\",\n        \"夹爪为空\"\n      ],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第一个白色储物箱 white_tote_b01_left_center\",\n      \"inputs\": {\n        \"target\": \"input_1\",\n        \"object_name\": \"white_tote_b01_left_center\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"底盘已停稳于 input_1\",\n        \"物体在可达范围内\"\n      ],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第1个物体导航至放置工位 output_6\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"夹爪已持握物体\",\n        \"抓取已确认成功\"\n      ],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第一个物体\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"底盘已停稳于 output_6\",\n        \"目标桌面已清空\",\n        \"夹爪持握物体\"\n      ],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航返回取货工位 input_1（第2个物体）\",\n      \"inputs\": {\n        \"target\": \"input_1\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"第1个物体已放置完成\"\n      ],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第二个白色储物箱 white_tote_b01_left_front\",\n      \"inputs\": {\n        \"target\": \"input_1\",\n        \"object_name\": \"white_tote_b01_left_front\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"底盘已停稳于 input_1\",\n        \"物体在可达范围内\"\n      ],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第2个物体导航至放置工位 output_6\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"夹爪已持握物体\",\n        \"抓取已确认成功\"\n      ],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第二个物体\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"底盘已停稳于 output_6\",\n        \"目标桌面有足够空间\",\n        \"夹爪持握物体\"\n      ],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航返回取货工位 input_1（第3个物体）\",\n      \"inputs\": {\n        \"target\": \"input_1\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"第2个物体已放置完成\"\n      ],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取第三个白色储物箱 white_tote_b01_left_back\",\n      \"inputs\": {\n        \"target\": \"input_1\",\n        \"object_name\": \"white_tote_b01_left_back\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"底盘已停稳于 input_1\",\n        \"物体在可达范围内\"\n      ],\n      \"expected_output\": \"成功抓取物体并提升至安全高度150mm\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带第3个物体导航至放置工位 output_6\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"夹爪已持握物体\",\n        \"抓取已确认成功\"\n      ],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下第三个物体\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"底盘已停稳于 output_6\",\n        \"目标桌面有足够空间\",\n        \"夹爪持握物体\"\n      ],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"由于每次只能搬运一个物体，三个白色储物箱需要三轮完整的 move→pick_up→move→place_down 流程。取货工位为 input_1，放置工位为 output_6，物体名称严格使用场景映射中的精确名称。所有步骤遵循300秒超时、不自动重试的约束。\"\n}",
+        "plan_warnings": [],
+        "elapsed_ms": 376367.2
+      }
+    },
+    {
+      "task": "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1.",
+      "skill_name": "composed",
+      "success": false,
+      "message": "已根据任务坐标参考表将 Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，并使用场景物体映射中的精确名称 white_tote_b01_left_center 执行第一个物体的完整搬运流程。由于知识库中未提供另外两个物体的精确名称，无法在不违反规则的情况下生成其搬运步骤。",
+      "payload": {
+        "skill_name": "composed",
+        "success": false,
+        "message": "已根据任务坐标参考表将 Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，并使用场景物体映射中的精确名称 white_tote_b01_left_center 执行第一个物体的完整搬运流程。由于知识库中未提供另外两个物体的精确名称，无法在不违反规则的情况下生成其搬运步骤。",
+        "steps": [
+          {
+            "skill": "move",
+            "description": "导航至取货工位 input_1 接近点",
+            "success": true,
+            "message": "Moved to: input_1",
+            "payload": {
+              "action": "move",
+              "target": "input_1",
+              "goal_xy": [
+                -13.1,
+                5.01
+              ],
+              "start_base_pose": {
+                "xy": [
+                  13.5,
+                  0.0
+                ],
+                "yaw": 3.1415927410125732,
+                "robot_base_pos": [
+                  13.5,
+                  0.0,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  3.1415927410125732
+                ]
+              },
+              "final_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              },
+              "waypoints": 95,
+              "reached": true,
+              "had_collision": false
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center"
+            },
+            "preconditions": [
+              "底盘静止于起始位置"
+            ],
+            "expected_output": "机器人到达 input_1 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "pick_up",
+            "description": "在 input_1 抓取 white_tote_b01_left_center",
+            "success": true,
+            "message": "L5 multi-tote transport: 3/3 totes placed at output_6",
+            "payload": {
+              "action": "pick_up",
+              "method": "l5_multi_transport",
+              "source": "input_1",
+              "destination": "output_6",
+              "totes": [
+                {
+                  "tote": "white_tote_b01_left_center",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_front",
+                  "grasp": true,
+                  "place": true
+                },
+                {
+                  "tote": "white_tote_b01_left_back",
+                  "grasp": true,
+                  "place": true
+                }
+              ],
+              "placed_count": 3,
+              "ok": true
+            },
+            "inputs": {
+              "target": "input_1",
+              "object_name": "white_tote_b01_left_center",
+              "grasp_initial_base_pose": {
+                "xy": [
+                  -13.093139827766441,
+                  5.022208562688331
+                ],
+                "yaw": -3.1394152641296387,
+                "robot_base_pos": [
+                  -13.093139827766441,
+                  5.022208562688331,
+                  0.0
+                ],
+                "robot_base_ori": [
+                  0.0,
+                  0.0,
+                  -3.1394152641296387
+                ]
+              }
+            },
+            "preconditions": [
+              "夹爪为空",
+              "底盘已停稳"
+            ],
+            "expected_output": "成功抓取物体并提升至安全高度",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          },
+          {
+            "skill": "move",
+            "description": "携带物体导航至放置工位 output_6",
+            "success": false,
+            "message": "A* planning failed: output_6",
+            "payload": {
+              "action": "move",
+              "target": "output_6",
+              "start": [
+                11.504551453651624,
+                -7.29350817943931
+              ]
+            },
+            "inputs": {
+              "target": "output_6"
+            },
+            "preconditions": [
+              "夹爪已持握物体"
+            ],
+            "expected_output": "机器人到达 output_6 停止点",
+            "timeout": 3000.0,
+            "retries": 0,
+            "attempts": 1
+          }
+        ],
+        "thinking": {
+          "version": "2.0",
+          "task_understanding": "将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 依次搬运到 Place Station 1 (output_6)。",
+          "selection_reason": "根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。由于约束规定每次只能搬运一个物体，因此需要将三个物体依次执行 move→pick_up→move→place_down 的完整流程。根据场景物体映射，input_1 的精确物体名称为 white_tote_b01_left_center。由于知识库中未提供另外两个物体的精确名称，且规则严禁猜测，因此仅对已知的精确名称执行搬运。",
+          "execution_steps": [
+            "导航至取货工位 input_1 接近点",
+            "在 input_1 抓取 white_tote_b01_left_center",
+            "携带物体导航至放置工位 output_6",
+            "在 output_6 放下物体"
+          ],
+          "plan_summary": [
+            {
+              "skill": "move",
+              "description": "导航至取货工位 input_1 接近点"
+            },
+            {
+              "skill": "pick_up",
+              "description": "在 input_1 抓取 white_tote_b01_left_center"
+            },
+            {
+              "skill": "move",
+              "description": "携带物体导航至放置工位 output_6"
+            },
+            {
+              "skill": "place_down",
+              "description": "在 output_6 放下物体"
+            }
+          ],
+          "result_explanation": "已根据任务坐标参考表将 Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，并使用场景物体映射中的精确名称 white_tote_b01_left_center 执行第一个物体的完整搬运流程。由于知识库中未提供另外两个物体的精确名称，无法在不违反规则的情况下生成其搬运步骤。"
+        },
+        "planner_raw": "{\n  \"understanding\": \"将三个带白色边缘的储物箱从 Pick Station 6 (input_1) 依次搬运到 Place Station 1 (output_6)。\",\n  \"reason\": \"根据当前任务坐标参考表，Pick Station 6 对应 input_1，Place Station 1 对应 output_6。由于约束规定每次只能搬运一个物体，因此需要将三个物体依次执行 move→pick_up→move→place_down 的完整流程。根据场景物体映射，input_1 的精确物体名称为 white_tote_b01_left_center。由于知识库中未提供另外两个物体的精确名称，且规则严禁猜测，因此仅对已知的精确名称执行搬运。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位 input_1 接近点\",\n      \"inputs\": {\n        \"target\": \"input_1\"\n      },\n      \"preconditions\": [\n        \"底盘静止于起始位置\"\n      ],\n      \"expected_output\": \"机器人到达 input_1 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在 input_1 抓取 white_tote_b01_left_center\",\n      \"inputs\": {\n        \"target\": \"input_1\",\n        \"object_name\": \"white_tote_b01_left_center\"\n      },\n      \"preconditions\": [\n        \"夹爪为空\",\n        \"底盘已停稳\"\n      ],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位 output_6\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"夹爪已持握物体\"\n      ],\n      \"expected_output\": \"机器人到达 output_6 停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在 output_6 放下物体\",\n      \"inputs\": {\n        \"target\": \"output_6\"\n      },\n      \"preconditions\": [\n        \"底盘已停稳于放置点\"\n      ],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"已根据任务坐标参考表将 Pick Station 6 映射为 input_1，Place Station 1 映射为 output_6，并使用场景物体映射中的精确名称 white_tote_b01_left_center 执行第一个物体的完整搬运流程。由于知识库中未提供另外两个物体的精确名称，无法在不违反规则的情况下生成其搬运步骤。\"\n}",
+        "plan_warnings": [],
+        "elapsed_ms": 367477.9
       }
     }
   ]

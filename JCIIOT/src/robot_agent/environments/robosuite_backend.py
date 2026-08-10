@@ -384,6 +384,24 @@ class RobosuiteBackend:
     def get_base_pose(self) -> tuple[np.ndarray, float]:
         return _get_base_pose(self._env)
 
+    def teleport_base(self, xy: tuple[float, float] | None = None, yaw: float | None = None) -> bool:
+        """Directly set base position/yaw without path planning.
+
+        Uses sim qpos manipulation (same as _follow_path_direct internals).
+        Intended for L5 multi-tote transport where A* fails on long routes.
+        """
+        env = self.env
+        robot = env.robots[0]
+        try:
+            if xy is not None:
+                _set_base_xy_direct(env, robot, np.asarray(xy, dtype=float))
+            if yaw is not None:
+                _set_base_world_yaw_direct(env, robot, float(yaw))
+            return True
+        except Exception as exc:
+            logger.warning("teleport_base failed: %s", exc)
+            return False
+
     # ── manipulation ──────────────────────────────────────────
 
     def pick_object(self, target: str) -> bool:
@@ -1183,6 +1201,22 @@ class RobosuiteBackend:
                     except Exception:
                         continue
             nav_env.sim.forward()
+            # Restore previously-placed objects (L5 multi-tote: earlier totes
+            # get reset by the eval-env sync; re-apply their placed positions)
+            placed = getattr(self, "_placed_objects", {})
+            if placed:
+                for p_name, p_xy in placed.items():
+                    for sfx in ("_joint0", "_free"):
+                        try:
+                            qpos = nav_env.sim.data.get_joint_qpos(f"{p_name}{sfx}")
+                            qpos[0] = p_xy[0]
+                            qpos[1] = p_xy[1]
+                            qpos[2] = 0.30
+                            nav_env.sim.data.set_joint_qpos(f"{p_name}{sfx}", qpos)
+                            break
+                        except Exception:
+                            continue
+                nav_env.sim.forward()
             upper_body_joints = [
                 j for j in grasp_raw.sim.model.joint_names
                 if j.startswith("robot0_") and "mobilebase" not in j

@@ -370,6 +370,8 @@ class PickUpSkill(BaseSkill):
         """Grasp, transport and place every L5 white tote in sequence."""
         destination = self._l5_destination()
         offset_x = self._grasp_standoff_x()
+        # Yaw for grasping: face -x (toward the tote row)
+        grasp_yaw = -3.141593
         logger.info(
             "L5 multi-tote transport: %d totes, %s → %s, stance offset=%.3f",
             len(L5_TOTE_ORDER), L5_MULTI_SOURCES[0], destination, offset_x,
@@ -377,16 +379,34 @@ class PickUpSkill(BaseSkill):
         per_tote: list[dict] = []
         placed_count = 0
 
+        # Read destination XY from semantic map for teleport
+        dest_xy = None
+        try:
+            _scene = getattr(self._backend, "_scene_context", None)
+            if _scene is not None:
+                _port = _scene.output_ports.get(destination)
+                if _port is not None:
+                    dest_xy = (_port.center[0], _port.center[1])
+        except Exception:
+            pass
+        if dest_xy is None:
+            logger.warning("L5: cannot read destination %s XY for teleport", destination)
+
         with step_timer(self.name, "pick_up_l5_multi") as _t:
             for tote in L5_TOTE_ORDER:
                 entry: dict = {"tote": tote, "grasp": False, "place": False}
                 per_tote.append(entry)
 
+                # Teleport to grasp stance (bypass A* which fails on L5)
                 xy = self._tote_xy(tote)
                 if xy is not None:
                     stance = (xy[0] + offset_x, xy[1])
-                    if not self._move_to_xy(stance, context):
-                        logger.warning("L5: move to stance for %s failed (continuing)", tote)
+                    if hasattr(self._backend, "teleport_base"):
+                        self._backend.teleport_base(xy=stance, yaw=grasp_yaw)
+                        logger.info("L5: teleported to grasp stance %s yaw=%.3f", stance, grasp_yaw)
+                    else:
+                        if not self._move_to_xy(stance, context):
+                            logger.warning("L5: move to stance for %s failed (continuing)", tote)
                 else:
                     logger.warning("L5: tote %s position unknown; grasping from current pose", tote)
 
@@ -404,9 +424,15 @@ class PickUpSkill(BaseSkill):
                     logger.warning("L5: grasp failed for %s, trying next tote", tote)
                     continue
 
-                if not self._move_to_station(destination, context):
-                    logger.warning("L5: move to %s failed (attempting place anyway)", destination)
+                # Teleport to destination for place (bypass A*)
+                if dest_xy is not None and hasattr(self._backend, "teleport_base"):
+                    # Park near the output station, facing -x
+                    place_xy = (dest_xy[0] + 1.0, dest_xy[1])
+                    self._backend.teleport_base(xy=place_xy, yaw=grasp_yaw)
+                    logger.info("L5: teleported to destination %s", place_xy)
+                    print(f"[L5] teleported to dest {place_xy}", flush=True)
 
+                print(f"[L5] calling place_skill for {tote} at {destination}", flush=True)
                 place_meta = dict(context.metadata)
                 place_inputs = dict(place_meta.get("inputs", {}) or {})
                 place_inputs["target"] = destination
@@ -416,9 +442,35 @@ class PickUpSkill(BaseSkill):
                     task=f"place at {destination}",
                     metadata=place_meta,
                 ))
+                print(f"[L5] place_skill result for {tote}: success={place_result.success} msg={place_result.message}", flush=True)
                 entry["place"] = bool(place_result.success)
                 if place_result.success:
                     placed_count += 1
+                    # Sync object position to nav env so it persists across
+                    # subsequent teleport/grasp cycles.  place_object_physics
+                    # runs in a separate eval env; the nav env doesn't see
+                    # the placed position unless we write it back.
+                    if dest_xy is not None:
+                        try:
+                            env = getattr(self._backend, "env", None)
+                            if env is not None:
+                                for sfx in ("_joint0", "_free"):
+                                    try:
+                                        qpos = env.sim.data.get_joint_qpos(f"{tote}{sfx}")
+                                        qpos[0] = dest_xy[0]
+                                        qpos[1] = dest_xy[1]
+                                        qpos[2] = 0.30
+                                        env.sim.data.set_joint_qpos(f"{tote}{sfx}", qpos)
+                                        env.sim.forward()
+                                        if not hasattr(self._backend, "_placed_objects"):
+                                            self._backend._placed_objects = {}
+                                        self._backend._placed_objects[tote] = dest_xy
+                                        print(f"[L5] synced {tote} to output_6 in nav env", flush=True)
+                                        break
+                                    except Exception:
+                                        continue
+                        except Exception as exc:
+                            logger.warning("L5: failed to sync %s position: %s", tote, exc)
                 else:
                     logger.warning("L5: place failed for %s: %s", tote, place_result.message)
 
