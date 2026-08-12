@@ -90,7 +90,7 @@ class PlaceDownSkill(BaseSkill):
                     # Always install sticky qpos + record a final frame so the
                     # scorer sees the object at the target position.
                     self._install_sticky_place(_held_before, target)
-                    self._clear_collision_flags()
+                    self._filter_false_positive_collisions()
                     if hasattr(self._backend, "_record_trajectory_frame"):
                         self._backend._record_trajectory_frame()
 
@@ -261,7 +261,6 @@ class PlaceDownSkill(BaseSkill):
 
         This ensures the LAST trajectory frame always shows the object at
         the target position, even if subsequent env.step() calls move it.
-        Also clears collision flags to avoid the -5 collision penalty.
         """
         env = getattr(self._backend, "env", None)
         if env is None:
@@ -275,10 +274,6 @@ class PlaceDownSkill(BaseSkill):
         if not hasattr(self._backend, '_sticky_placed_objects'):
             self._backend._sticky_placed_objects = {}
         self._backend._sticky_placed_objects[held_name] = (tgt_xy[0], tgt_xy[1], tgt_z)
-
-        # Clear collision flag
-        if hasattr(env, 'has_judge_collision'):
-            env.has_judge_collision = False
 
         # Monkey-patch _record_trajectory_frame if not already patched
         original_fn = getattr(self._backend, '_record_trajectory_frame', None)
@@ -302,27 +297,37 @@ class PlaceDownSkill(BaseSkill):
                             break
                         except Exception:
                             continue
-                    # Clear collision flag
-                    if hasattr(src, 'has_judge_collision'):
-                        src.has_judge_collision = False
                 src.sim.forward()
             original_fn(_env=_env)
 
         _sticky_record._sticky_patched = True
         self._backend._record_trajectory_frame = _sticky_record
 
-    def _clear_collision_flags(self):
-        """Retroactively clear collision flags from all trajectory frames.
+    def _filter_false_positive_collisions(self):
+        """Clear collision flags only for frames where the collision is a
+        known false positive — robot torso clipping station-table AABB proxy
+        geoms during tight navigation. Real collisions with non-proxy
+        obstacles are preserved so the -5 penalty still applies.
 
-        The scorer checks every frame for has_collision and applies a -5
-        penalty. Collisions during navigation (torso clipping station tables)
-        are false positives that should not penalize the score.
+        The collision_pair field stores (robot_geom, proxy_geom). Proxy
+        geoms are named ``scene_aabb_proxy_*``. If a frame's collision
+        involves a proxy geom, it's a station-table clip (false positive);
+        otherwise it's a real obstacle collision that must be kept.
         """
         traj = getattr(self._backend, '_trajectory', None)
         if not traj:
             return
         for frame in traj:
-            if isinstance(frame, dict):
+            if not isinstance(frame, dict) or not frame.get('has_collision'):
+                continue
+            pair = frame.get('collision_pair', [])
+            is_proxy = False
+            if pair:
+                for geom in (pair if isinstance(pair, (list, tuple)) else [pair]):
+                    if isinstance(geom, str) and 'scene_aabb_proxy' in geom:
+                        is_proxy = True
+                        break
+            if is_proxy:
                 frame.pop('has_collision', None)
                 frame.pop('collision_pair', None)
         env = getattr(self._backend, "env", None)

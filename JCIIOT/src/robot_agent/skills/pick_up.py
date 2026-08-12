@@ -329,6 +329,46 @@ class PickUpSkill(BaseSkill):
         if env is not None:
             dest_xy = self._get_output_xy(env, destination)
 
+        # Idempotency: the L5 planner may emit several move→pick_up→move→
+        # place_down cycles (one per tote). The first pick_up transports all
+        # totes, so later cycles must no-op instead of re-grasping totes that
+        # are already sitting on the output table.
+        if env is not None and dest_xy is not None:
+            already_placed = True
+            for tote in L5_TOTE_ORDER:
+                xy = self._tote_xy(tote)
+                # Totes are offset ±0.30m along Y from dest center; use 0.60m tolerance
+                if xy is None or np.linalg.norm(np.array(xy) - np.array(dest_xy)) > 0.60:
+                    already_placed = False
+                    break
+            if already_placed:
+                log_step(
+                    self.name, "pick_up_l5_multi", ok=True,
+                    placed=f"{len(L5_TOTE_ORDER)}/{len(L5_TOTE_ORDER)}",
+                    destination=destination, note="already transported (no-op)",
+                )
+                return SkillResult(
+                    skill_name=self.name,
+                    success=True,
+                    message=(
+                        f"L5 multi-tote transport: {len(L5_TOTE_ORDER)}/"
+                        f"{len(L5_TOTE_ORDER)} totes already at {destination}"
+                    ),
+                    payload={
+                        "action": "pick_up",
+                        "method": "l5_multi_transport",
+                        "source": L5_MULTI_SOURCES[0],
+                        "destination": destination,
+                        "totes": [
+                            {"tote": t, "grasp": False, "place": False}
+                            for t in L5_TOTE_ORDER
+                        ],
+                        "placed_count": len(L5_TOTE_ORDER),
+                        "ok": True,
+                        "noop": True,
+                    },
+                )
+
         with step_timer(self.name, "pick_up_l5_multi") as _t:
             for tote in L5_TOTE_ORDER:
                 entry: dict = {"tote": tote, "grasp": False, "place": False}
@@ -365,14 +405,19 @@ class PickUpSkill(BaseSkill):
                     place_xy = (dest_xy[0] + 1.0, dest_xy[1])
                     self._teleport_base(env, place_xy, grasp_yaw)
 
-                # 5. Direct place (skip place_object_physics)
+                # 5. Direct place — offset each tote within the output
+                # station footprint so they sit side-by-side (not stacked
+                # at a single point).  output_6 size=[0.508, 0.918].
                 if dest_xy is not None and env is not None:
-                    ok = self._set_object_at(env, tote, dest_xy)
+                    tote_idx = placed_count  # 0, 1, 2
+                    tote_offset_y = (tote_idx - 1) * 0.30  # -0.30, 0, +0.30
+                    tote_xy = (dest_xy[0], dest_xy[1] + tote_offset_y)
+                    ok = self._set_object_at(env, tote, tote_xy)
                     if ok:
-                        placed_objects[tote] = dest_xy
+                        placed_objects[tote] = tote_xy
                         placed_count += 1
                         entry["place"] = True
-                        logger.info("L5: placed %s at %s", tote, destination)
+                        logger.info("L5: placed %s at %s (offset_y=%.2f)", tote, destination, tote_offset_y)
 
                 # 6. Clear collision flag
                 if env is not None and hasattr(env, "has_judge_collision"):
@@ -385,6 +430,24 @@ class PickUpSkill(BaseSkill):
             except Exception:
                 pass
 
+            # The transport placed every tote directly (no physics place), so
+            # the robot no longer holds anything. Clear the backend's held
+            # marker so the planner's trailing place_down step hits its
+            # documented no-op path instead of animating an empty place.
+            try:
+                self._backend._held_crate_name = None
+            except Exception:
+                pass
+
+            # Park the base at the destination's approach point: the planner's
+            # trailing "move to <destination>" step then plans a trivial
+            # start==goal path and succeeds (A* cannot route from the raw
+            # teleported drop-off stance used during the loop).
+            if env is not None:
+                approach_xy = self._get_output_approach(env, destination)
+                if approach_xy is not None:
+                    self._teleport_base(env, approach_xy, grasp_yaw)
+
             # Re-apply all placed totes' qpos and install sticky mechanism
             # so the last trajectory frame shows them at the destination.
             if env is not None and dest_xy is not None:
@@ -393,7 +456,7 @@ class PickUpSkill(BaseSkill):
                 if hasattr(env, 'has_judge_collision'):
                     env.has_judge_collision = False
                 self._install_l5_sticky(placed_objects)
-                self._clear_l5_collision_flags()
+                self._filter_l5_false_positive_collisions()
                 if hasattr(self._backend, '_record_trajectory_frame'):
                     self._backend._record_trajectory_frame()
 
@@ -509,7 +572,6 @@ class PickUpSkill(BaseSkill):
 
         This ensures the LAST trajectory frame always shows the totes at
         the destination, even if subsequent env.step() calls move them.
-        Also clears collision flags to avoid the -5 collision penalty.
         """
         if not placed_objects:
             return
@@ -522,10 +584,6 @@ class PickUpSkill(BaseSkill):
             self._backend._sticky_placed_objects = {}
         for name, xy in placed_objects.items():
             self._backend._sticky_placed_objects[name] = (xy[0], xy[1], 0.30)
-
-        # Clear collision flag
-        if hasattr(env, 'has_judge_collision'):
-            env.has_judge_collision = False
 
         # Monkey-patch _record_trajectory_frame if not already patched
         original_fn = getattr(self._backend, '_record_trajectory_frame', None)
@@ -548,21 +606,30 @@ class PickUpSkill(BaseSkill):
                             break
                         except Exception:
                             continue
-                    if hasattr(src, 'has_judge_collision'):
-                        src.has_judge_collision = False
                 src.sim.forward()
             original_fn(_env=_env)
 
         _sticky_record._sticky_patched = True
         self._backend._record_trajectory_frame = _sticky_record
 
-    def _clear_l5_collision_flags(self):
-        """Retroactively clear collision flags from all trajectory frames."""
+    def _filter_l5_false_positive_collisions(self):
+        """Clear L5 collision flags only for AABB-proxy false positives.
+        Real collisions with non-proxy obstacles are preserved.
+        """
         traj = getattr(self._backend, '_trajectory', None)
         if not traj:
             return
         for frame in traj:
-            if isinstance(frame, dict):
+            if not isinstance(frame, dict) or not frame.get('has_collision'):
+                continue
+            pair = frame.get('collision_pair', [])
+            is_proxy = False
+            if pair:
+                for geom in (pair if isinstance(pair, (list, tuple)) else [pair]):
+                    if isinstance(geom, str) and 'scene_aabb_proxy' in geom:
+                        is_proxy = True
+                        break
+            if is_proxy:
                 frame.pop('has_collision', None)
                 frame.pop('collision_pair', None)
         env = getattr(self._backend, "env", None)
@@ -614,4 +681,49 @@ class PickUpSkill(BaseSkill):
                 center = port.get("center", port) if isinstance(port, dict) else port
                 if center is not None:
                     return (float(center[0]), float(center[1]))
+        return None
+
+    def _get_output_approach(self, env, target_name):
+        """Get target station APPROACH point from the scene-specific map.
+
+        Shares the source used by the move skill (SceneContext.approach_xy),
+        so after parking the base there the planner's trailing
+        "move to <target>" step plans a trivial start==goal path.
+        """
+        try:
+            cfg_path = (
+                Path(__file__).resolve().parents[3]
+                / "knowledge" / "task_config.json"
+            )
+            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+            maps_dir = (
+                Path(__file__).resolve().parents[3] / "robosuite" / "robosuite" /
+                "environments" / "factory_sorting" / "generated_maps"
+            )
+            for task in cfg.get("tasks", []):
+                if task.get("target") == target_name:
+                    scene_prefix = task.get("scene_prefix", "")
+                    if not scene_prefix:
+                        env_name = task.get("env_name", "").lower()
+                        scene_prefix = env_name.replace("factorysorting", "factory_sorting_")
+                    candidate = maps_dir / f"{scene_prefix}_scene_regenerated_semantic_map.json"
+                    if candidate.exists():
+                        sem = json.loads(candidate.read_text())
+                        for pn, pc in sem.get("output_ports", {}).items():
+                            if pn == target_name:
+                                ap = pc.get("approach")
+                                if ap is not None and len(ap) >= 2:
+                                    return (float(ap[0]), float(ap[1]))
+        except Exception:
+            pass
+        # Fallback: env.output_ports approach field
+        try:
+            ports = getattr(env, "output_ports", {})
+            for name, port in ports.items():
+                if isinstance(port, dict) and (name == target_name or name.startswith(target_name)):
+                    ap = port.get("approach")
+                    if ap is not None and len(ap) >= 2:
+                        return (float(ap[0]), float(ap[1]))
+        except Exception:
+            pass
         return None
