@@ -1,0 +1,113 @@
+{
+  "robot_model": "FactorySorting3_3FO3ERRPH7X9",
+  "camera": "birdview",
+  "units": {
+    "length": "meter",
+    "angle": "radian"
+  },
+  "joint_names": [
+    "robot0_torso_lift_joint",
+    "robot0_head_1_joint",
+    "robot0_head_2_joint",
+    "robot0_arm_right_1_joint",
+    "robot0_arm_right_2_joint",
+    "robot0_arm_right_3_joint",
+    "robot0_arm_right_4_joint",
+    "robot0_arm_right_5_joint",
+    "robot0_arm_right_6_joint",
+    "gripper0_right_finger_joint",
+    "gripper0_right_left_inner_finger_joint",
+    "gripper0_right_left_inner_knuckle_joint",
+    "gripper0_right_right_outer_knuckle_joint",
+    "gripper0_right_right_inner_finger_joint",
+    "gripper0_right_right_inner_knuckle_joint",
+    "robot0_arm_left_1_joint",
+    "robot0_arm_left_2_joint",
+    "robot0_arm_left_3_joint",
+    "robot0_arm_left_4_joint",
+    "robot0_arm_left_5_joint",
+    "robot0_arm_left_6_joint",
+    "gripper0_left_finger_joint",
+    "gripper0_left_left_inner_finger_joint",
+    "gripper0_left_left_inner_knuckle_joint",
+    "gripper0_left_right_outer_knuckle_joint",
+    "gripper0_left_right_inner_finger_joint",
+    "gripper0_left_right_inner_knuckle_joint"
+  ],
+  "object_names": [
+    "green_tote_b01_lower",
+    "green_tote_b01_upper"
+  ],
+  "object_joints": {
+    "green_tote_b01_lower": "green_tote_b01_lower_joint0",
+    "green_tote_b01_upper": "green_tote_b01_upper_joint0"
+  },
+  "events": [],
+  "frames": [
+    {
+      "time": 0.372,
+      "base_pose": {
+        "position": [
+          13.5,
+          0.0,
+          0.0
+        ],
+        "orientation_xyzw": [
+          0.0,
+          0.0,
+          1.0,
+          -0.0
+        ]
+      },
+      "joint_positions": {
+        "robot0_torso_lift_joint": 0.35,
+        "robot0_head_1_joint": 0.0,
+        "robot0_head_2_joint": -0.9,
+        "robot0_arm_right_1_joint": 0.742599,
+        "robot0_arm_right_2_joint": -0.090401,
+        "robot0_arm_right_3_joint": 2.137818,
+        "robot0_arm_right_4_joint": 2.105705,
+        "robot0_arm_right_5_joint": -0.349066,
+        "robot0_arm_right_6_joint": -1.046345,
+        "gripper0_right_finger_joint": 0.012,
+        "gripper0_right_left_inner_finger_joint": 0.065,
+        "gripper0_right_left_inner_knuckle_joint": 0.065,
+        "gripper0_right_right_outer_knuckle_joint": -0.012,
+        "gripper0_right_right_inner_finger_joint": 0.065,
+        "gripper0_right_right_inner_knuckle_joint": 0.065,
+        "robot0_arm_left_1_joint": 0.994838,
+        "robot0_arm_left_2_joint": -0.05236,
+        "robot0_arm_left_3_joint": 2.199115,
+        "robot0_arm_left_4_joint": 2.024582,
+        "robot0_arm_left_5_joint": -0.349066,
+        "robot0_arm_left_6_joint": -1.029744,
+        "gripper0_left_finger_joint": 0.012,
+        "gripper0_left_left_inner_finger_joint": 0.065,
+        "gripper0_left_left_inner_knuckle_joint": 0.065,
+        "gripper0_left_right_outer_knuckle_joint": -0.012,
+        "gripper0_left_right_inner_finger_joint": 0.065,
+        "gripper0_left_right_inner_knuckle_joint": 0.065
+      },
+      "object_positions": {
+        "green_tote_b01_lower": [
+          11.867624,
+          3.1954,
+          1.199999,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "green_tote_b01_upper": [
+          11.867624,
+          4.624856,
+          1.199999,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ]
+}

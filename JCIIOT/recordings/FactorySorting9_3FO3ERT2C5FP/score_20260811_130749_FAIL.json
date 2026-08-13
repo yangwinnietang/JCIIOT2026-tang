@@ -3,7 +3,7 @@
   "env_name": "FactorySorting9_3FO3ERT2C5FP",
   "status": "OK",
   "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting9_3FO3ERT2C5FP/trajectory_20260811_130749_FAIL.json",
-  "elapsed_sec": 0.184,
+  "elapsed_sec": 0.088,
   "score": 30,
   "score_rule_version": "grasp_success_gate_l5_multi_v2",
   "details": {
@@ -41,5 +41,5 @@
       }
     ]
   },
-  "saved_at": "2026-08-11 13:13:49"
+  "saved_at": "2026-08-12 10:41:13"
 }

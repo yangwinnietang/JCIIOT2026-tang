@@ -1,0 +1,38 @@
+{
+  "task": "Current Task Material Information:\nMaterial Name: Green-rimmed storage bin\nStarting Location: Pick Station 1\nTarget Location: Place Station 3\nQuantity to Transport: 1",
+  "task_index": 1,
+  "env_name": "FactorySorting3_3FO3ERRPH7X9",
+  "status": "FAIL",
+  "success": false,
+  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260811_124718_FAIL.json",
+  "running_trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/trajectory_20260811_124718_RUNNING.json",
+  "result": {
+    "skill_name": "pick_up",
+    "success": false,
+    "message": "Physics grasp error: Could not resolve grasp object for source 'Current Task Material Information:\nMaterial Name: Green-rimmed storage bin\nStarting Location: Pick Station 1\nTarget Location: Place Station 3\nQuantity to Transport: 1'. backend_env=FactorySorting3_3FO3ERRPH7X9, actual_env_class=FactorySorting3_3FO3ERRPH7X9, expected_scene_env=FactorySorting3_3FO3ERRPH7X9. Tried: ['Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01_near', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01_far', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h10', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_tote_b01', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_plastic_crate']. Available grasp objects: green_tote_b01_lower, green_tote_b01_upper",
+    "steps": [],
+    "thinking": {
+      "version": "2.0",
+      "task_understanding": "Current Task Material Information:\nMaterial Name: Green-rimmed storage bin\nStarting Location: Pick Station 1\nTarget Location: Place Station 3\nQuantity to Transport: 1",
+      "selection_reason": "LLM 调用失败: Ollama unreachable at http://localhost:11434/api/generate: <urlopen error [Errno 111] Connection refused>",
+      "execution_steps": [],
+      "plan_summary": [],
+      "result_explanation": ""
+    },
+    "planner_raw": "",
+    "plan_warnings": [
+      "Ollama unreachable at http://localhost:11434/api/generate: <urlopen error [Errno 111] Connection refused>"
+    ],
+    "elapsed_ms": 358.3,
+    "action": "pick_up",
+    "target": "Current Task Material Information:\nMaterial Name: Green-rimmed storage bin\nStarting Location: Pick Station 1\nTarget Location: Place Station 3\nQuantity to Transport: 1",
+    "object_name": null,
+    "grasp_initial_base_pose": null,
+    "error": "Could not resolve grasp object for source 'Current Task Material Information:\nMaterial Name: Green-rimmed storage bin\nStarting Location: Pick Station 1\nTarget Location: Place Station 3\nQuantity to Transport: 1'. backend_env=FactorySorting3_3FO3ERRPH7X9, actual_env_class=FactorySorting3_3FO3ERRPH7X9, expected_scene_env=FactorySorting3_3FO3ERRPH7X9. Tried: ['Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01_near', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01_far', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h10', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_container_h01', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_tote_b01', 'Current Task Material Information:\\nMaterial Name: Green-rimmed storage bin\\nStarting Location: Pick Station 1\\nTarget Location: Place Station 3\\nQuantity to Transport: 1_plastic_crate']. Available grasp objects: green_tote_b01_lower, green_tote_b01_upper"
+  },
+  "elapsed_sec": 29.73,
+  "error": null,
+  "traceback": null,
+  "phase": "before_close",
+  "saved_at": "2026-08-11 12:47:56"
+}

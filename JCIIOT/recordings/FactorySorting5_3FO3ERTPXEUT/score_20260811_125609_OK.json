@@ -1,0 +1,31 @@
+{
+  "task_index": 2,
+  "env_name": "FactorySorting5_3FO3ERTPXEUT",
+  "status": "OK",
+  "trajectory": "/mnt/workspace/JCIIOT2026/JCIIOT/recordings/FactorySorting5_3FO3ERTPXEUT/trajectory_20260811_125609_OK.json",
+  "elapsed_sec": 0.123,
+  "score": 15,
+  "score_rule_version": "grasp_success_gate_l5_multi_v2",
+  "details": {
+    "total": 15,
+    "items": [
+      {
+        "label": "Grasp success & left source (grasp=yes, dx_src=7.06m, dy_src=11.19m)",
+        "score": 10,
+        "ok": true
+      },
+      {
+        "label": "Object reached target table after grasp (grasp=yes, dist=0.00m, x=4.87, y=-7.26, z=0.85)",
+        "score": 10,
+        "ok": true
+      },
+      {
+        "label": "Collision penalty (collision detected during task)",
+        "score": -5,
+        "ok": true,
+        "is_penalty": true
+      }
+    ]
+  },
+  "saved_at": "2026-08-11 12:59:05"
+}

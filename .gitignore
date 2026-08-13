@@ -15,3 +15,12 @@ model_download_supervisor.log
 # Local tooling / state
 .qwen/
 MUJOCO_LOG.TXT
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Collected training logs (not part of submission)
+*.log
+
+# Incomplete / running trajectories (only OK/FAIL should be committed)
+*RUNNING*
