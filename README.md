@@ -265,35 +265,32 @@ python score_dev.py "recordings/<env_name>/trajectory_${TS}_OK.json" \
 
 ```mermaid
 flowchart TB
-    ROOT["JCIIOT2026-tang<br/>OeacnYang 参赛仓库"]
+    ROOT(["JCIIOT2026-tang<br/>OeacnYang"])
 
-    ROOT --> ENTRY["评审入口"]
-    ENTRY --> README["README.md<br/>中文技术报告与结果总览"]
-    ENTRY --> MANIFEST["MANIFEST.md<br/>提交内容索引"]
+    ROOT --> CODE["① 核心实现<br/><b>code/</b>"]
+    ROOT --> RUN["② 完整运行工程<br/><b>JCIIOT/</b>"]
+    ROOT --> REVIEW["③ 评审与证据"]
 
-    ROOT --> COMPACT["code/<br/>精简审阅包"]
-    COMPACT --> SKILLS["skills/<br/>机器人核心技能"]
-    COMPACT --> FLOWS["workflows/<br/>任务编排与知识生成"]
-    COMPACT --> KNOWLEDGE["knowledge/<br/>SOP、任务配置与控制参数"]
-    COMPACT --> MODELS["models/<br/>BC checkpoint"]
+    CODE --> SKILLS["<b>skills/</b><br/>move.py · pick_up.py · place_down.py<br/>_factory_physics_patch.py"]
+    CODE --> WORKFLOWS["<b>workflows/</b><br/>task_flow.py<br/>generate_sop_knowledge.py"]
+    CODE --> KNOWLEDGE["<b>knowledge/ · models/</b><br/>SOP · 参数 · 任务配置 · checkpoint"]
 
-    SKILLS --> MOVE["move.py<br/>清障代价 A* / 可视外壳导航"]
-    SKILLS --> PICK["pick_up.py<br/>对象重选 / 抓取入口"]
-    SKILLS --> PLACE["place_down.py<br/>杠杆臂对齐 / 径向放置"]
-    SKILLS --> PATCH["_factory_physics_patch.py<br/>抓取、撤离、护栏与轨迹补丁"]
+    RUN --> AGENT["<b>src/robot_agent/</b><br/>与 code/ 核心实现对应"]
+    RUN --> SIM["<b>仿真与运行入口</b><br/>app.py · robosuite · requirements.txt"]
+    RUN --> RECORDINGS["<b>recordings/</b><br/>端到端运行输出"]
 
-    FLOWS --> TASKFLOW["task_flow.py<br/>技能序列执行与结果记录"]
-    FLOWS --> SOPGEN["generate_sop_knowledge.py<br/>SOP 文档结构化"]
+    REVIEW --> REPORTS["<b>README.md · docs/ · MANIFEST.md</b><br/>技术报告 · 开发记录 · 提交索引"]
+    REVIEW --> TRAJ["<b>trajectories/L1..L5/</b><br/>轨迹 · 评分 · 运行结果"]
+    REVIEW --> VIDEOS["<b>videos/</b><br/>5 个整合视频 · 15 个独立视角"]
 
-    ROOT --> FULL["JCIIOT/<br/>完整可运行工程"]
-    FULL -. "核心实现一一映射" .-> COMPACT
-
-    ROOT --> EVIDENCE["结果证据"]
-    EVIDENCE --> TRAJ["trajectories/L1..L5/<br/>轨迹、评分、运行结果"]
-    EVIDENCE --> VIDEOS["videos/<br/>5 个整合视频 + 15 个独立视角"]
-
-    ROOT --> DOCS["docs/<br/>英文报告、开发记录与图像证据"]
-    DOCS --> ITERATION["assets/iteration/<br/>15 张历史问题截图与修复索引"]
+    classDef root fill:#172554,color:#ffffff,stroke:#172554,stroke-width:2px;
+    classDef code fill:#dbeafe,color:#172554,stroke:#3b82f6,stroke-width:1.5px;
+    classDef run fill:#ede9fe,color:#3b0764,stroke:#8b5cf6,stroke-width:1.5px;
+    classDef review fill:#dcfce7,color:#14532d,stroke:#22c55e,stroke-width:1.5px;
+    class ROOT root;
+    class CODE,SKILLS,WORKFLOWS,KNOWLEDGE code;
+    class RUN,AGENT,SIM,RECORDINGS run;
+    class REVIEW,REPORTS,TRAJ,VIDEOS review;
 ```
 
 图中同时保留两种交付视图：`code/` 用于快速审阅本方案的核心实现，`JCIIOT/` 用于按照赛事工程结构复现运行；两者中的参赛逻辑保持对应。
