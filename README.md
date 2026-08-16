@@ -261,6 +261,45 @@ python score_dev.py "recordings/<env_name>/trajectory_${TS}_OK.json" \
 
 ## 代码与文件组织
 
+### 项目代码结构图
+
+```mermaid
+flowchart TB
+    ROOT["JCIIOT2026-tang<br/>OeacnYang 参赛仓库"]
+
+    ROOT --> ENTRY["评审入口"]
+    ENTRY --> README["README.md<br/>中文技术报告与结果总览"]
+    ENTRY --> MANIFEST["MANIFEST.md<br/>提交内容索引"]
+
+    ROOT --> COMPACT["code/<br/>精简审阅包"]
+    COMPACT --> SKILLS["skills/<br/>机器人核心技能"]
+    COMPACT --> FLOWS["workflows/<br/>任务编排与知识生成"]
+    COMPACT --> KNOWLEDGE["knowledge/<br/>SOP、任务配置与控制参数"]
+    COMPACT --> MODELS["models/<br/>BC checkpoint"]
+
+    SKILLS --> MOVE["move.py<br/>清障代价 A* / 可视外壳导航"]
+    SKILLS --> PICK["pick_up.py<br/>对象重选 / 抓取入口"]
+    SKILLS --> PLACE["place_down.py<br/>杠杆臂对齐 / 径向放置"]
+    SKILLS --> PATCH["_factory_physics_patch.py<br/>抓取、撤离、护栏与轨迹补丁"]
+
+    FLOWS --> TASKFLOW["task_flow.py<br/>技能序列执行与结果记录"]
+    FLOWS --> SOPGEN["generate_sop_knowledge.py<br/>SOP 文档结构化"]
+
+    ROOT --> FULL["JCIIOT/<br/>完整可运行工程"]
+    FULL -. "核心实现一一映射" .-> COMPACT
+
+    ROOT --> EVIDENCE["结果证据"]
+    EVIDENCE --> TRAJ["trajectories/L1..L5/<br/>轨迹、评分、运行结果"]
+    EVIDENCE --> VIDEOS["videos/<br/>5 个整合视频 + 15 个独立视角"]
+
+    ROOT --> DOCS["docs/<br/>英文报告、开发记录与图像证据"]
+    DOCS --> ITERATION["assets/iteration/<br/>15 张历史问题截图与修复索引"]
+```
+
+图中同时保留两种交付视图：`code/` 用于快速审阅本方案的核心实现，`JCIIOT/` 用于按照赛事工程结构复现运行；两者中的参赛逻辑保持对应。
+
+### 目录索引
+
 ```text
 .
 ├── README.md                    # 本技术报告（评委入口）
