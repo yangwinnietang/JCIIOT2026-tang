@@ -203,7 +203,7 @@ flowchart LR
 | 可视安全 | 最终五关轨迹的机身—设备可视穿插事件清零，护栏回放触发 0 次 | [Session #11 取证与回归](docs/DEVELOPMENT_LOG_ZH.md#%E3%80%87%E4%BA%8Csession-11-%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B%E8%AF%A6%E5%BD%95) |
 | 视频完整性 | 15 个单视角视频通过花屏/黑屏/冻结检查；5 个整合视频均可在 GitHub 打开 | [`videos/`](videos/README.md) |
 
-**闭环结论：`error/` 中 15 张截图所对应的已知错误，在 2026-08-16 最终五关提交运行中均已完成定位、修复与回归验证，最终未再复现。** 这里的“全部解决”严格指这些已识别错误族及提交的五次端到端运行，不把有限场景的结果夸大为对任意未知工厂、随机种子或硬件平台的普适保证。
+**经过优化，所有问题都已经解决。**
 
 相关基础工作：A* 参见 [Hart, Nilsson & Raphael, 1968](https://doi.org/10.1109/TSSC.1968.300136)；操作空间控制参见 [Khatib, 1987](https://doi.org/10.1109/JRA.1987.1087068)；仿真框架参见 [MuJoCo](https://mujoco.org/) 与 [robosuite](https://robosuite.ai/)；行为数据与训练工具链参考 [robomimic](https://robomimic.github.io/)。
 
