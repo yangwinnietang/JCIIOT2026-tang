@@ -13,7 +13,7 @@
 | 评分与运行结果 JSON | 各关轨迹目录内 `score/result/scene_ready` | ✓ |
 | 中文技术报告 | [`README.md`](README.md) | ✓ |
 | 英文技术报告 | [`docs/TECHNICAL_REPORT_EN.md`](docs/TECHNICAL_REPORT_EN.md) | ✓ |
-| 创新性说明 | 中文报告“创新性说明”；英文报告 §5 | ✓ |
+| 新颖性说明 | 中文报告“新颖性说明”；英文报告 §5 | ✓ |
 | 结果与局限分析 | 中文报告“定量结果/局限性”；英文报告 §4/§8 | ✓ |
 | 五关三视角整合视频 | [`videos/composed/`](videos/composed/) | ✓ |
 | 15 个独立视角视频 | [`videos/individual/`](videos/individual/) | ✓ |
