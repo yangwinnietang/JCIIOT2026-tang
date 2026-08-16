@@ -1,7 +1,8 @@
 # JCIIOT 2026 提交包清单
 
 生成日期：2026-08-16<br>
-队伍：SOP-Runner
+队伍：OeacnYang<br>
+方案名称：SOP-Runner
 
 ## 完成情况
 

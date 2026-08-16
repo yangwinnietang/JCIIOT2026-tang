@@ -2,7 +2,8 @@
 
 ## JCIIOT 2026 Industrial Embodied Intelligence Challenge
 
-**Team:** SOP-Runner<br>
+**Team:** OeacnYang<br>
+**System:** SOP-Runner<br>
 **Submission date:** 16 August 2026<br>
 **Repository-scored result:** **100/100** (L1=10, L2=15, L3=20, L4=25, L5=30), with no collision deduction in the saved final scorer outputs
 

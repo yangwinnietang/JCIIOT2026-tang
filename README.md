@@ -4,6 +4,8 @@
 
 ### JCIIOT 2026 工业具身智能挑战赛技术报告与可复现提交
 
+**参赛队伍：OeacnYang**
+
 **Tiago 双臂移动机器人 · 五场景满分 · 100/100 · 最终评分无碰撞扣分**
 
 [English Technical Report](docs/TECHNICAL_REPORT_EN.md) · [完整设计记录](docs/DEVELOPMENT_LOG_ZH.md) · [精简代码包](code/) · [轨迹证据](trajectories/) · [视频中心](videos/)
