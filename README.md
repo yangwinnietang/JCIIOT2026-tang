@@ -115,20 +115,95 @@ yaw_v = psi - phi
 
 `transport_attachment` 会在搬运期间连续同步被抓物体的位姿；本方案沿用该赛事环境机制，不把它包装成纯接触动力学抓持。关键合规与可审计属性是：运动按帧连续记录、没有整段路径的单帧跃迁、没有清除 `has_judge_collision`，最终评分没有碰撞扣分。
 
-## 新颖性声明
+## 创新性说明：从失败证据到可审计闭环
 
-本节的“新颖”限定为**相对赛事基线的系统与算法集成创新**，不声称下列基础理论由本队首次提出。A*、操作空间控制和行为克隆均有成熟先行工作；贡献在于面向本赛题几何、观测与评分约束的组合、推导和闭环验证。
+本方案的创新不建立在“从未犯错”的叙事上，而建立在**反例驱动、分层测量、代码修正、全量重跑**的工程闭环上。我们不声称重新发明 A* 或操作空间控制；创新边界明确限定为：针对本赛题中语义规划、窄通道移动、双臂抓取、多物放置、可视安全和证据一致性之间的耦合问题，形成一套可解释、可复现、可证伪的系统方法。
 
-| 赛事基线困难 | 本方案增量 | 可验证收益 |
+### 1. 创新地图：六个彼此咬合的技术增量
+
+| 创新点 | 基线失效机制 | 本方案的关键设计 | 代码锚点 | 最终证据 |
+|---|---|---|---|---|
+| **清障代价 A\*** | 二值膨胀会封死窄通道；裸最短路又会贴近设备 | 保持原可通行集合，以欧氏距离场连续惩罚低净空单元，并禁止对角切角；增强规划失败时显式回退 | [`move.py`](code/skills/move.py#L373) | 五关均到达；14,614 帧中 `has_judge_collision=true` 为 **0** |
+| **可视外壳双层安全约束** | 场景中部分设备的物理代理小于渲染外壳，可能“评分未碰撞但画面已穿插” | 用真实渲染三角面构建 2.5 cm 危险栅格；规划层膨胀 0.29 m 绕行，增量驱动层逐步试探并回退兜底 | [`library.py`](code/skills/library.py#L115) · [`_factory_physics_patch.py`](code/skills/_factory_physics_patch.py#L161) | 仅护栏方案曾降至 **75/100**；规划+护栏后恢复 **100/100**，最终可视穿插事件清零 |
+| **工位拓扑感知双臂抓取** | 单一标称抓取面对辅助输入台不可达，行为克隆又受训练/推理视觉域偏移影响 | 根据工位拓扑选择 `+x / −y` 受力面与墙法向站位，以六阶段确定性 OSC 航点伺服完成抓取 | [`_factory_physics_patch.py`](code/skills/_factory_physics_patch.py#L930) | 容器、普通料箱、辅助输入台共用一套控制器；最终 **7/7** 次 `grasp_end(success=true)` |
+| **世界一致的最小同步** | 沙盒抓取若同步全部物体，会把先前已搬物体重置到出生点 | 只同步当前物体与底盘世界位姿；录制非当前物体时始终读取主环境真实状态 | [`_factory_physics_patch.py`](code/skills/_factory_physics_patch.py#L1175) | L5 三个物体身份独立、三次抓取事件与三项评分逐一对应 |
+| **携带杠杆臂与径向放置** | `rel_y ≠ 0` 时朝向桌心仍会放偏；桌边原地转向的摆动圆会横扫已放物体 | 闭式求解 `yaw_v = psi - phi`，先在桌外转向，再径向直线进场；动态槽位与趋势感知摆动护栏共同约束多物放置 | [`place_down.py`](code/skills/place_down.py#L177) · [`_factory_physics_patch.py`](code/skills/_factory_physics_patch.py#L1651) | L5 三箱误差 **0.09 / 0.56 / 0.55 m**，全部小于 0.8 m，且不再相互推挤 |
+| **状态门控的多物体纠错** | LLM 在重复任务中可能再次给出已搬走的对象名 | 仅当请求对象距取货台 `>1.5 m`，且同族候选仍在 `≤1.5 m` 范围内时才替换 | [`pick_up.py`](code/skills/pick_up.py#L233) | L5 三次成功抓取对应三个不同的白色料箱，避免盲目轮换 |
+
+### 2. 失败驱动方法：让每次修复都必须通过反证
+
+```mermaid
+flowchart LR
+    A["人工截图 / 轨迹 / 评分暴露异常"] --> B["锁定关卡、帧窗与对象身份"]
+    B --> C{"三层取证"}
+    C --> D["物理层：接触、穿透、位移"]
+    C --> E["可视层：三角面距离、射线包含"]
+    C --> F["媒体层：花屏、黑屏、冻结"]
+    D --> G["规划 / 抓取 / 撤离 / 放置修正"]
+    E --> G
+    F --> H["流式渲染与坏块重建"]
+    G --> I["沙盒回归"]
+    H --> I
+    I --> J["五关端到端重跑"]
+    J --> K["评分 + 连续性 + 场景完整性 + 可视 + 视频审计"]
+    K -- "发现反例" --> B
+    K -- "全部通过" --> L["最终提交"]
+```
+
+这个流程解决了一个关键评测盲区：**满分不等于场景完整，也不等于画面可信**。早期版本即使取得 100/100，人工复核仍发现邻箱被撞落、L5 已放物体被推挤以及设备外壳穿插；因此最终验收必须同时通过评分、物理、场景、可视和媒体五条证据链。
+
+### 3. 原始错误证据：不隐藏失败，也不凭截图草率定性
+
+<table>
+  <tr>
+    <th width="50%">早期真实物理缺陷</th>
+    <th width="50%">早期可视与媒体缺陷</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/assets/iteration/error_08_l2_neighbor_collision.png"><img src="docs/assets/iteration/error_08_l2_neighbor_collision.png" alt="L2 邻箱被撞落" width="100%"></a><br><sub>L2：邻箱坠落，底盘随后继续推行；轨迹测得位移 2.29 m、推行约 2.3 m。</sub></td>
+    <td align="center"><a href="docs/assets/iteration/error_04_right_equipment_birdview.png"><img src="docs/assets/iteration/error_04_right_equipment_birdview.png" alt="机器人与右侧设备可视外壳穿插" width="100%"></a><br><sub>L1/L4/L5：物理接触审计为零，但真实渲染外壳仍可能与躯干穿插。</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/assets/iteration/error_11_l5_placement_overlap.png"><img src="docs/assets/iteration/error_11_l5_placement_overlap.png" alt="L5 两个已放物体重叠" width="100%"></a><br><sub>L5：第二次放置扫过首个料箱，历史轨迹中两箱中心距 0.295 m，小于箱宽 0.40 m。</sub></td>
+    <td align="center"><a href="docs/assets/iteration/error_03_render_corruption.png"><img src="docs/assets/iteration/error_03_render_corruption.png" alt="视频结构化彩噪花屏" width="100%"></a><br><sub>渲染：OSMesa 上下文异常导致结构化彩噪，并伴随过整段冻结问题。</sub></td>
+  </tr>
+</table>
+
+以上均为**修复前历史截图**。15 张原始截图的逐项分类、判断依据和最终处理可在[历史问题截图索引](docs/assets/iteration/README.md)中审计；最终画面请以[五关整合视频](videos/README.md)为准。
+
+### 4. 逐步优化：每一轮都留下可量化的代价与收益
+
+| 迭代阶段 | 暴露的问题或反例 | 关键纠正 | 阶段结果 |
+|---|---|---|---|
+| **合规重构** | 早期实验包含瞬移、物体位姿直写、碰撞标志清除等 25 项不可接受路径 | 全部删除；改为 ≤0.02 m 底盘增量、逐步仿真与逐帧记录 | 分数从实验性 100 降至 **50/100**，但建立了可信起点 |
+| **可达性与放置几何** | L3 辅助输入台抓取点对双臂不可达；L5 放置偏 1.27 m、事件缺失、超时 | 工位抓取面选择、世界位姿同步、杠杆臂闭式朝向与保守对象重选 | 合规版本从 **50/100 → 100/100** |
+| **场景完整性修复** | `error` 截图定位出 5 处真实物理缺陷：L2/L3/L4 邻物扰动、L5 抓取扰动、L5 已放物体重叠 | 保持 0.35 m 抬升、抓后沿“工位→机器人”方向撤退 0.8 m、移动物体护栏、携带朝向走廊、动态槽位、桌外转向与径向进场 | 保持 **100/100**；最终轨迹中所有未抓物体最大平面位移 **0.000 m** |
+| **可视安全取证** | 传统接触审计为零，却仍存在 3.2–7.6 cm 的真实可视外壳穿插 | 审计工具经历“包装类调用全盲 → 凸包误报凹架 → 三角面变换错位 → 真实三角面+射线包含”的四步纠偏；控制侧采用规划+驱动双层约束 | 仅驱动护栏为 **75/100**；双层方案最终 **100/100**，可视穿插事件清零 |
+| **视频可靠性修复** | L4 follow 结构化彩噪，L3/L4/L5 follow 曾出现整段冻结；旧管线单视角峰值内存约 3 GB | 120 帧分块流式编码；3×3 局部亮度标准差阈值 12 检测花屏；运动期 `diff<0.005` 检测冻结；坏块在新 GL 后端重试 | 15 个单视角视频全部通过花屏/黑屏/冻结检查，5 个整合视频可直接播放 |
+
+### 5. 从“现象”到“机制”的具体修复
+
+| 错误族 | 根因定位 | 最终方法 | 为什么能够彻底覆盖该错误族 |
+|---|---|---|---|
+| **邻箱撞落与持续推行** | 沙盒抬升位姿在主环境站位同步时丢失；持箱以台面高度横扫；路径跟随只记录接触而不停 | 重新写回抬升位姿；抬升 0.35 m；先直退 0.8 m 离开台面；`_drive_base_to` 与 `_follow_path_direct` 同时增加移动物体接触回退和侧步 | 同时封堵“高度丢失、撤离横扫、接触后继续运动”三条因果链，而非只调一个阈值 |
+| **L5 已放物体重叠** | 携带杠杆约 0.9 m，桌边原地转向的扫掠圆必经已放物体；固定中心落点使后续箱堆叠 | 按实时候选间距选择 `0/±0.55 m` 槽位；桌外完成转向；沿射线径向进场；新最近距离低于 0.40 m 时提前中止并换槽 | 从运动拓扑上消除“绕桌扫弧”，再以趋势护栏处理模型误差 |
+| **评分未撞但视觉穿模** | 设备为 `contype=0` 的可视网格，碰撞由更小的不可见代理承担 | 直接光栅化躯干高度带内的真实三角面；A* 层按 0.29 m 膨胀，站位/撤离层按 0.25 m 触发回退 | 同一份可视表面模型覆盖全局路径和局部增量运动，避免两层几何口径不一致 |
+| **花屏、冻结与“桌子未渲染”疑点** | 大帧列表造成内存压力；并行 OSMesa 上下文返回损坏或陈旧帧 | 有界流式渲染、逐帧异常检测、新上下文重建、成片独立抽帧复核，并保留三视角交叉检查 | 错误帧不能静默进入成片；三次重试仍失败则终止且不保留半成品 |
+
+### 6. 最终闭环证据
+
+| 验证层 | 最终提交结果 | 可审计入口 |
 |---|---|---|
-| 二值障碍膨胀堵死窄通道 | 保持可通行集合的清障代价 A*，并禁止切角 | 五关导航全部到达，最终 `had_collision=false` |
-| 物理代理小于可见设备外壳 | 从渲染三角面生成视觉危险层，规划与站位共用 | 视频中避免“评分不撞但视觉穿模” |
-| 标称抓取点对一侧机械臂不可达 | 按工位拓扑选择 `+x / −y` 抓取面与墙法向站位 | 容器、普通料箱、辅助输入台共用一套控制器 |
-| 沙盒抓取会重置已搬物体 | “当前抓取物体 + 世界底盘位姿”的最小同步 | L5 三个物体保持独立状态并全部得分 |
-| 携带偏移导致面向桌心仍放偏 | 闭式杠杆臂朝向修正 + 桌外转向 + 径向进场 | 七个物体最终误差均小于 0.8 m |
-| LLM 在多物体任务中可能复用旧名称 | 基于实时位置、同族约束的保守重选 | L5 产生三次不同物体的成功抓取事件 |
+| 评分 | L1–L5 = **10 + 15 + 20 + 25 + 30 = 100/100** | [`trajectories/README.md`](trajectories/README.md) |
+| 轨迹连续性与碰撞 | **14,614** 帧；`has_judge_collision=true` 共 **0** 帧；7 次成功抓取事件 | 五组 [`trajectory_*_OK.json`](trajectories/) |
+| 场景完整性 | 五关最终轨迹中，所有**未抓取物体**最大平面位移为 **0.000 m**；L5 三个目标均独立抓取并到达 | [`L5 评分文件`](trajectories/L5/score_20260816_112911_OK.json) · [完整设计记录](docs/DEVELOPMENT_LOG_ZH.md) |
+| 放置精度 | 七个目标全部 `<0.8 m`；L5 为 **0.09 / 0.56 / 0.55 m** | 五组 [`score_*_OK.json`](trajectories/) |
+| 可视安全 | 最终五关轨迹的机身—设备可视穿插事件清零，护栏回放触发 0 次 | [Session #11 取证与回归](docs/DEVELOPMENT_LOG_ZH.md#%E3%80%87%E4%BA%8Csession-11-%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B%E8%AF%A6%E5%BD%95) |
+| 视频完整性 | 15 个单视角视频通过花屏/黑屏/冻结检查；5 个整合视频均可在 GitHub 打开 | [`videos/`](videos/README.md) |
 
-相关基础：A* 参见 [Hart, Nilsson & Raphael, 1968](https://doi.org/10.1109/TSSC.1968.300136)；操作空间控制参见 [Khatib, 1987](https://doi.org/10.1109/JRA.1987.1087068)；仿真框架参见 [MuJoCo](https://mujoco.org/) 与 [robosuite](https://robosuite.ai/)；行为数据与训练工具链参考 [robomimic](https://robomimic.github.io/)。
+**闭环结论：`error/` 中 15 张截图所对应的已知错误，在 2026-08-16 最终五关提交运行中均已完成定位、修复与回归验证，最终未再复现。** 这里的“全部解决”严格指这些已识别错误族及提交的五次端到端运行，不把有限场景的结果夸大为对任意未知工厂、随机种子或硬件平台的普适保证。
+
+相关基础工作：A* 参见 [Hart, Nilsson & Raphael, 1968](https://doi.org/10.1109/TSSC.1968.300136)；操作空间控制参见 [Khatib, 1987](https://doi.org/10.1109/JRA.1987.1087068)；仿真框架参见 [MuJoCo](https://mujoco.org/) 与 [robosuite](https://robosuite.ai/)；行为数据与训练工具链参考 [robomimic](https://robomimic.github.io/)。
 
 ## 可复现性
 
@@ -218,4 +293,4 @@ python score_dev.py "recordings/<env_name>/trajectory_${TS}_OK.json" \
 
 SOP-Runner is an auditable mobile-manipulation pipeline for the JCIIOT 2026 Industrial Embodied Intelligence Challenge. It combines structured SOP planning, clearance-cost A*, rendered-shell safety constraints, a deterministic six-phase dual-arm OSC grasp servo, conservative multi-object reselection, and lever-arm-aware radial placement. The submitted final runs score **100/100** across all five scenes with no collision deduction in the saved scorer outputs. Every claimed score links to its JSON evidence, and every level includes a clickable three-view composed video plus the three individual camera streams.
 
-For the full English methodology, novelty scope, compliance disclosure, results, and reproduction instructions, see [`docs/TECHNICAL_REPORT_EN.md`](docs/TECHNICAL_REPORT_EN.md).
+For the full English methodology, innovation scope, compliance disclosure, results, and reproduction instructions, see [`docs/TECHNICAL_REPORT_EN.md`](docs/TECHNICAL_REPORT_EN.md).
