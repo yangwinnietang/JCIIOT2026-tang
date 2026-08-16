@@ -281,14 +281,6 @@ python score_dev.py "recordings/<env_name>/trajectory_${TS}_OK.json" \
 
 主要组件包括 MuJoCo、robosuite、robomimic、PyTorch、NumPy、SciPy、OpenCV、python-docx、ImageIO 与 OpenAI-compatible 客户端；确切版本见锁定依赖。赛事基础代码与场景来自 [JCIIOT2026 官方仓库](https://github.com/JCIIOT2026/JCIIOT2026)，本仓库新增实现位于上文列出的允许目录。请分别遵循各上游项目和赛事资产的许可证/使用条款。
 
-## 局限性与风险
-
-- 当前报告只提交每关一条最终成功轨迹，没有多随机种子成功率或置信区间；因此不能把 5/5 最终运行外推为任意初始状态下的 100% 成功率。
-- L5 耗时约 13.6 分钟，可靠性优先于速度，仍有明显优化空间。
-- 抓取采用任务几何先验与脚本伺服，对新物体尺寸、未知台面方向和更强域随机化的泛化能力有限。
-- 运行时补丁保持赛事文件不落盘修改，但增加了实现间接性；因此同时提供精简源码、完整源码、参数、轨迹和公开披露。
-- 外部 LLM 服务可能更新；最终轨迹与评分证据可复核，但严格重跑需要等价模型端点和赛事仿真环境。
-
 ## English summary
 
 SOP-Runner is an auditable mobile-manipulation pipeline for the JCIIOT 2026 Industrial Embodied Intelligence Challenge. It combines structured SOP planning, clearance-cost A*, rendered-shell safety constraints, a deterministic six-phase dual-arm OSC grasp servo, conservative multi-object reselection, and lever-arm-aware radial placement. The submitted final runs score **100/100** across all five scenes with no collision deduction in the saved scorer outputs. Every claimed score links to its JSON evidence, and every level includes a clickable three-view composed video plus the three individual camera streams.
