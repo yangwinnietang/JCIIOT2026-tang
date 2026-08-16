@@ -160,16 +160,31 @@ Each level has a composed 1280×720 H.264/MP4 video with bird's-eye, robot-view 
 - L5 preserves three object identities and avoids overwriting earlier placements;
 - scored collision avoidance and rendered-shell avoidance are treated as separate constraints.
 
-## 5. Novelty statement
+## 5. Innovation statement: failure evidence as a control-design input
 
-The novelty claim is scoped to **algorithmic and systems innovation over the competition baseline**, not invention of A*, operational-space control or behavior cloning.
+Our innovation claim is scoped to **algorithmic and systems advances over the competition baseline**, not to inventing A*, operational-space control, or behavior cloning. The central contribution is a falsifiable engineering loop: reviewer-found counterexamples are localized to exact frames and objects, measured separately in physical, rendered-geometry, and media layers, corrected in the controller, and accepted only after five-level reruns and independent audits.
 
-1. **Closed-form carry-lever alignment.** A virtual station rotates an arbitrary base-frame carry offset onto the target ray; crowded targets add outside-table turning and a radial final approach.
-2. **Rendered-shell-aware safety.** Surface-triangle occupancy reconciles the smaller scoring proxies with visible machine geometry and is shared by global planning and local stance guards.
-3. **Station-topology grasp adaptation.** Wall selection and wall-normal stance couple semantic station type with dual-arm reachability instead of relying on one global grasp-site convention.
-4. **Minimal sandbox synchronization.** Only the active object and the base world pose are reconciled, preventing multi-object state rollback while preserving controller isolation.
-5. **State-gated multi-object identity recovery.** A stale LLM name is corrected only after geometric proof that it has left the station and a same-family replacement remains.
-6. **Evidence as part of the control design.** Every bounded increment, sandbox phase and release frame is recorded, and final JSON, events, score and video are tied to the same timestamped run.
+| Innovation | Baseline failure mode | Technical contribution | Measured final evidence |
+|---|---|---|---|
+| Clearance-cost A* | Binary inflation closes narrow aisles; an unpenalized shortest path hugs equipment | Continuous distance-field cost without removing baseline-passable cells, plus no diagonal corner cutting | All five routes complete; zero `has_judge_collision=true` frames in 14,614 final frames |
+| Dual-layer rendered-shell safety | Physical proxies are smaller than some visible machine shells | A 2.5 cm grid from actual rendered triangles, dilated by 0.29 m for A*, with a 0.25 m incremental-drive guard | Guard-only ablation scored 75/100; planning plus guard restored 100/100 and eliminated final visual-overlap events |
+| Station-topology grasping | One nominal grasp face is not bilaterally reachable at every station | `+x/-y` wall selection, wall-normal stance, and deterministic six-phase OSC servo | Seven successful `grasp_end` events across containers, regular totes, and an auxiliary-input tote |
+| Minimal world-consistent sandbox synchronization | Synchronizing all sandbox objects rolls previously moved objects back to spawn | Reconcile only the active object and the base world pose; record all other objects from the navigation environment | Three independent L5 object identities and three independently scored deliveries |
+| Lever-aware radial placement | Facing the table does not cancel a lateral carry offset; turning beside a crowded table sweeps already placed objects | Closed-form `yaw_v = psi - phi`, outside-table turning, radial approach, live slot ranking, and a trend-aware swing guard | L5 errors of 0.09/0.56/0.55 m with no repeated-object placement or neighbour displacement |
+| State-gated identity recovery | A repeated planner name can refer to an object already transported | Substitute only when the requested object is over 1.5 m from the source and a same-family candidate remains within 1.5 m | Three distinct successful L5 grasp events rather than blind index rotation |
+
+### 5.1 What failed, and how it changed the design
+
+The original screenshots are retained in the [historical error-evidence index](assets/iteration/README.md). They exposed defects that the scalar score alone did not reveal:
+
+| Historical counterexample | Quantitative diagnosis | Corrective mechanism | Final closure |
+|---|---|---|---|
+| L2/L3/L4 neighbouring objects were knocked from their stations | L2 fell 2.29 m and was pushed about 2.3 m; L3 fell 1.79 m | Reapply the lifted pose, raise by 0.35 m, retreat 0.8 m away from the table, and guard both base-drive paths against movable-object contact | Maximum planar displacement of every never-grasped object in the five final trajectories is 0.000 m |
+| L5's second placement swept through the first tote | Historical penetration −36 mm, 0.637 m displacement, final centre distance 0.295 m below the 0.40 m tote width | Dynamic `0/±0.55 m` slots, turn at an exterior standoff, approach radially, and abort a newly closing swing below 0.40 m | Three independent target deliveries at 0.09/0.56/0.55 m |
+| The judge collision audit reported zero while the robot visibly intersected equipment | Triangle-level reconstruction found true 32–76 mm torso-shell intersections; the earlier convex-hull model also over-filled hollow racks | Rasterize actual surface triangles rather than convex hulls, then share the surface model between A* and close-range driving | Final five-level visual audit reports zero body-shell events and zero guard-replay triggers |
+| Follow-camera video contained structured colour noise and frozen segments | The old all-frames list could approach 3 GB per L5 view and leave a corrupted OSMesa readback context | 120-frame streaming chunks, local-luminance corruption threshold 12, motion-conditioned freeze detection, and retry in a fresh renderer context | All 15 source views passed corruption/black/freeze checks; all five composed demonstrations are available in the repository |
+
+The final closure claim is intentionally precise: every failure family represented by the 15 saved screenshots was localized, corrected, and did not recur in the five submitted 16 August runs. It is not a claim of universal robustness to unseen factories or arbitrary random seeds.
 
 ## 6. Compliance and implementation disclosure
 
