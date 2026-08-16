@@ -63,80 +63,6 @@ DEFAULT_ROBOT_BASE_POS = [8.000001, 4.600000, 0.0]
 ARMS = ("right", "left")
 
 
-def _find_base_joint_addrs(sim):
-    """Find qpos addresses for the mobile base forward/side/yaw joints."""
-    fwd = sid = yaw = None
-    for jn in sim.model.joint_names:
-        if "mobile_forward" in jn or jn.endswith("joint_mobile_forward"):
-            fwd = sim.model.joint_name2id(jn)
-        elif "mobile_side" in jn or jn.endswith("joint_mobile_side"):
-            sid = sim.model.joint_name2id(jn)
-        elif "mobile_yaw" in jn or jn.endswith("joint_mobile_yaw"):
-            yaw = sim.model.joint_name2id(jn)
-    return fwd, sid, yaw
-
-
-def _reposition_base(env, robot, target_xy, target_yaw=None):
-    """Directly write mobile-base qpos to reposition the robot in the eval env.
-
-    Works by perturbing joints to compute a world→qpos mapping, then applying
-    the delta.  Also clears the latched collision flag.
-    """
-    sim = env.sim
-    fwd_addr, sid_addr, yaw_addr = _find_base_joint_addrs(sim)
-    if fwd_addr is None or sid_addr is None:
-        return
-
-    # Current base world XY from base site
-    base_site_name = robot.robot_model.base.correct_naming("center")
-    try:
-        base_site_id = sim.model.site_name2id(base_site_name)
-    except Exception:
-        return
-    base_xy = np.array(sim.data.site_xpos[base_site_id][:2])
-
-    # Build linear mapping: perturb forward joint, measure world delta
-    eps = 1e-4
-    qpos_f = float(sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]])
-    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] = qpos_f + eps
-    sim.forward()
-    xy_after_f = np.array(sim.data.site_xpos[base_site_id][:2])
-    df = (xy_after_f - base_xy) / eps
-    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] = qpos_f
-
-    qpos_s = float(sim.data.qpos[sim.model.jnt_qposadr[sid_addr]])
-    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] = qpos_s + eps
-    sim.forward()
-    xy_after_s = np.array(sim.data.site_xpos[base_site_id][:2])
-    ds = (xy_after_s - base_xy) / eps
-    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] = qpos_s
-    sim.forward()
-
-    # Solve: [df | ds] @ delta_qpos = target - base
-    J = np.column_stack([df, ds])  # 2x2
-    try:
-        delta_qpos = np.linalg.solve(J, np.asarray(target_xy) - base_xy)
-    except np.linalg.LinAlgError:
-        return
-    sim.data.qpos[sim.model.jnt_qposadr[fwd_addr]] += delta_qpos[0]
-    sim.data.qpos[sim.model.jnt_qposadr[sid_addr]] += delta_qpos[1]
-
-    # Yaw
-    if target_yaw is not None and yaw_addr is not None:
-        for _ in range(2):
-            _, cur_yaw = get_base_world_pose(env, robot)
-            d = float(target_yaw - cur_yaw)
-            d = (d + np.pi) % (2 * np.pi) - np.pi
-            if abs(d) < 1e-6:
-                break
-            sim.data.qpos[sim.model.jnt_qposadr[yaw_addr]] += d
-            sim.forward()
-
-    sim.forward()
-    if hasattr(env, "has_judge_collision"):
-        env.has_judge_collision = False
-
-
 FACTORY_SCENE_ENV_NAMES = {
     "factory_sorting": "FactorySorting",
     "FactorySorting": "FactorySorting",
@@ -449,7 +375,7 @@ def make_factory_sorting_env_kwargs(args):
     }
     if env_name.startswith("FactorySorting") and env_name != "FactorySorting":
         kwargs["use_siemens_arena"] = True
-        kwargs["include_material_objects"] = False
+        kwargs["include_material_objects"] = True
         kwargs["include_siemens_line_objects"] = False
         kwargs["include_legacy_static_scene"] = False
     return kwargs
@@ -536,31 +462,16 @@ def policy_required_obs_keys(policy):
     net = policy_network(policy)
     input_shapes = getattr(net, "input_obs_group_shapes", None) if net is not None else None
     if isinstance(input_shapes, dict):
-        all_keys = []
-        for group_name in ("obs", "rgb", "depth", "scan"):
-            group_shapes = input_shapes.get(group_name)
-            if isinstance(group_shapes, dict):
-                all_keys.extend(group_shapes.keys())
-        if all_keys:
-            return tuple(all_keys)
+        obs_shapes = input_shapes.get("obs")
+        if isinstance(obs_shapes, dict):
+            return tuple(obs_shapes.keys())
 
     candidates = [getattr(policy, "policy", None), policy]
     for candidate in candidates:
         obs_key_shapes = getattr(candidate, "obs_key_shapes", None)
         if not isinstance(obs_key_shapes, dict):
             continue
-        all_keys = []
-        for group_name in ("obs", "rgb", "depth", "scan"):
-            group_shapes = obs_key_shapes.get(group_name) if group_name in obs_key_shapes else None
-            if isinstance(group_shapes, dict):
-                all_keys.extend(group_shapes.keys())
-        if all_keys:
-            return tuple(all_keys)
-        # fallback: flat dict
-        if "obs" in obs_key_shapes:
-            obs_shapes = obs_key_shapes["obs"]
-        else:
-            obs_shapes = obs_key_shapes
+        obs_shapes = obs_key_shapes.get("obs") if "obs" in obs_key_shapes else obs_key_shapes
         if isinstance(obs_shapes, dict):
             return tuple(obs_shapes.keys())
     return None
@@ -999,246 +910,57 @@ def run_factory_sorting_grasp_in_wrapped_env(
     if not hasattr(env, "step"):
         raise RuntimeError("run_factory_sorting_grasp_in_wrapped_env requires a robomimic EnvRobosuite wrapper.")
 
+    if hasattr(policy, "start_episode"):
+        policy.start_episode()
+
+    obs = current_wrapped_policy_obs(env)
     below_site_targets = print_reset_debug_info(raw_env, object_name, eval_args)
     base_xy, yaw = get_base_world_pose(raw_env, robot)
     print(
         "wrapped_env_grasp_start_pose: "
         f"x={base_xy[0]:.6f}, y={base_xy[1]:.6f}, yaw={yaw:.6f}"
     )
-
-    # ── Stance correction: reposition robot base to (obj_x+standoff, obj_y) ──
-    # The eval env is created with the nav env's base pose, which may be
-    # misaligned.  We directly manipulate sim qpos to fix it.
-    _standoff = 0.85
-    _obj_xy = None
-    for _sfx in ('_joint0', '_free'):
-        try:
-            _q = raw_env.sim.data.get_joint_qpos(f'{object_name}{_sfx}')
-            _obj_xy = (float(_q[0]), float(_q[1]))
-            break
-        except Exception:
-            pass
-    if _obj_xy is not None:
-        _desired_x = _obj_xy[0] + _standoff
-        _desired_y = _obj_xy[1]
-        _y_err = abs(base_xy[1] - _desired_y)
-        _x_err = abs(base_xy[0] - _desired_x)
-        if _y_err > 0.15 or _x_err > 0.30:
-            print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
-                  f"base=({base_xy[0]:.3f},{base_xy[1]:.3f}) "
-                  f"desired=({_desired_x:.3f},{_desired_y:.3f}) "
-                  f"y_err={_y_err:.3f} x_err={_x_err:.3f}", flush=True)
-            _reposition_base(raw_env, robot, (_desired_x, _desired_y), -3.141593)
-            base_xy, yaw = get_base_world_pose(raw_env, robot)
-            print(f"[STANCE_FIX] after fix: base=({base_xy[0]:.3f},{base_xy[1]:.3f}) yaw={yaw:.3f}", flush=True)
-        else:
-            print(f"[STANCE_FIX] obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
-                  f"base=({base_xy[0]:.3f},{base_xy[1]:.3f}) OK", flush=True)
-
-    print("Executing scripted grasp policy (deterministic OSC waypoint servo)")
+    print("Executing grasp policy on the current robomimic-wrapped environment without reset_to")
 
     for _ in range(initial_view_steps):
         render_frame_or_callback(env, render=render, args=eval_args, render_callback=render_callback)
 
-    import robosuite.environments.factory_sorting.load_factory_sorting_1_3fo3erfhisem_collect as coll
+    low, _ = raw_env.action_spec
+    expected_action_dim = int(np.asarray(low).size)
+    last_action = None
+    total_reward = 0.0
 
-    coll_up_steps = getattr(coll, "DEFAULT_UP_STEPS", 60)
-    coll_xy_steps = getattr(coll, "DEFAULT_XY_STEPS", 120)
-    coll_down_steps = getattr(coll, "DEFAULT_DOWN_STEPS", 80)
-    coll_settle_steps = 150
-    coll_grasp_steps = getattr(coll, "DEFAULT_GRASP_STEPS", 40)
-    coll_post_hold = getattr(coll, "DEFAULT_POST_SUCCESS_HOLD_STEPS", 10)
-    coll_safe_z = getattr(coll, "DEFAULT_SAFE_Z", 0.10)
-    coll_clearance = 0.25
-    coll_max_action = getattr(coll, "DEFAULT_MAX_ACTION", 0.65)
-    coll_arrival_tol = 0.08
-    coll_grip_end_tol = getattr(coll, "DEFAULT_GRIPPER_END_ARRIVAL_TOLERANCE", 0.03)
-    ARMS = coll.ARMS
-    CAMERA_HOLD_TARGET_ATTR = coll.CAMERA_HOLD_TARGET_ATTR
+    for step in range(eval_steps):
+        action = np.asarray(policy(ob=obs), dtype=float).reshape(-1)
+        if action.size != expected_action_dim:
+            raise RuntimeError(
+                f"Policy action dimension mismatch: policy={action.size}, "
+                f"current_env={expected_action_dim}"
+            )
 
-    setattr(robot, CAMERA_HOLD_TARGET_ATTR, coll.capture_camera_hold_targets(robot))
+        last_action = action
+        obs, reward, done, _ = env.step(action)
+        total_reward += float(reward)
+        render_frame_or_callback(env, render=render, args=eval_args, render_callback=render_callback)
 
-    raw_env.sim.forward()
-    below_site_targets, site_names = coll.get_target_positions(raw_env, object_name, site_below_offset)
-    print(f"[SCRIPTED] site_positions (world): {site_names}")
-    for arm in ARMS:
-        sp = coll.site_pos(raw_env, site_names[arm])
-        print(f"[SCRIPTED] {arm} site world pos: {sp}, below_target: {below_site_targets[arm]}")
-    starts = {arm: coll.get_eef_pos(raw_env, robot, arm) for arm in ARMS}
-    print(f"[SCRIPTED] eef starts: right={starts['right']}, left={starts['left']}")
+        if debug_policy and step % debug_every == 0:
+            print(
+                f"grasp step={step}/{eval_steps} "
+                f"action_norm={float(np.linalg.norm(action)):.3f}"
+            )
 
-    # xwall-grasp: relocate targets to the object's +x wall (aisle-facing).
-    # For totes (L2/L3/L5) the nominal sites are on the -y wall and
-    # unreachable.  For containers (L1/L4) the nominal sites are already on
-    # the +x wall; xwall-grasp reproduces nearly the same positions.
-    _obj_xy = None
-    for _sfx in ('_joint0', '_free'):
-        try:
-            _q = raw_env.sim.data.get_joint_qpos(f'{object_name}{_sfx}')
-            _obj_xy = (float(_q[0]), float(_q[1]))
+        if done:
+            print(f"Wrapped env returned done=True during grasp at step {step}.")
             break
-        except Exception:
-            pass
-    if _obj_xy is not None:
-        # Check if BOTH nominal sites are on the +x wall (reachable).
-        # For containers (L1/L4) both sites are aisle-facing and reachable.
-        # For totes (L2/L3/L5) the left site is on the -x wall and unreachable.
-        _nominal_right = below_site_targets["right"].copy()
-        _nominal_left = below_site_targets["left"].copy()
-        _both_on_plus_x = (
-            _nominal_right[0] > _obj_xy[0] and _nominal_left[0] > _obj_xy[0]
-        )
-        if _both_on_plus_x:
-            print(f"[SCRIPTED] nominal sites already on +x wall, keeping them")
-        else:
-            _xwall_inset = 0.30
-            _xwall_span = 0.12
-            _nominal_ref_z = below_site_targets["right"][2] + site_below_offset
-            below_site_targets = {
-                "right": np.array([_obj_xy[0] + _xwall_inset, _obj_xy[1] + _xwall_span, _nominal_ref_z - site_below_offset]),
-                "left":  np.array([_obj_xy[0] + _xwall_inset, _obj_xy[1] - _xwall_span, _nominal_ref_z - site_below_offset]),
-            }
-            print(f"[SCRIPTED] xwall-grasp: obj=({_obj_xy[0]:.3f},{_obj_xy[1]:.3f}) "
-                  f"targets: right={below_site_targets['right']}, left={below_site_targets['left']}")
 
-    # Always disable contact rejection during approach — the gripper may
-    # legitimately touch the object rim while maneuvering into position.
-    reject_contact = False
-    print(f"[SCRIPTED] contact rejection disabled (approach phases)")
-    site_positions = {
-        arm: below_site_targets[arm] + np.array([0.0, 0.0, site_below_offset])
-        for arm in ARMS
-    }
-    safe_z = max(
-        coll_safe_z,
-        max(starts[arm][2] for arm in ARMS),
-        max(site_positions[arm][2] + coll_clearance for arm in ARMS),
-    )
-    safe_targets = {arm: np.array([starts[arm][0], starts[arm][1], safe_z]) for arm in ARMS}
-    xy_targets = {
-        arm: np.array([site_positions[arm][0], site_positions[arm][1], safe_z])
-        for arm in ARMS
-    }
-
-    coll_args = argparse.Namespace(
-        max_action=coll_max_action,
-        settle_steps=coll_settle_steps,
-        arrival_tolerance=coll_arrival_tol,
-        gripper_end_arrival_tolerance=coll_grip_end_tol,
-        render_sleep=render_sleep,
-    )
-    obs_buffer = coll.make_obs_buffer()
-
-    _orig_step_with_record = coll.step_with_record
-    def _patched_step_with_record(env_, base_env_, action_, obs_buffer_, render_, args_):
-        base_env_.step(action_)
-        if render_callback is not None:
-            render_callback()
-    coll.step_with_record = _patched_step_with_record
-
-    failed = False
-    failure_reason = ""
-    total_steps = 0
-
-    try:
-        print(f"[SCRIPTED] Phase 1: safe vertical lift ({coll_up_steps} steps, safe_z={safe_z:.3f})")
-        ok, reason = coll.move_along_linear_segment(
-            env=raw_env, base_env=raw_env, robot=robot,
-            object_name=object_name,
-            goal_targets=safe_targets,
-            num_steps=coll_up_steps,
-            gripper_value=-1.0,
-            render=False, args=coll_args, obs_buffer=obs_buffer,
-            reject_object_contact=reject_contact,
-            label="safe vertical lift",
-        )
-        total_steps += coll_up_steps
-        if not ok:
-            failed = True
-            failure_reason = reason
-
-        if not failed:
-            print(f"[SCRIPTED] Phase 2: XY approach ({coll_xy_steps} steps)")
-            ok, reason = coll.move_along_linear_segment(
-                env=raw_env, base_env=raw_env, robot=robot,
-                object_name=object_name,
-                goal_targets=xy_targets,
-                num_steps=coll_xy_steps,
-                gripper_value=-1.0,
-                render=False, args=coll_args, obs_buffer=obs_buffer,
-                reject_object_contact=reject_contact,
-                label="XY approach",
-            )
-            total_steps += coll_xy_steps
-            if not ok:
-                failed = True
-                failure_reason = reason
-
-        if not failed:
-            print(f"[SCRIPTED] Phase 3: vertical descent ({coll_down_steps} steps)")
-            ok, reason = coll.move_vertically_below_sites(
-                env=raw_env, base_env=raw_env, robot=robot,
-                goal_targets=below_site_targets,
-                site_positions=site_positions,
-                num_steps=coll_down_steps,
-                gripper_value=-1.0,
-                render=False, args=coll_args, obs_buffer=obs_buffer,
-                label="vertical descent below sites",
-            )
-            total_steps += coll_down_steps
-            if not ok:
-                failed = True
-                failure_reason = reason
-
-        if not failed:
-            print(f"[SCRIPTED] Phase 4: settle gripper end centers (max {coll_settle_steps} steps)")
-            ok, reason = coll.settle_gripper_end_centers_at_targets(
-                env=raw_env, base_env=raw_env, robot=robot,
-                goal_targets=below_site_targets,
-                gripper_value=-1.0,
-                render=False, args=coll_args, obs_buffer=obs_buffer,
-                label="gripper end center arrival",
-            )
-            if not ok:
-                failed = True
-                failure_reason = reason
-
-        if not failed:
-            print(f"[SCRIPTED] Phase 5: grasp close ({coll_grasp_steps} steps)")
-            for _ in range(coll_grasp_steps):
-                action = coll.build_action(raw_env, robot, {}, gripper_value=1.0)
-                raw_env.step(action)
-                if render_callback is not None:
-                    render_callback()
-            total_steps += coll_grasp_steps
-
-            _, grasps = print_grasp_debug_info(
-                env=raw_env, robot=robot, object_name=object_name,
-                goal_targets=below_site_targets,
-                label="After scripted grasp close",
-            )
-            if not all(grasps.values()):
-                failed = True
-                failure_reason = "grasp check failed after close"
-            else:
-                print(f"[SCRIPTED] Phase 6: post-success hold ({coll_post_hold} steps)")
-                for _ in range(coll_post_hold):
-                    action = coll.build_action(raw_env, robot, {}, gripper_value=1.0)
-                    raw_env.step(action)
-                    if render_callback is not None:
-                        render_callback()
-                total_steps += coll_post_hold
-
-        if post_hold_steps > 0 and not failed:
-            print(f"Holding final grasp action for {post_hold_steps} steps")
-            hold_action = coll.build_action(raw_env, robot, {}, gripper_value=1.0)
-            for _ in range(post_hold_steps):
-                raw_env.step(hold_action)
-                if render_callback is not None:
-                    render_callback()
-
-    finally:
-        coll.step_with_record = _orig_step_with_record
+    if post_hold_steps > 0:
+        action_dim = getattr(env, "action_dimension", expected_action_dim)
+        hold_action = last_action if last_action is not None else np.zeros(action_dim)
+        print(f"Holding final grasp action for {post_hold_steps} steps")
+        for _ in range(post_hold_steps):
+            obs, reward, _, _ = env.step(hold_action)
+            total_reward += float(reward)
+            render_frame_or_callback(env, render=render, args=eval_args, render_callback=render_callback)
 
     _, grasps = print_grasp_debug_info(
         env=raw_env,
@@ -1248,15 +970,13 @@ def run_factory_sorting_grasp_in_wrapped_env(
         label="After same-env wrapped policy execution",
     )
     success = all(grasps.values())
-    print(f"Scripted grasp total_steps={total_steps}")
+    print(f"Same-env wrapped grasp return: {total_reward:.6f}")
     print(f"Same-env wrapped grasp success: {success}")
-    if failed:
-        print(f"Scripted grasp failure: {failure_reason}")
     return {
         "success": success,
         "successes": int(success),
         "num_rollouts": 1,
-        "return": 0.0,
+        "return": total_reward,
     }
 
 

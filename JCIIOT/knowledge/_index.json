@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-12T14:39:26",
+  "updated_at": "2026-08-16T11:29:29",
   "document_count": 15,
   "documents": {
     "command_examples.md": {
@@ -81,7 +81,7 @@
       "tags": [
         "L5",
         "input_1",
-        "output_6"
+        "aux_output_1"
       ],
       "added_at": "2026-06-24T13:00:00"
     },

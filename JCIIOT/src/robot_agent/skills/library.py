@@ -5,9 +5,12 @@ All skills require a backend; there is no mock / no-op fallback.
 
 from __future__ import annotations
 
+import logging
 import os
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 from robot_agent.core.memory import InMemoryStore
 from robot_agent.core.scene_context import SceneContext
@@ -109,6 +112,51 @@ def _detect_vision_api_config() -> dict:
     return cfg
 
 
+def _merge_visual_shells_into_grid(backend, scene_context, grid):
+    """把可视机架的真实表面并入导航占据栅格（硬障碍 + 机身半径膨胀）。
+
+    产线设备的白色可见外壳是纯可视网格（contype=0），其不可见碰撞代理
+    更小——只按代理规划会让机身在视频里穿壳（用户实锤的"与右侧设备
+    重叠"）。把真实表面栅格按机身半径膨胀后标为障碍，A* 自动绕行；
+    目标点被占时由 nearest_passable_cell 吸附到最近自由格，最后一程
+    由带可视护栏的 _drive_base_to 兜底。任何失败都退回原栅格。
+    """
+    try:
+        from robot_agent.skills._factory_physics_patch import _visual_shell_grid
+
+        env = getattr(backend, "env", None)
+        if env is None or grid is None:
+            return grid
+        shell, x0, y0, cell = _visual_shell_grid(env)
+        bounds = scene_context.bounds
+        res = float(scene_context.resolution)
+        ii, jj = np.nonzero(shell)
+        if len(ii) == 0:
+            return grid
+        wx = x0 + (ii + 0.5) * cell
+        wy = y0 + (jj + 0.5) * cell
+        rows = np.round((wx - bounds["x_min"]) / res).astype(int)
+        cols = np.round((wy - bounds["y_min"]) / res).astype(int)
+        ok = (rows >= 0) & (rows < grid.shape[0]) & (cols >= 0) & (cols < grid.shape[1])
+        out = np.array(grid)
+        out[rows[ok], cols[ok]] = 1
+        # 按机身可视半径(0.27m)+2cm 余量膨胀，保证规划路径不贴壳
+        dil = max(1, int(round(0.29 / res)))
+        from scipy.ndimage import binary_dilation
+        shell_mask = np.zeros_like(out, dtype=bool)
+        shell_mask[rows[ok], cols[ok]] = True
+        shell_mask = binary_dilation(shell_mask, iterations=dil)
+        out[shell_mask] = 1
+        logger.info(
+            "visual-shell grid merged: %d surface cells, dilate=%d cell(s)",
+            int(ok.sum()), dil,
+        )
+        return out
+    except Exception:
+        logger.exception("visual-shell grid merge failed — using original grid")
+        return grid
+
+
 def wired_skills(
     backend: EnvBackend,
     scene_context: SceneContext,
@@ -119,6 +167,7 @@ def wired_skills(
 ) -> list[BaseSkill]:
     """Return skills wired to a real (or simulated) backend."""
     _vis_cfg = _detect_vision_api_config()
+    grid = _merge_visual_shells_into_grid(backend, scene_context, grid)
     # Planning params: robot_params.json `planning` block is authoritative;
     # the caller-supplied path_spacing is a fallback when no block is present.
     _plan = _load_planning_params()

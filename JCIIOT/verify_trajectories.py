@@ -30,15 +30,16 @@ OUTPUT_STATIONS = {
     "output_4": [-0.166, -7.290],
     "output_5": [4.872, -7.261],
     "output_6": [10.032, -7.267],
+    "aux_output_1": [0.140, 8.470],
 }
 
-# ---- 待检查的 5 个文件 ----
+# ---- 待检查的 5 个文件 (2026-08-16 碰撞/重叠修复后满分重跑, 最终代码一致版) ----
 FILES = [
-    ("L1", "FactorySorting1_3FO3ERFHISEM", "trajectory_20260810_183259_OK.json"),
-    ("L2", "FactorySorting3_3FO3ERRPH7X9", "trajectory_20260810_193256_OK.json"),
-    ("L3", "FactorySorting5_3FO3ERTPXEUT", "trajectory_20260810_194712_OK.json"),
-    ("L4", "FactorySorting7_3FO3ERFKY9RN", "trajectory_20260810_200237_OK.json"),
-    ("L5", "FactorySorting9_3FO3ERT2C5FP", "trajectory_20260810_221040_FAIL.json"),
+    ("L1", "FactorySorting1_3FO3ERFHISEM", "trajectory_20260816_111213_OK.json"),
+    ("L2", "FactorySorting3_3FO3ERRPH7X9", "trajectory_20260816_111600_OK.json"),
+    ("L3", "FactorySorting5_3FO3ERTPXEUT", "trajectory_20260816_111938_OK.json"),
+    ("L4", "FactorySorting7_3FO3ERFKY9RN", "trajectory_20260816_112331_OK.json"),
+    ("L5", "FactorySorting9_3FO3ERT2C5FP", "trajectory_20260816_112911_OK.json"),
 ]
 
 def dist2d(a, b):
@@ -139,11 +140,12 @@ for level, env_dir, traj_name in FILES:
     print("  [检查2] grasp_end 的 source / object_name 是否匹配 task_config")
     cfg_source = task["source"]
     cfg_object = task["object"]
+    # task_config 的 object 是候选列表（任一匹配即可）
+    cfg_objects = cfg_object if isinstance(cfg_object, list) else [cfg_object]
     for i, e in enumerate(grasp_end_success):
         e_src = e.get("source")
         e_obj = e.get("object_name")
         src_ok = (e_src == cfg_source)
-        obj_ok = (e_obj == cfg_object)
         print(f"    grasp_end[{i}]: source={e_src} (期望 {cfg_source}, {'✓' if src_ok else '✗'}), "
               f"object_name={e_obj}")
         if not src_ok:
@@ -153,16 +155,17 @@ for level, env_dir, traj_name in FILES:
     if level == "L5":
         objs = sorted(set(e.get("object_name") for e in grasp_end_success))
         print(f"    L5 所有 grasp_end success 物体: {objs}")
-        if cfg_object in objs:
-            print(f"    主物体 {cfg_object} 存在于 grasp_end: ✓")
+        matched = [o for o in cfg_objects if o in objs]
+        if matched:
+            print(f"    主物体 {matched} 存在于 grasp_end: ✓")
         else:
-            print(f"    ✗ 主物体 {cfg_object} 不在 grasp_end 物体列表中!")
+            print(f"    ✗ 主物体 {cfg_objects} 不在 grasp_end 物体列表中!")
             file_ok = False
     else:
         for e in grasp_end_success:
             e_obj = e.get("object_name")
-            if e_obj != cfg_object:
-                print(f"    ✗ object_name={e_obj} 与 task_config object={cfg_object} 不匹配!")
+            if e_obj not in cfg_objects:
+                print(f"    ✗ object_name={e_obj} 与 task_config object={cfg_objects} 不匹配!")
                 file_ok = False
             else:
                 print(f"    object_name 匹配: ✓")
@@ -181,12 +184,12 @@ for level, env_dir, traj_name in FILES:
         target = task["target"]
         target_xy = OUTPUT_STATIONS.get(target)
         print(f"    目标站: {target}, 坐标(x,y)={target_xy}")
-        # 对于 L1-L4, 检查 task_config 中 object 的最终位置
+        # 对于 L1-L4, 检查实际被抓取物体（grasp_end 事件中的 object_name）
         # 对于 L5, 检查所有 3 个物体
         if level == "L5":
             l5_objs = sorted(set(e.get("object_name") for e in grasp_end_success))
         else:
-            l5_objs = [cfg_object]
+            l5_objs = sorted(set(e.get("object_name") for e in grasp_end_success)) or cfg_objects[:1]
         for obj_name in l5_objs:
             pos = obj_pos.get(obj_name)
             if pos is None:

@@ -12,21 +12,21 @@
 
 Transport a blue material transfer bin from Pick Station 1 to Place Station 2
 
-Pick station (source): **input_6** — center (11.94, 3.93)
+Pick station (source): **aux_input_1** — center (0.14, 8.47)
 Place station (target): **output_5** — center (4.87, -7.26)
-Target object: **orange_tote_b01_upper**
+Target object: **blue_tote_b01_far_right**
 Robot start: (13.5, 0.0)
 
 ## Station Mapping
 
 | Item | Station | Center (x, y) |
 |---|---|---|
-| Pick (source) | input_6 | (11.94, 3.93) |
+| Pick (source) | aux_input_1 | (0.14, 8.47) |
 | Place (target) | output_5 | (4.87, -7.26) |
 
 ## Grasp Pose (BC Policy)
 
-Source `input_6` — stop point pos=[6.0, 4.8, 0.0], yaw=-3.139453
+Source `aux_input_1` — stop point pos=[6.0, 4.8, 0.0], yaw=-3.139453
 
 CRITICAL: the BC grasp policy expects the robot base at the trained grasp pose
 (see `task_config.json` `grasp_poses`). An incorrect yaw is the most common
@@ -34,7 +34,7 @@ cause of grasp failure — do not override the trained yaw.
 
 ## Object Inventory
 
-Target object for this task: **orange_tote_b01_upper**
+Target object for this task: **blue_tote_b01_far_right**
 
 (Canonical object/scene mapping is defined in `knowledge/task_config.json`.)
 

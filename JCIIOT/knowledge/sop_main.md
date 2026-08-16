@@ -21,9 +21,9 @@ All five levels, robot start at (13.5, 0.0):
 | ----- | ----------------- | -------------- | ---------------------- | ------------------------------------------------------------------------------- | --------------- | ----------------------- |
 | L1    | factory_sorting_1 | Pick Station 2 | input_5 (7.19, 3.94)   | line_5_container_h01_near                                                       | Place Station 3 | output_4 (-0.17, -7.29) |
 | L2    | factory_sorting_3 | Pick Station 1 | input_6 (11.94, 3.93)  | green_tote_b01_upper                                                            | Place Station 3 | output_4 (-0.17, -7.29) |
-| L3    | factory_sorting_5 | Pick Station 1 | input_6 (11.94, 3.93)  | orange_tote_b01_upper                                                           | Place Station 2 | output_5 (4.87, -7.26)  |
+| L3    | factory_sorting_5 | Pick Station 1 | aux_input_1 (0.14, 8.47)  | blue_tote_b01_far_right                                                           | Place Station 2 | output_5 (4.87, -7.26)  |
 | L4    | factory_sorting_7 | Pick Station 5 | input_2 (-9.76, 5.01)  | blue_container_h01_back_upper                                                   | Place Station 2 | output_5 (4.87, -7.26)  |
-| L5    | factory_sorting_9 | Pick Station 6 | input_1 (-14.54, 5.01) | white_tote_b01_left_center; white_tote_b01_left_front; white_tote_b01_left_back | Place Station 1 | output_6 (10.03, -7.27) |
+| L5    | factory_sorting_9 | Pick Station 6 | input_1 (-14.54, 5.01) | white_tote_b01_left_center; white_tote_b01_left_front; white_tote_b01_left_back | Place Station 1 | aux_output_1 (0.14, 8.47) |
 
 ## CRITICAL pick_up Rules
 

@@ -13,7 +13,7 @@
 Move three white-rimmed storage bins from Pick Station 6 to Place Station 1
 
 Pick station (source): **input_1** — center (-14.54, 5.01)
-Place station (target): **output_6** — center (10.03, -7.27)
+Place station (target): **aux_output_1** — center (0.14, 8.47)
 Target object: **white_tote_b01_left_center**
 Robot start: (13.5, 0.0)
 
@@ -22,7 +22,7 @@ Robot start: (13.5, 0.0)
 | Item | Station | Center (x, y) |
 |---|---|---|
 | Pick (source) | input_1 | (-14.54, 5.01) |
-| Place (target) | output_6 | (10.03, -7.27) |
+| Place (target) | aux_output_1 | (0.14, 8.47) |
 
 ## Grasp Pose (BC Policy)
 

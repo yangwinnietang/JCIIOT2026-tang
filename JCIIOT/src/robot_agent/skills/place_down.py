@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import logging
 
 import numpy as np
@@ -42,57 +41,83 @@ class PlaceDownSkill(BaseSkill):
             target = _resolve_station_name(raw_target, self._scene)
             logger.info("place_down target: %r → %r", raw_target, target)
 
-        # L5 multi-tote loop already delivered everything: the planner's
-        # trailing place_down step finds an empty gripper — that is a no-op,
-        # not a failure (no score impact, keeps the task green).
+        # Nothing held — report failure honestly.
         held = getattr(self._backend, "_held_crate_name", None)
-        placed_by_loop = getattr(self._backend, "_multi_transport_placed", 0)
-        if held is None and placed_by_loop:
-            log_step(self.name, "place_down", ok=True, target=target,
-                     note="no-op after multi-tote transport")
+        if held is None:
+            log_step(self.name, "place_down", ok=False, target=target,
+                     note="nothing held")
             return SkillResult(
                 skill_name=self.name,
-                success=True,
-                message=f"Nothing held — {placed_by_loop} object(s) already placed by multi-tote transport",
-                payload={"action": "place_down", "target": target, "method": "no-op", "ok": True},
+                success=False,
+                message=f"Nothing held — cannot place at {target}",
+                payload={"action": "place_down", "target": target, "method": "none", "ok": False},
             )
 
-        # Physics place (only mode — no teleport fallback)
+        # Physics place — the only supported mode.
         if hasattr(self._backend, "place_object_physics"):
+            # Ensure the env knows about the target station.  Some scenes
+            # have fewer output ports in the env's runtime dict than in
+            # the semantic map (e.g. L4 has output_5 in the map but not
+            # in env.output_ports).  Inject the missing entry from the
+            # scene context so place_object_physics can find it.
+            self._ensure_env_output_port(target)
+
+            # Align the place facing: the place animation turns the base to
+            # face the station center and releases the object wherever the
+            # transport attachment's lever arm carries it.  When the lever
+            # arm has a large lateral component the object can never land on
+            # the faced point, so we hand the backend a virtual station on
+            # the ray that rotates the object onto the REAL target center.
+            #
+            # When objects are already placed near the target, try drop-slot
+            # candidates ordered by LIVE clearance (landing AND swing arc):
+            # the old count-based offset once swung tote #2 straight through
+            # placed tote #1 (L5: −36mm penetration, 0.64m shove, final
+            # mutual overlap).  On _SwingCollisionAbort the next candidate
+            # is tried — the abort fires before contact, nothing moves.
+            from robot_agent.skills._factory_physics_patch import _SwingCollisionAbort
+
+            candidates = self._slot_candidates(target)
+            ok = False
+            used_target = target
+            fail_notes: list[str] = []
             with step_timer(self.name, "place_down") as _t:
-                # Save held object name before place (it gets cleared after)
-                _held_before = getattr(self._backend, "_held_crate_name", None)
-                try:
-                    ok = self._backend.place_object_physics(target)
-                    msg = f"Physics place {'OK' if ok else 'FAIL'}: {target}"
-                    if not ok:
-                        _ports = list(self._backend.env.output_ports.keys()) if hasattr(self._backend, 'env') and self._backend.env else []
-                        logger.warning("place_down: failed target=%s held=%s avail_out=%s", target, _held_before, _ports)
-                        msg += f" held={_held_before} out_ports={_ports}"
-                except Exception as exc:
-                    logger.exception("physics place crashed")
-                    ok = False
-                    msg = f"Physics place error: {exc}"
-
-                # Use env escape hatch to ensure object is at exact target
-                # station center — but ONLY if the object is not already near
-                # the target (avoid moving a correctly placed object).
-                if _held_before:
-                    far = self._object_far_from_target(target, _held_before)
-                    if far or not ok:
-                        placed = self._direct_place_fallback(target, _held_before)
-                        if placed:
-                            ok = True
-                            msg = f"Direct place OK: {target}"
+                for attempt, (slot_label, slot_xy) in enumerate(candidates[:3]):
+                    if slot_xy is not None:
+                        # Crowded table: standoff → turn → RADIAL approach
+                        place_target, approach_vec = self._prepare_radial_place(target, slot_xy)
+                        used_target = place_target
+                        call = lambda: self._backend.place_object_physics(place_target, approach_vec=approach_vec)
                     else:
-                        logger.info("place_down: object already near target, skipping direct place")
+                        place_target = self._align_place_facing(target, slot_xy=None)
+                        used_target = place_target
+                        call = lambda: self._backend.place_object_physics(place_target)
+                    try:
+                        ok = bool(call())
+                    except _SwingCollisionAbort as exc:
+                        logger.warning("place_down: swing aborted at %s (%s) — next slot",
+                                       slot_label, exc)
+                        fail_notes.append(f"{slot_label}: swing abort")
+                        ok = False
+                        continue
+                    except Exception as exc:
+                        logger.exception("physics place crashed")
+                        fail_notes.append(f"{slot_label}: error {exc}")
+                        ok = False
+                        break
+                    if not ok:
+                        fail_notes.append(f"{slot_label}: place_object_physics False")
+                        continue
+                    break
 
-                    # Always install sticky qpos + record a final frame so the
-                    # scorer sees the object at the target position.
-                    self._install_sticky_place(_held_before, target)
-                    self._filter_false_positive_collisions()
-                    if hasattr(self._backend, "_record_trajectory_frame"):
-                        self._backend._record_trajectory_frame()
+            msg = f"Physics place {'OK' if ok else 'FAIL'}: {target}"
+            if used_target != target:
+                msg += f" (aligned via {used_target})"
+            if not ok:
+                _ports = list(self._backend.env.output_ports.keys()) if hasattr(self._backend, 'env') and self._backend.env else []
+                logger.warning("place_down: failed target=%s held=%s avail_out=%s notes=%s",
+                               target, held, _ports, fail_notes)
+                msg += f" held={held} out_ports={_ports} attempts={fail_notes}"
 
             log_step(self.name, "place_down", ok=bool(ok), target=target, elapsed=round(_t.elapsed, 3))
             return SkillResult(
@@ -102,234 +127,327 @@ class PlaceDownSkill(BaseSkill):
                 payload={"action": "place_down", "target": target, "method": "physics", "ok": ok},
             )
 
-        # No physics configured — snap/teleport fallback (mock only).
-        snap_ok = False
-        snap_err = ""
-        try:
-            snap_ok = bool(self._backend.place_object(target))
-        except Exception as exc:
-            snap_err = str(exc)
+        # No physics backend available — report failure honestly.
         return SkillResult(
-            skill_name=self.name, success=snap_ok,
-            message=f"Placed (snap) {'OK' if snap_ok else 'FAIL'}: {target}",
+            skill_name=self.name, success=False,
+            message=f"Place FAILED (no physics backend): {target}",
             payload={
                 "action": "place_down",
                 "target": target,
                 "raw_target": raw_target,
-                "method": "teleport",
-                "ok": snap_ok,
-                "error": snap_err,
+                "method": "none",
+                "ok": False,
+                "error": "place_object_physics not available",
             },
         )
 
-    def _object_far_from_target(self, target: str, held_name: str, threshold: float = 0.80) -> bool:
-        """Check if the released object is far from the target station."""
-        env = getattr(self._backend, "env", None)
-        if env is None or not held_name:
-            return True
-        obj_xy = self._read_object_xy(env, held_name)
-        if obj_xy is None:
-            return True
-        tgt_xy = self._get_target_xy(target)
-        if tgt_xy is None:
-            return True
-        dist = float(np.linalg.norm(np.array(obj_xy) - np.array(tgt_xy)))
-        logger.info("place_down: object %s dist to %s = %.2fm", held_name, target, dist)
-        return dist > threshold
+    def _ensure_env_output_port(self, target: str):
+        """Inject a missing output station into env.output_ports from scene context.
 
-    def _read_object_xy(self, env, obj_name):
-        """Read object XY from sim free-joint qpos."""
-        for sfx in ("_joint0", "_free"):
-            try:
-                qpos = env.sim.data.get_joint_qpos(f"{obj_name}{sfx}")
-                return (float(qpos[0]), float(qpos[1]))
-            except Exception:
-                continue
-        return None
-
-    def _get_target_xy(self, target_name):
-        """Get target station XY from the scene-specific semantic map.
-
-        Uses the SAME source as the scorer (regenerated semantic map JSON),
-        NOT env.output_ports (which may have legacy coordinates).
+        This does NOT teleport or move anything — it only adds metadata
+        so that ``place_object_physics`` can locate the station.  The
+        actual placement is still done by the physics animation.
         """
-        from pathlib import Path as _Path
+        env = getattr(self._backend, "env", None)
+        if env is None or self._scene is None:
+            return
+        ports = getattr(env, "output_ports", None)
+        if ports is None:
+            return
+        # Check if the target (or a prefix match) already exists
+        if target in ports:
+            return
+        for name in ports:
+            if name.startswith(target) or target in name:
+                return
+        # Target not in env.output_ports — inject from scene context
+        scene_station = self._scene.output_ports.get(target)
+        if scene_station is not None:
+            center = list(scene_station.center[:3])
+            # Ensure z is non-zero so _output_table_top_z can use it as fallback
+            if len(center) < 3 or abs(center[2]) < 1e-6:
+                center = center[:2] + [0.85]  # default table top height
+            approach = list(scene_station.approach[:2]) if scene_station.approach is not None else center[:2]
+            ports[target] = {
+                "center": np.asarray(center, dtype=float),
+                "approach": np.asarray(approach, dtype=float),
+            }
+            logger.info("place_down: injected output port %s from scene context: center=%s", target, center[:3])
 
+    def _prepare_radial_place(self, target: str, slot_xy):
+        """Crowded-table place prep: drive to a standoff on the base→slot
+        ray so the tote's final approach to the slot is RADIAL (a straight
+        line) instead of an in-place arc that sweeps across the table.
+
+        Why: the lever (~0.9m) equals the base↔table distance, so any
+        in-place turn's swing circle passes through the whole table — a
+        placed tote always sits on it (L5 re-run: every slot's swing
+        closed to 0.32m of a placed tote and deadlocked).  Turning at a
+        standoff keeps the swing circle short of the placed totes; the
+        remaining approach is a straight radial line that ENDS at the slot.
+
+        Returns ``(virtual_station_name, approach_vec)`` for
+        ``place_object_physics(..., approach_vec=...)``.
+        """
+        env = getattr(self._backend, "env", None)
+        from robosuite.environments.factory_sorting.transport_attachment import (
+            TRANSPORT_ATTACHMENT_ATTR,
+        )
+        attachment = getattr(env, TRANSPORT_ATTACHMENT_ATTR, None)
+        rel_xy = attachment.get("relative_xy") if attachment else None
+        rel_x, rel_y = float(rel_xy[0]), float(rel_xy[1])
+        lever = float(np.hypot(rel_x, rel_y))
+        phi = float(np.arctan2(rel_y, rel_x))
+        _pp = getattr(self._backend, "_rp", {}).get("place", {}) or {}
+        extra = float(_pp.get("radial_approach_extra", 1.0))
+
+        slot = np.asarray(slot_xy, dtype=float)
+        base_xy, _yaw = self._backend.get_base_pose()
+        psi = float(np.arctan2(slot[1] - base_xy[1], slot[0] - base_xy[0]))
+        u = np.array([np.cos(psi), np.sin(psi)])
+        standoff = slot - (lever + extra) * u
+        logger.info("place_down: radial standoff drive to %s (slot %s, lever %.2f, extra %.2f)",
+                    np.round(standoff, 3).tolist(), np.round(slot, 3).tolist(), lever, extra)
+        self._backend.follow_path([np.asarray(base_xy, dtype=float)[:2], standoff])
+
+        # Re-read the reached pose and rebuild the virtual station + approach.
+        base_xy, _yaw = self._backend.get_base_pose()
+        psi = float(np.arctan2(slot[1] - base_xy[1], slot[0] - base_xy[0]))
+        u = np.array([np.cos(psi), np.sin(psi)])
+        yaw_v = psi - phi
+        virt_xy = np.asarray(base_xy, dtype=float)[:2] + 1.5 * np.array([np.cos(yaw_v), np.sin(yaw_v)])
+
+        real_z = None
         try:
-            app_dir = _Path(__file__).resolve().parents[3]
-            cfg_path = app_dir / "knowledge" / "task_config.json"
-            cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-            maps_dir = (app_dir / "robosuite" / "robosuite" /
-                        "environments" / "factory_sorting" / "generated_maps")
-
-            for task in cfg.get("tasks", []):
-                if task.get("target") == target_name:
-                    scene_prefix = task.get("scene_prefix", "")
-                    if not scene_prefix:
-                        env_name = task.get("env_name", "").lower()
-                        scene_prefix = env_name.replace("factorysorting", "factory_sorting_")
-                    # Exact match on scene prefix
-                    candidate = maps_dir / f"{scene_prefix}_scene_regenerated_semantic_map.json"
-                    if candidate.exists():
-                        sem = json.loads(candidate.read_text())
-                        for pn, pc in sem.get("output_ports", {}).items():
-                            if pn == target_name:
-                                c = pc.get("center", pc)
-                                return (float(c[0]), float(c[1]))
-                    # Fallback: glob match
-                    for c in maps_dir.glob("*semantic_map.json"):
-                        if scene_prefix in c.stem.lower() and "regenerated" in c.stem.lower():
-                            sem = json.loads(c.read_text())
-                            for pn, pc in sem.get("output_ports", {}).items():
-                                if pn == target_name:
-                                    val = pc.get("center", pc)
-                                    return (float(val[0]), float(val[1]))
+            real_name, real_entry = self._backend._find_output_station_entry(target)
+            if real_entry is not None:
+                real_z = self._backend._output_table_top_z(target, real_name, real_entry)
         except Exception:
-            logger.exception("place_down: _get_target_xy failed for %s", target_name)
-        return None
+            real_z = None
+        if real_z is None:
+            scene_station = self._scene.output_ports.get(target) if self._scene is not None else None
+            center = list(scene_station.center[:3]) if scene_station is not None else [0.0, 0.0, 0.85]
+            real_z = center[2] if len(center) >= 3 and abs(center[2]) > 1e-6 else 0.85
 
-    def _get_target_z(self, target_name, held_name):
-        """Get the correct z height for placing object on the target table."""
-        # Try backend's table top z lookup
-        try:
-            station_name, station = self._backend._find_output_station_entry(target_name)
-            if station is not None:
-                table_top_z = self._backend._output_table_top_z(target_name, station_name, station)
-                bottom_offset_z = self._backend._object_bottom_offset_z(held_name)
-                if table_top_z is not None and bottom_offset_z is not None:
-                    return float(table_top_z - bottom_offset_z + 0.04)
-                if table_top_z is not None:
-                    return float(table_top_z)
-        except Exception:
-            pass
-        # Fallback: read from semantic map
-        try:
-            tgt = self._get_target_xy(target_name)
-            if tgt is not None:
-                # Check semantic map for z coordinate
-                from pathlib import Path as _Path
-                app_dir = _Path(__file__).resolve().parents[3]
-                cfg_path = app_dir / "knowledge" / "task_config.json"
-                cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-                maps_dir = (app_dir / "robosuite" / "robosuite" /
-                            "environments" / "factory_sorting" / "generated_maps")
-                for task in cfg.get("tasks", []):
-                    if task.get("target") == target_name:
-                        scene_prefix = task.get("scene_prefix", "")
-                        candidate = maps_dir / f"{scene_prefix}_scene_regenerated_semantic_map.json"
-                        if candidate.exists():
-                            sem = json.loads(candidate.read_text())
-                            for pn, pc in sem.get("output_ports", {}).items():
-                                if pn == target_name:
-                                    c = pc.get("center", pc)
-                                    if len(c) >= 3 and abs(float(c[2])) > 1e-6:
-                                        return float(c[2])
-        except Exception:
-            pass
-        return 0.85  # safe default above table surface
+        virt_name = f"{target}__align"
+        env.output_ports[virt_name] = {
+            "center": np.asarray([virt_xy[0], virt_xy[1], real_z], dtype=float),
+            "approach": np.asarray([virt_xy[0], virt_xy[1]], dtype=float),
+        }
+        # Remaining distance to drive AFTER the in-place turn, so the tote
+        # (at lever in front of the base) lands exactly on the slot.
+        dist = float(np.linalg.norm(slot - np.asarray(base_xy, dtype=float)[:2]))
+        approach = max(0.0, dist - lever)
+        approach_vec = u * approach
+        print(f"[PLACE_RADIAL] slot={np.round(slot,3).tolist()} standoff reached, "
+              f"turn then approach {approach:.2f}m along psi={psi:.3f}", flush=True)
+        return virt_name, approach_vec
 
-    def _direct_place_fallback(self, target: str, held_name: str) -> bool:
-        """Directly set object qpos at target via env escape hatch."""
+    @staticmethod
+    def _live_objects(env, exclude=None):
+        """Live world poses of all material objects except *exclude*."""
+        out = {}
+        for _on in getattr(env, "material_objects", []) or []:
+            if _on == exclude:
+                continue
+            for _sfx in ("_joint0", "_free"):
+                try:
+                    _q = env.sim.data.get_joint_qpos(f"{_on}{_sfx}")
+                    out[_on] = (float(_q[0]), float(_q[1]), float(_q[2]))
+                    break
+                except Exception:
+                    continue
+        return out
+
+    def _slot_candidates(self, target: str):
+        """Ordered drop-slot candidates ``[(label, slot_xy | None)]``.
+
+        Only relevant when objects are already placed near the target table
+        (L5 aux_output).  Candidates sit on the table's long axis ladder
+        [0, ±step, ±2·step] and are ordered by LIVE clearance — both the
+        landing gap to every placed object and the swing-arc clearance of
+        the carried object's turn (the count-based offset used before
+        ignored both and once swung a tote through a placed one).
+        """
+        default = [("center", None)]
+        if self._scene is None:
+            return default
+        scene_station = self._scene.output_ports.get(target)
+        if scene_station is None:
+            return default
         env = getattr(self._backend, "env", None)
         if env is None:
-            return False
-        if held_name is None:
-            return False
-        tgt_xy = self._get_target_xy(target)
-        if tgt_xy is None:
-            logger.warning("place_down: cannot resolve target XY for %s", target)
-            return False
-        tgt_z = self._get_target_z(target, held_name)
-        for sfx in ("_joint0", "_free"):
+            return default
+        try:
+            from robosuite.environments.factory_sorting.transport_attachment import (
+                TRANSPORT_ATTACHMENT_ATTR,
+            )
+            attachment = getattr(env, TRANSPORT_ATTACHMENT_ATTR, None)
+            if attachment is None or not attachment.get("active"):
+                return default
+            held = getattr(self._backend, "_held_crate_name", None)
+            center = np.asarray(scene_station.center[:2], dtype=float)
+            placed = {
+                n: p for n, p in self._live_objects(env, exclude=held).items()
+                if np.hypot(p[0] - center[0], p[1] - center[1]) < 1.5
+            }
+            if not placed:
+                return default
+            _pp = getattr(self._backend, "_rp", {}).get("place", {}) or {}
+            step = float(_pp.get("slot_step", 0.45))
+            min_gap = float(_pp.get("slot_min_gap", 0.45))
+            max_off = float(_pp.get("slot_max_from_center", 0.70))
+            rel_xy = attachment.get("relative_xy", [0.9, 0.0])
+            lever = float(np.hypot(rel_xy[0], rel_xy[1]))
+            phi = float(np.arctan2(rel_xy[1], rel_xy[0]))
+            base_xy, yaw = self._backend.get_base_pose()
+            base_xy = np.asarray(base_xy, dtype=float)[:2]
+
+            cands = []
+            for k in (0.0, step, -step, 2 * step, -2 * step):
+                if abs(k) > max_off:
+                    continue  # 落点必须保持在评分半径内(桌心 <0.8m)
+                slot = center + np.array([k, 0.0])
+                # Radial flow makes the approach collision-free by
+                # construction (standoff turn + straight approach), so the
+                # candidates are ordered purely by landing clearance.
+                land = min(float(np.hypot(slot[0] - p[0], slot[1] - p[1]))
+                           for p in placed.values())
+                score = land - min_gap
+                cands.append((score, k, slot))
+            cands.sort(key=lambda c: -c[0])
+            # Hard floor: landing within 0.42m of a placed tote risks
+            # visible wall contact — never attempt such a slot.
+            cands = [c for c in cands if (c[0] + min_gap) >= 0.42]
+            logger.info("place_down: slot candidates for %s: %s",
+                        target, [(f"{k:+.2f}", round(s, 2)) for s, k, _ in cands])
+            return [(f"slot{k:+.2f}(score={s:.2f})", slot) for s, k, slot in cands]
+        except Exception as exc:
+            logger.warning("place_down: slot candidates failed (fallback center): %s", exc)
+            return default
+
+    def _align_place_facing(self, target: str, slot_xy=None) -> str:
+        """Return the station name to hand to ``place_object_physics``.
+
+        The place animation turns the base to face the station center and
+        then releases the held object wherever the transport attachment's
+        lever arm carries it:
+
+            obj = base + R(yaw) @ rel,   yaw = atan2(center - base)
+
+        With a large lateral component in ``rel`` (e.g. rel_y ~ -0.97 m
+        after an aux-input side grasp) the object physically CANNOT land
+        on the faced point: the lever arm (~1.0 m) exceeds the approach
+        distance (~0.85 m), so any base placement leaves >= |rel_y| error.
+        Driving the base to compensate also proved collision-prone.
+
+        Instead we inject a VIRTUAL output station whose center lies on
+        the ray that rotates the object exactly onto the base→target
+        line:
+
+            yaw_v = atan2(tgt - base) - atan2(rel_y, rel_x)
+            virt  = base + 1.5 m · u(yaw_v)
+
+        Facing ``virt`` swings the object onto the real target direction;
+        it lands ``|rel| - dist(base, tgt)`` past the center (a few cm
+        for our scenes — well inside the 0.8 m tolerance).  No base
+        motion is needed, so there is no collision risk.  If the
+        overshoot is large we first back the base away from the table
+        along the same line until dist(base, tgt) == |rel|.
+
+        Returns the virtual station name, or *target* unchanged when no
+        active attachment/offset information is available.
+        """
+        if self._scene is None:
+            return target
+        scene_station = self._scene.output_ports.get(target)
+        if scene_station is None:
+            return target
+        try:
+            env = getattr(self._backend, "env", None)
+            if env is None:
+                return target
+            from robosuite.environments.factory_sorting.transport_attachment import (
+                TRANSPORT_ATTACHMENT_ATTR,
+            )
+            attachment = getattr(env, TRANSPORT_ATTACHMENT_ATTR, None)
+            if attachment is None or not attachment.get("active"):
+                return target
+            rel_xy = attachment.get("relative_xy")
+            if rel_xy is None:
+                return target
+            rel_x, rel_y = float(rel_xy[0]), float(rel_xy[1])
+            lever = float(np.hypot(rel_x, rel_y))
+            phi = float(np.arctan2(rel_y, rel_x))  # object angle in base frame
+
+            base_xy, _yaw = self._backend.get_base_pose()
+            tgt_xy = np.asarray(scene_station.center[:2], dtype=float)
+
+            # Multi-object targets (e.g. L5: three totes onto aux_output_1):
+            # the drop slot is pre-chosen by _slot_candidates (live landing
+            # AND swing-arc clearance) and passed in as *slot_xy*.  The old
+            # count-based offset only moved the landing spot while the swing
+            # itself swept through the previous tote — see _slot_candidates.
+            held_name = getattr(self._backend, "_held_crate_name", None)
+            placed_near = 0
+            for _on, _oxyz in self._live_objects(env, exclude=held_name).items():
+                if np.hypot(_oxyz[0] - tgt_xy[0], _oxyz[1] - tgt_xy[1]) < 1.2:
+                    placed_near += 1
+            if slot_xy is not None:
+                tgt_xy = np.asarray(slot_xy, dtype=float)
+                logger.info("place_down: drop slot for %s → %s", target, np.round(tgt_xy, 3).tolist())
+
+            psi = float(np.arctan2(tgt_xy[1] - base_xy[1], tgt_xy[0] - base_xy[0]))
+            dist = float(np.linalg.norm(tgt_xy - base_xy))
+
+            # Alignment is needed when the carry is not frontal (|phi| large)
+            # OR the lever arm length mismatches the base→target distance —
+            # a frontal 1.6m carry released 0.6m in front of the table
+            # overshoots the center by a full metre (L5 tote-1 failure).
+            overshoot = lever - dist
+            if placed_near == 0 and abs(phi) < 0.10 and abs(overshoot) <= 0.25:
+                return target
+
+            # Match the distance to the lever arm so the object lands on the
+            # center: drive the base along the base→target line until
+            # dist(base, tgt) == lever (usually backing AWAY from the table).
+            if abs(overshoot) > 0.25:
+                backed = tgt_xy - lever * np.array([np.cos(psi), np.sin(psi)])
+                try:
+                    self._backend.follow_path([base_xy, backed])
+                    base_xy, _yaw = self._backend.get_base_pose()
+                    psi = float(np.arctan2(tgt_xy[1] - base_xy[1], tgt_xy[0] - base_xy[0]))
+                    logger.info("place_down: adjusted base by %.2fm for lever arm %.2fm",
+                                abs(overshoot), lever)
+                except Exception as exc:
+                    logger.warning("place_down: lever-matching drive failed (non-fatal): %s", exc)
+
+            yaw_v = psi - phi
+            virt_xy = base_xy + 1.5 * np.array([np.cos(yaw_v), np.sin(yaw_v)])
+
+            # Resolve the REAL table height so the release height is exact.
+            real_z = None
             try:
-                qpos = env.sim.data.get_joint_qpos(f"{held_name}{sfx}")
-                qpos[0] = tgt_xy[0]
-                qpos[1] = tgt_xy[1]
-                qpos[2] = tgt_z
-                env.sim.data.set_joint_qpos(f"{held_name}{sfx}", qpos)
-                env.sim.forward()
-                logger.info("place_down: direct place %s at %s (%.2f, %.2f, %.2f)",
-                           held_name, target, tgt_xy[0], tgt_xy[1], tgt_z)
-                return True
+                real_name, real_entry = self._backend._find_output_station_entry(target)
+                if real_entry is not None:
+                    real_z = self._backend._output_table_top_z(target, real_name, real_entry)
             except Exception:
-                continue
-        return False
+                real_z = None
+            if real_z is None:
+                center = list(scene_station.center[:3])
+                real_z = center[2] if len(center) >= 3 and abs(center[2]) > 1e-6 else 0.85
 
-    def _install_sticky_place(self, held_name: str, target: str):
-        """Install a monkey-patch on _record_trajectory_frame to re-apply
-        placed object qpos before every frame recording.
-
-        This ensures the LAST trajectory frame always shows the object at
-        the target position, even if subsequent env.step() calls move it.
-        """
-        env = getattr(self._backend, "env", None)
-        if env is None:
-            return
-        tgt_xy = self._get_target_xy(target)
-        if tgt_xy is None:
-            return
-        tgt_z = self._get_target_z(target, held_name)
-
-        # Store placed object info on the backend
-        if not hasattr(self._backend, '_sticky_placed_objects'):
-            self._backend._sticky_placed_objects = {}
-        self._backend._sticky_placed_objects[held_name] = (tgt_xy[0], tgt_xy[1], tgt_z)
-
-        # Monkey-patch _record_trajectory_frame if not already patched
-        original_fn = getattr(self._backend, '_record_trajectory_frame', None)
-        if original_fn is None or getattr(original_fn, '_sticky_patched', False):
-            return
-
-        backend_ref = self._backend
-
-        def _sticky_record(*, _env=None):
-            src = _env if _env is not None else backend_ref._env
-            if src is not None:
-                # Re-apply all placed objects' qpos
-                for obj_name, (x, y, z) in backend_ref._sticky_placed_objects.items():
-                    for sfx in ("_joint0", "_free"):
-                        try:
-                            qpos = src.sim.data.get_joint_qpos(f"{obj_name}{sfx}")
-                            qpos[0] = x
-                            qpos[1] = y
-                            qpos[2] = z
-                            src.sim.data.set_joint_qpos(f"{obj_name}{sfx}", qpos)
-                            break
-                        except Exception:
-                            continue
-                src.sim.forward()
-            original_fn(_env=_env)
-
-        _sticky_record._sticky_patched = True
-        self._backend._record_trajectory_frame = _sticky_record
-
-    def _filter_false_positive_collisions(self):
-        """Clear collision flags only for frames where the collision is a
-        known false positive — robot torso clipping station-table AABB proxy
-        geoms during tight navigation. Real collisions with non-proxy
-        obstacles are preserved so the -5 penalty still applies.
-
-        The collision_pair field stores (robot_geom, proxy_geom). Proxy
-        geoms are named ``scene_aabb_proxy_*``. If a frame's collision
-        involves a proxy geom, it's a station-table clip (false positive);
-        otherwise it's a real obstacle collision that must be kept.
-        """
-        traj = getattr(self._backend, '_trajectory', None)
-        if not traj:
-            return
-        for frame in traj:
-            if not isinstance(frame, dict) or not frame.get('has_collision'):
-                continue
-            pair = frame.get('collision_pair', [])
-            is_proxy = False
-            if pair:
-                for geom in (pair if isinstance(pair, (list, tuple)) else [pair]):
-                    if isinstance(geom, str) and 'scene_aabb_proxy' in geom:
-                        is_proxy = True
-                        break
-            if is_proxy:
-                frame.pop('has_collision', None)
-                frame.pop('collision_pair', None)
-        env = getattr(self._backend, "env", None)
-        if env is not None and hasattr(env, 'has_judge_collision'):
-            env.has_judge_collision = False
+            virt_name = f"{target}__align"
+            env.output_ports[virt_name] = {
+                "center": np.asarray([virt_xy[0], virt_xy[1], real_z], dtype=float),
+                "approach": np.asarray([virt_xy[0], virt_xy[1]], dtype=float),
+            }
+            print(f"[PLACE_ALIGN] target={target} rel=({rel_x:.3f},{rel_y:.3f}) phi={phi:.3f} "
+                  f"base=({base_xy[0]:.3f},{base_xy[1]:.3f}) psi={psi:.3f} yaw_v={yaw_v:.3f} "
+                  f"virt=({virt_xy[0]:.3f},{virt_xy[1]:.3f}) overshoot={overshoot:.3f}", flush=True)
+            logger.info("place_down: facing alignment %s → %s (phi=%.2f rad, lever=%.2fm)",
+                        target, virt_name, phi, lever)
+            return virt_name
+        except Exception as exc:
+            logger.warning("place_down: facing alignment failed (falling back): %s", exc)
+            return target

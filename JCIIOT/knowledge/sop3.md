@@ -11,10 +11,10 @@ Transport an orange tote box from Pick Station 1 to Place Station 2
 
 ## Station Mapping
 
-- Pick Station 1 = input_6, center (11.94, 3.93)
+- Pick Station 1 = aux_input_1, center (0.14, 8.47)
 - Place Station 2 = output_5, center (4.87, -7.26)
 - Robot start: (13.5, 0.0)
-- Target object: orange_tote_b01_upper
+- Target object: blue_tote_b01_far_right
 
 ## Grasp Pose (BC Policy)
 
@@ -27,7 +27,7 @@ Every input port and its assigned graspable object:
 - input_1 → line_1_container_h01
 - input_2 → line_2_container_h10
 - input_3 → blue_container_h10_back
-- input_4 → orange_tote_b01_upper, orange_tote_b01_lower
+- input_4 → blue_tote_b01_far_right, orange_tote_b01_lower
 - input_5 → line_5_container_h10
 - input_6 → line_6_tote_b01
 

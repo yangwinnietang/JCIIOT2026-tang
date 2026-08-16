@@ -1,4148 +1,0 @@
-[2026-08-10T17:43:19][train_grasp_bc] config=robosuite/scripts/bc_grasp_config.json dataset=robosuite/robosuite/models/assets/demonstrations_private/merged_all_levels.hdf5 output_dir=robosuite/runs epochs=150
-[2026-08-10T17:43:20][train_grasp_bc] algo=bc epochs=150 batch=64 device=cuda:0 experiment=grasp_bc
-
-============= New Training Run with Config =============
-{
-    "algo_name": "bc",
-    "experiment": {
-        "name": "grasp_bc",
-        "validate": false,
-        "logging": {
-            "terminal_output_to_txt": true,
-            "log_tb": true,
-            "log_wandb": false,
-            "wandb_proj_name": "debug"
-        },
-        "save": {
-            "enabled": true,
-            "every_n_seconds": null,
-            "every_n_epochs": 50,
-            "epochs": [
-                150
-            ],
-            "on_best_validation": false,
-            "on_best_rollout_return": false,
-            "on_best_rollout_success_rate": false
-        },
-        "epoch_every_n_steps": 100,
-        "validation_epoch_every_n_steps": 10,
-        "env": null,
-        "additional_envs": null,
-        "render": false,
-        "render_video": true,
-        "keep_all_videos": false,
-        "video_skip": 5,
-        "rollout": {
-            "enabled": false,
-            "n": 0,
-            "horizon": 400,
-            "rate": 50,
-            "warmstart": 0,
-            "terminate_on_success": true
-        },
-        "env_meta_update_dict": {},
-        "ckpt_path": null
-    },
-    "train": {
-        "data": [
-            {
-                "path": "robosuite/robosuite/models/assets/demonstrations_private/merged_all_levels.hdf5"
-            }
-        ],
-        "output_dir": "robosuite/runs",
-        "normalize_weights_by_ds_size": false,
-        "num_data_workers": 4,
-        "hdf5_cache_mode": "all",
-        "hdf5_use_swmr": true,
-        "hdf5_load_next_obs": false,
-        "hdf5_normalize_obs": false,
-        "hdf5_filter_key": null,
-        "hdf5_validation_filter_key": null,
-        "seq_length": 1,
-        "pad_seq_length": true,
-        "frame_stack": 1,
-        "pad_frame_stack": true,
-        "dataset_keys": [
-            "actions"
-        ],
-        "action_keys": [
-            "actions"
-        ],
-        "action_config": {
-            "actions": {
-                "normalization": null
-            }
-        },
-        "goal_mode": null,
-        "cuda": true,
-        "batch_size": 64,
-        "num_epochs": 150,
-        "seed": 1,
-        "max_grad_norm": null
-    },
-    "algo": {
-        "optim_params": {
-            "policy": {
-                "optimizer_type": "adam",
-                "learning_rate": {
-                    "initial": 0.0001,
-                    "decay_factor": 0.1,
-                    "epoch_schedule": [],
-                    "scheduler_type": "multistep"
-                },
-                "regularization": {
-                    "L2": 0.0
-                }
-            }
-        },
-        "loss": {
-            "l2_weight": 1.0,
-            "l1_weight": 0.0,
-            "cos_weight": 0.0
-        },
-        "actor_layer_dims": [
-            1024,
-            1024
-        ],
-        "gaussian": {
-            "enabled": false,
-            "fixed_std": false,
-            "init_std": 0.1,
-            "min_std": 0.01,
-            "std_activation": "softplus",
-            "low_noise_eval": true
-        },
-        "gmm": {
-            "enabled": false,
-            "num_modes": 5,
-            "min_std": 0.0001,
-            "std_activation": "softplus",
-            "low_noise_eval": true
-        },
-        "vae": {
-            "enabled": false,
-            "latent_dim": 14,
-            "latent_clip": null,
-            "kl_weight": 1.0,
-            "decoder": {
-                "is_conditioned": true,
-                "reconstruction_sum_across_elements": false
-            },
-            "prior": {
-                "learn": false,
-                "is_conditioned": false,
-                "use_gmm": false,
-                "gmm_num_modes": 10,
-                "gmm_learn_weights": false,
-                "use_categorical": false,
-                "categorical_dim": 10,
-                "categorical_gumbel_softmax_hard": false,
-                "categorical_init_temp": 1.0,
-                "categorical_temp_anneal_step": 0.001,
-                "categorical_min_temp": 0.3
-            },
-            "encoder_layer_dims": [
-                300,
-                400
-            ],
-            "decoder_layer_dims": [
-                300,
-                400
-            ],
-            "prior_layer_dims": [
-                300,
-                400
-            ]
-        },
-        "rnn": {
-            "enabled": false,
-            "horizon": 10,
-            "hidden_dim": 400,
-            "rnn_type": "LSTM",
-            "num_layers": 2,
-            "open_loop": false,
-            "kwargs": {
-                "bidirectional": false
-            }
-        },
-        "transformer": {
-            "enabled": false,
-            "context_length": 10,
-            "embed_dim": 512,
-            "num_layers": 6,
-            "num_heads": 8,
-            "emb_dropout": 0.1,
-            "attn_dropout": 0.1,
-            "block_output_dropout": 0.1,
-            "sinusoidal_embedding": false,
-            "activation": "gelu",
-            "supervise_all_steps": false,
-            "nn_parameter_for_timesteps": true,
-            "pred_future_acs": false
-        }
-    },
-    "observation": {
-        "modalities": {
-            "obs": {
-                "low_dim": [
-                    "robot0_left_eef_pos",
-                    "robot0_left_eef_quat",
-                    "robot0_left_gripper_qpos",
-                    "robot0_right_eef_pos",
-                    "robot0_right_eef_quat",
-                    "robot0_right_gripper_qpos"
-                ],
-                "rgb": [],
-                "depth": [],
-                "scan": []
-            },
-            "goal": {
-                "low_dim": [],
-                "rgb": [],
-                "depth": [],
-                "scan": []
-            }
-        },
-        "encoder": {
-            "low_dim": {
-                "core_class": null,
-                "core_kwargs": {},
-                "obs_randomizer_class": null,
-                "obs_randomizer_kwargs": {}
-            },
-            "rgb": {
-                "core_class": "VisualCore",
-                "core_kwargs": {
-                    "n_layers": 4,
-                    "pool_class": "SpatialSoftmax",
-                    "flatten": true,
-                    "feat_dim": 64,
-                    "kernel_size": 3,
-                    "n_strides": 2,
-                    "activation": "relu",
-                    "out_channels": [
-                        32,
-                        32,
-                        64,
-                        64
-                    ]
-                },
-                "obs_randomizer_class": null,
-                "obs_randomizer_kwargs": {}
-            },
-            "depth": {
-                "core_class": "VisualCore",
-                "core_kwargs": {},
-                "obs_randomizer_class": null,
-                "obs_randomizer_kwargs": {}
-            },
-            "scan": {
-                "core_class": "ScanCore",
-                "core_kwargs": {},
-                "obs_randomizer_class": null,
-                "obs_randomizer_kwargs": {}
-            }
-        }
-    },
-    "meta": {
-        "hp_base_config_file": null,
-        "hp_keys": [],
-        "hp_values": []
-    }
-}
-
-STDOUT will be forked to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/logs/log.txt
-
-============= Initialized Observation Utils with Obs Spec =============
-
-using obs modality: low_dim with keys: ['robot0_right_gripper_qpos', 'robot0_left_gripper_qpos', 'robot0_left_eef_pos', 'robot0_right_eef_pos', 'robot0_right_eef_quat', 'robot0_left_eef_quat']
-using obs modality: rgb with keys: []
-using obs modality: depth with keys: []
-using obs modality: scan with keys: []
-
-============= Loaded Environment Metadata =============
-obs key robot0_left_eef_pos with shape (3,)
-obs key robot0_left_eef_quat with shape (4,)
-obs key robot0_left_gripper_qpos with shape (6,)
-obs key robot0_right_eef_pos with shape (3,)
-obs key robot0_right_eef_quat with shape (4,)
-obs key robot0_right_gripper_qpos with shape (6,)
-
-SequenceDataset: loading dataset into memory...
-  0%|          | 0/170 [00:00<?, ?it/s]  2%|1         | 3/170 [00:00<00:06, 24.51it/s]  4%|4         | 7/170 [00:00<00:04, 32.82it/s]  6%|6         | 11/170 [00:00<00:04, 35.04it/s]  9%|8         | 15/170 [00:00<00:04, 34.16it/s] 12%|#1        | 20/170 [00:00<00:04, 37.19it/s] 15%|#4        | 25/170 [00:00<00:03, 38.29it/s] 17%|#7        | 29/170 [00:00<00:03, 35.53it/s] 19%|#9        | 33/170 [00:00<00:03, 35.71it/s] 22%|##2       | 38/170 [00:01<00:03, 36.91it/s] 25%|##4       | 42/170 [00:01<00:03, 33.47it/s] 27%|##7       | 46/170 [00:01<00:03, 31.25it/s] 30%|###       | 51/170 [00:01<00:03, 34.03it/s] 32%|###2      | 55/170 [00:01<00:03, 34.82it/s] 35%|###5      | 60/170 [00:01<00:02, 37.10it/s] 38%|###7      | 64/170 [00:01<00:03, 34.83it/s] 41%|####      | 69/170 [00:01<00:02, 35.67it/s] 43%|####2     | 73/170 [00:02<00:02, 36.12it/s] 46%|####5     | 78/170 [00:02<00:02, 37.53it/s] 48%|####8     | 82/170 [00:02<00:02, 37.48it/s] 51%|#####     | 86/170 [00:02<00:02, 35.85it/s] 54%|#####3    | 91/170 [00:02<00:02, 38.05it/s] 56%|#####5    | 95/170 [00:02<00:01, 38.25it/s] 58%|#####8    | 99/170 [00:02<00:01, 36.11it/s] 61%|######    | 103/170 [00:02<00:01, 36.96it/s] 64%|######3   | 108/170 [00:02<00:01, 38.93it/s] 66%|######5   | 112/170 [00:03<00:01, 36.83it/s] 69%|######8   | 117/170 [00:03<00:01, 39.72it/s] 72%|#######1  | 122/170 [00:03<00:01, 39.79it/s] 75%|#######4  | 127/170 [00:03<00:01, 38.26it/s] 77%|#######7  | 131/170 [00:03<00:01, 32.13it/s] 79%|#######9  | 135/170 [00:03<00:01, 33.86it/s] 82%|########1 | 139/170 [00:03<00:00, 34.39it/s] 84%|########4 | 143/170 [00:04<00:00, 34.16it/s] 86%|########6 | 147/170 [00:04<00:00, 34.72it/s] 89%|########8 | 151/170 [00:04<00:00, 35.89it/s] 92%|#########1| 156/170 [00:04<00:00, 37.45it/s] 94%|#########4| 160/170 [00:04<00:00, 37.85it/s] 96%|#########6| 164/170 [00:04<00:00, 38.39it/s] 99%|#########8| 168/170 [00:04<00:00, 35.53it/s]100%|##########| 170/170 [00:04<00:00, 35.89it/s]
-SequenceDataset: caching get_item calls...
-  0%|          | 0/58710 [00:00<?, ?it/s]SequenceDataset: computing action statistics...
-
-  0%|          | 0/169 [00:00<?, ?it/s][A100%|##########| 169/169 [00:00<00:00, 3073.55it/s]
-  1%|          | 308/58710 [00:00<00:18, 3079.42it/s]  2%|2         | 1387/58710 [00:00<00:07, 7614.18it/s]  5%|5         | 3210/58710 [00:00<00:04, 12460.70it/s]  9%|8         | 5006/58710 [00:00<00:03, 14630.43it/s] 12%|#1        | 6812/58710 [00:00<00:03, 15865.46it/s] 15%|#4        | 8615/58710 [00:00<00:03, 16600.63it/s] 18%|#7        | 10373/58710 [00:00<00:02, 16918.34it/s] 21%|##        | 12184/58710 [00:00<00:02, 17296.40it/s] 24%|##3       | 13920/58710 [00:00<00:02, 17315.35it/s] 27%|##6       | 15716/58710 [00:01<00:02, 17513.74it/s] 30%|##9       | 17503/58710 [00:01<00:02, 17620.74it/s] 33%|###2      | 19287/58710 [00:01<00:02, 17686.44it/s] 36%|###5      | 21056/58710 [00:01<00:02, 17562.31it/s] 39%|###8      | 22858/58710 [00:01<00:02, 17698.64it/s] 42%|####2     | 24679/58710 [00:01<00:01, 17851.62it/s] 45%|####5     | 26465/58710 [00:01<00:01, 17081.80it/s] 48%|####8     | 28222/58710 [00:01<00:01, 17221.58it/s] 51%|#####1    | 29971/58710 [00:01<00:01, 17298.25it/s] 54%|#####4    | 31781/58710 [00:01<00:01, 17532.21it/s] 57%|#####7    | 33587/58710 [00:02<00:01, 17688.23it/s] 60%|######    | 35387/58710 [00:02<00:01, 17780.59it/s] 63%|######3   | 37167/58710 [00:02<00:01, 17716.40it/s] 66%|######6   | 38982/58710 [00:02<00:01, 17843.79it/s] 69%|######9   | 40791/58710 [00:02<00:01, 17916.80it/s] 73%|#######2  | 42590/58710 [00:02<00:00, 17934.98it/s] 76%|#######5  | 44384/58710 [00:02<00:00, 16618.20it/s] 78%|#######8  | 46066/58710 [00:02<00:00, 15204.40it/s] 81%|########1 | 47649/58710 [00:02<00:00, 15372.35it/s] 84%|########4 | 49447/58710 [00:02<00:00, 16095.98it/s] 87%|########7 | 51080/58710 [00:03<00:00, 14075.20it/s] 90%|######### | 52889/58710 [00:03<00:00, 15124.16it/s] 93%|#########3| 54679/58710 [00:03<00:00, 15878.21it/s] 96%|#########6| 56481/58710 [00:03<00:00, 16475.37it/s] 99%|#########9| 58280/58710 [00:03<00:00, 16906.16it/s]100%|##########| 58710/58710 [00:03<00:00, 16509.43it/s]
-
-============= Training Dataset =============
-SequenceDataset (
-	path=robosuite/robosuite/models/assets/demonstrations_private/merged_all_levels.hdf5
-	obs_keys=('robot0_left_eef_pos', 'robot0_left_eef_quat', 'robot0_left_gripper_qpos', 'robot0_right_eef_pos', 'robot0_right_eef_quat', 'robot0_right_gripper_qpos')
-	seq_length=1
-	filter_key=none
-	frame_stack=1
-	pad_seq_length=True
-	pad_frame_stack=True
-	goal_mode=none
-	cache_mode=all
-	num_demos=170
-	num_sequences=58710
-)
-
-
-============= Model Summary =============
-ObservationKeyToModalityDict: action not found, adding action to mapping with assumed low_dim modality!
-BC (
-  ModuleDict(
-    (policy): ActorNetwork(
-        action_dim=20
-  
-        encoder=ObservationGroupEncoder(
-            group=obs
-            ObservationEncoder(
-                Key(
-                    name=robot0_left_eef_pos
-                    shape=[3]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                Key(
-                    name=robot0_left_eef_quat
-                    shape=[4]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                Key(
-                    name=robot0_left_gripper_qpos
-                    shape=[6]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                Key(
-                    name=robot0_right_eef_pos
-                    shape=[3]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                Key(
-                    name=robot0_right_eef_quat
-                    shape=[4]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                Key(
-                    name=robot0_right_gripper_qpos
-                    shape=[6]
-                    modality=low_dim
-                    randomizer=ModuleList(
-                      (0): None
-                    )
-                    net=None
-                    sharing_from=None
-                )
-                output_shape=[26]
-            )
-        )
-  
-        mlp=MLP(
-            input_dim=26
-            output_dim=1024
-            layer_dims=[1024]
-            layer_func=Linear
-            dropout=None
-            act=ReLU
-            output_act=ReLU
-        )
-  
-        decoder=ObservationDecoder(
-            Key(
-                name=action
-                shape=(20,)
-                modality=low_dim
-                net=(Linear(in_features=1024, out_features=20, bias=True))
-            )
-        )
-    )
-  )
-)
-
-**************************************************
-Warnings generated by robomimic have been duplicated here (from above) for convenience. Please check them carefully.
-**************************************************
-
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|1         | 1/100 [00:00<01:03,  1.57it/s] 26%|##6       | 26/100 [00:00<00:01, 46.98it/s] 50%|#####     | 50/100 [00:00<00:00, 86.27it/s] 72%|#######2  | 72/100 [00:00<00:00, 115.43it/s] 94%|#########3| 94/100 [00:01<00:00, 140.29it/s]100%|##########| 100/100 [00:01<00:00, 93.05it/s]
-Train Epoch 1
-{
-    "Cosine_Loss": 0.6544328293204308,
-    "L1_Loss": 0.02679242715239525,
-    "L2_Loss": 0.05863775804638863,
-    "Loss": 0.05863775804638863,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.21776911409963817,
-    "Time_Data_Loading": 0.00333783229192098,
-    "Time_Epoch": 0.018818716208140056,
-    "Time_Log_Info": 0.00013262430826822916,
-    "Time_Process_Batch": 0.0007716178894042969,
-    "Time_Train_Batch": 0.013648271560668945
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 1 Memory Usage: 1747 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.90it/s] 43%|####3     | 43/100 [00:00<00:00, 217.12it/s] 65%|######5   | 65/100 [00:00<00:00, 113.26it/s] 89%|########9 | 89/100 [00:00<00:00, 145.07it/s]100%|##########| 100/100 [00:00<00:00, 153.39it/s]
-Train Epoch 2
-{
-    "Cosine_Loss": 0.5699074551463127,
-    "L1_Loss": 0.012480426006950438,
-    "L2_Loss": 0.025756007554009558,
-    "Loss": 0.025756007554009558,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.08284465090141793,
-    "Time_Data_Loading": 0.0031790614128112795,
-    "Time_Epoch": 0.01198267936706543,
-    "Time_Log_Info": 0.0001376469930013021,
-    "Time_Process_Batch": 0.0004789908727010091,
-    "Time_Train_Batch": 0.0035352746645609537
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 2 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.30it/s] 45%|####5     | 45/100 [00:00<00:00, 224.12it/s] 70%|#######   | 70/100 [00:00<00:00, 232.12it/s] 94%|#########3| 94/100 [00:00<00:00, 233.36it/s]100%|##########| 100/100 [00:00<00:00, 228.32it/s]
-Train Epoch 3
-{
-    "Cosine_Loss": 0.528024437725544,
-    "L1_Loss": 0.007522151106968522,
-    "L2_Loss": 0.015728807523846627,
-    "Loss": 0.015728807523846627,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.056472619527506825,
-    "Time_Data_Loading": 0.003155863285064697,
-    "Time_Epoch": 0.008342790603637695,
-    "Time_Log_Info": 0.00013698339462280272,
-    "Time_Process_Batch": 0.0004695534706115723,
-    "Time_Train_Batch": 0.0035203059514363607
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 3 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.91it/s] 43%|####3     | 43/100 [00:00<00:00, 214.51it/s] 67%|######7   | 67/100 [00:00<00:00, 222.12it/s] 91%|#########1| 91/100 [00:00<00:00, 225.26it/s]100%|##########| 100/100 [00:00<00:00, 222.23it/s]
-Train Epoch 4
-{
-    "Cosine_Loss": 0.4729463195800781,
-    "L1_Loss": 0.006219596264418215,
-    "L2_Loss": 0.012991932150907815,
-    "Loss": 0.012991932150907815,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04593420169320552,
-    "Time_Data_Loading": 0.0032595475514729817,
-    "Time_Epoch": 0.008585929870605469,
-    "Time_Log_Info": 0.00013341903686523438,
-    "Time_Process_Batch": 0.0004723230997721354,
-    "Time_Train_Batch": 0.0036176840464274087
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 4 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.00it/s] 43%|####3     | 43/100 [00:00<00:00, 214.95it/s] 66%|######6   | 66/100 [00:00<00:00, 218.48it/s] 88%|########8 | 88/100 [00:00<00:00, 216.12it/s]100%|##########| 100/100 [00:00<00:00, 212.77it/s]
-Train Epoch 5
-{
-    "Cosine_Loss": 0.45652966022491454,
-    "L1_Loss": 0.006145773555617779,
-    "L2_Loss": 0.013004954433999955,
-    "Loss": 0.013004954433999955,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05263052928528168,
-    "Time_Data_Loading": 0.0035404245058695476,
-    "Time_Epoch": 0.008931895097096762,
-    "Time_Log_Info": 0.00013430118560791015,
-    "Time_Process_Batch": 0.0004719416300455729,
-    "Time_Train_Batch": 0.0036685903867085773
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 5 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.06it/s] 44%|####4     | 44/100 [00:00<00:00, 215.58it/s] 69%|######9   | 69/100 [00:00<00:00, 227.29it/s] 92%|#########2| 92/100 [00:00<00:00, 219.50it/s]100%|##########| 100/100 [00:00<00:00, 214.95it/s]
-Train Epoch 6
-{
-    "Cosine_Loss": 0.44009101539850237,
-    "L1_Loss": 0.005392293082550168,
-    "L2_Loss": 0.01147539499681443,
-    "Loss": 0.01147539499681443,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05031028000437118,
-    "Time_Data_Loading": 0.003414452075958252,
-    "Time_Epoch": 0.008947165807088216,
-    "Time_Log_Info": 0.00013981262842814127,
-    "Time_Process_Batch": 0.00047733783721923826,
-    "Time_Train_Batch": 0.003703637917836507
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 6 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.40it/s] 44%|####4     | 44/100 [00:00<00:00, 220.41it/s] 67%|######7   | 67/100 [00:00<00:00, 222.02it/s] 90%|######### | 90/100 [00:00<00:00, 215.70it/s]100%|##########| 100/100 [00:00<00:00, 213.89it/s]
-Train Epoch 7
-{
-    "Cosine_Loss": 0.4338323499262333,
-    "L1_Loss": 0.005254073860123753,
-    "L2_Loss": 0.011105857137590647,
-    "Loss": 0.011105857137590647,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.054248889585751386,
-    "Time_Data_Loading": 0.003413677215576172,
-    "Time_Epoch": 0.008933480580647786,
-    "Time_Log_Info": 0.00013624827067057292,
-    "Time_Process_Batch": 0.0004890839258829753,
-    "Time_Train_Batch": 0.0037345131238301593
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 7 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.81it/s] 43%|####3     | 43/100 [00:00<00:00, 218.15it/s] 66%|######6   | 66/100 [00:00<00:00, 220.45it/s] 90%|######### | 90/100 [00:00<00:00, 226.42it/s]100%|##########| 100/100 [00:00<00:00, 222.90it/s]
-Train Epoch 8
-{
-    "Cosine_Loss": 0.41311205267906187,
-    "L1_Loss": 0.005237987563014031,
-    "L2_Loss": 0.011230173166841268,
-    "Loss": 0.011230173166841268,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05465441859119096,
-    "Time_Data_Loading": 0.003231382369995117,
-    "Time_Epoch": 0.008548100789388021,
-    "Time_Log_Info": 0.00014488697052001954,
-    "Time_Process_Batch": 0.0004767775535583496,
-    "Time_Train_Batch": 0.0036067605018615724
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 8 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.16it/s] 43%|####3     | 43/100 [00:00<00:00, 213.73it/s] 66%|######6   | 66/100 [00:00<00:00, 220.44it/s] 89%|########9 | 89/100 [00:00<00:00, 220.03it/s]100%|##########| 100/100 [00:00<00:00, 218.33it/s]
-Train Epoch 9
-{
-    "Cosine_Loss": 0.3967571997642517,
-    "L1_Loss": 0.004660112080164254,
-    "L2_Loss": 0.009928915137425064,
-    "Loss": 0.009928915137425064,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04313286244324217,
-    "Time_Data_Loading": 0.0032920678456624347,
-    "Time_Epoch": 0.008698395888010661,
-    "Time_Log_Info": 0.00014804601669311525,
-    "Time_Process_Batch": 0.0004940549532572428,
-    "Time_Train_Batch": 0.003682076930999756
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 9 Memory Usage: 1761 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.72it/s] 43%|####3     | 43/100 [00:00<00:00, 210.44it/s] 67%|######7   | 67/100 [00:00<00:00, 220.88it/s] 90%|######### | 90/100 [00:00<00:00, 222.64it/s]100%|##########| 100/100 [00:00<00:00, 218.81it/s]
-Train Epoch 10
-{
-    "Cosine_Loss": 0.41061310708522797,
-    "L1_Loss": 0.004784921880345791,
-    "L2_Loss": 0.010231802281923592,
-    "Loss": 0.010231802281923592,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.055817341600819644,
-    "Time_Data_Loading": 0.0033271352450052897,
-    "Time_Epoch": 0.008768431345621745,
-    "Time_Log_Info": 0.00014858643213907878,
-    "Time_Process_Batch": 0.0004790981610616048,
-    "Time_Train_Batch": 0.003643508752187093
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 10 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.80it/s] 44%|####4     | 44/100 [00:00<00:00, 216.54it/s] 68%|######8   | 68/100 [00:00<00:00, 226.68it/s] 92%|#########2| 92/100 [00:00<00:00, 231.70it/s]100%|##########| 100/100 [00:00<00:00, 226.86it/s]
-Train Epoch 11
-{
-    "Cosine_Loss": 0.4014906802773476,
-    "L1_Loss": 0.004744643422309309,
-    "L2_Loss": 0.010142571274191142,
-    "Loss": 0.010142571274191142,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06389795525434351,
-    "Time_Data_Loading": 0.0031951149304707844,
-    "Time_Epoch": 0.008395504951477051,
-    "Time_Log_Info": 0.00015269915262858074,
-    "Time_Process_Batch": 0.000468142827351888,
-    "Time_Train_Batch": 0.003513145446777344
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 11 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.86it/s] 44%|####4     | 44/100 [00:00<00:00, 219.70it/s] 68%|######8   | 68/100 [00:00<00:00, 226.23it/s] 91%|#########1| 91/100 [00:00<00:00, 225.05it/s]100%|##########| 100/100 [00:00<00:00, 222.43it/s]
-Train Epoch 12
-{
-    "Cosine_Loss": 0.38780190974473955,
-    "L1_Loss": 0.004667744286125526,
-    "L2_Loss": 0.01006326959701255,
-    "Loss": 0.01006326959701255,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.044127103113469276,
-    "Time_Data_Loading": 0.0033097147941589357,
-    "Time_Epoch": 0.008555952707926433,
-    "Time_Log_Info": 0.00014941692352294923,
-    "Time_Process_Batch": 0.00047066609064737953,
-    "Time_Train_Batch": 0.0035462021827697755
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 12 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 191.36it/s] 43%|####3     | 43/100 [00:00<00:00, 212.18it/s] 67%|######7   | 67/100 [00:00<00:00, 223.57it/s] 92%|#########2| 92/100 [00:00<00:00, 231.66it/s]100%|##########| 100/100 [00:00<00:00, 225.31it/s]
-Train Epoch 13
-{
-    "Cosine_Loss": 0.36819818466901777,
-    "L1_Loss": 0.004329439594876021,
-    "L2_Loss": 0.00932443539146334,
-    "Loss": 0.00932443539146334,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04164713091207659,
-    "Time_Data_Loading": 0.0031985918680826823,
-    "Time_Epoch": 0.009642183780670166,
-    "Time_Log_Info": 0.00015600919723510743,
-    "Time_Process_Batch": 0.00047049522399902346,
-    "Time_Train_Batch": 0.0035551786422729492
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 13 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.17it/s] 44%|####4     | 44/100 [00:00<00:00, 220.94it/s] 69%|######9   | 69/100 [00:00<00:00, 229.71it/s] 93%|#########3| 93/100 [00:00<00:00, 233.66it/s]100%|##########| 100/100 [00:00<00:00, 229.69it/s]
-Train Epoch 14
-{
-    "Cosine_Loss": 0.3819080701470375,
-    "L1_Loss": 0.004205922685796395,
-    "L2_Loss": 0.008960074337664992,
-    "Loss": 0.008960074337664992,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05611184601079458,
-    "Time_Data_Loading": 0.003124562899271647,
-    "Time_Epoch": 0.00842591126759847,
-    "Time_Log_Info": 0.00014793872833251953,
-    "Time_Process_Batch": 0.00045354763666788736,
-    "Time_Train_Batch": 0.0035114487012227378
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 14 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.82it/s] 45%|####5     | 45/100 [00:00<00:00, 221.81it/s] 70%|#######   | 70/100 [00:00<00:00, 230.30it/s] 94%|#########3| 94/100 [00:00<00:00, 232.91it/s]100%|##########| 100/100 [00:00<00:00, 227.92it/s]
-Train Epoch 15
-{
-    "Cosine_Loss": 0.35833330735564234,
-    "L1_Loss": 0.00407830806914717,
-    "L2_Loss": 0.008699623700231314,
-    "Loss": 0.008699623700231314,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.049322686870170857,
-    "Time_Data_Loading": 0.003121471405029297,
-    "Time_Epoch": 0.008381187915802002,
-    "Time_Log_Info": 0.00015089909235636392,
-    "Time_Process_Batch": 0.00045995314915974936,
-    "Time_Train_Batch": 0.0035617828369140627
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 15 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 208.75it/s] 46%|####6     | 46/100 [00:00<00:00, 228.41it/s] 69%|######9   | 69/100 [00:00<00:00, 224.14it/s] 92%|#########2| 92/100 [00:00<00:00, 212.30it/s]100%|##########| 100/100 [00:00<00:00, 216.71it/s]
-Train Epoch 16
-{
-    "Cosine_Loss": 0.35373457506299016,
-    "L1_Loss": 0.003972827531397343,
-    "L2_Loss": 0.008569115004502238,
-    "Loss": 0.008569115004502238,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.038708876564977006,
-    "Time_Data_Loading": 0.0033337632815043134,
-    "Time_Epoch": 0.008818705876668295,
-    "Time_Log_Info": 0.00014736255009969076,
-    "Time_Process_Batch": 0.00046866734822591146,
-    "Time_Train_Batch": 0.003723255793253581
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 16 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 169.50it/s] 40%|####      | 40/100 [00:00<00:00, 203.69it/s] 61%|######1   | 61/100 [00:00<00:00, 202.14it/s] 83%|########2 | 83/100 [00:00<00:00, 206.21it/s]100%|##########| 100/100 [00:00<00:00, 204.79it/s]
-Train Epoch 17
-{
-    "Cosine_Loss": 0.35284356757998464,
-    "L1_Loss": 0.004151316219940781,
-    "L2_Loss": 0.008917815061286092,
-    "Loss": 0.008917815061286092,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06282737897533593,
-    "Time_Data_Loading": 0.0035394748051961263,
-    "Time_Epoch": 0.009292538960774739,
-    "Time_Log_Info": 0.00014112393061319986,
-    "Time_Process_Batch": 0.0005017638206481934,
-    "Time_Train_Batch": 0.0039368112881978355
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 17 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.23it/s] 43%|####3     | 43/100 [00:00<00:00, 214.47it/s] 65%|######5   | 65/100 [00:00<00:00, 215.81it/s] 88%|########8 | 88/100 [00:00<00:00, 220.31it/s]100%|##########| 100/100 [00:00<00:00, 219.06it/s]
-Train Epoch 18
-{
-    "Cosine_Loss": 0.3487745198607445,
-    "L1_Loss": 0.004060373532120139,
-    "L2_Loss": 0.008768910053186118,
-    "Loss": 0.008768910053186118,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05171572945566481,
-    "Time_Data_Loading": 0.0032497485478719073,
-    "Time_Epoch": 0.008723270893096925,
-    "Time_Log_Info": 0.0001489679018656413,
-    "Time_Process_Batch": 0.000489207108815511,
-    "Time_Train_Batch": 0.0037013967831929524
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 18 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.63it/s] 44%|####4     | 44/100 [00:00<00:00, 219.00it/s] 66%|######6   | 66/100 [00:00<00:00, 215.28it/s] 89%|########9 | 89/100 [00:00<00:00, 218.11it/s]100%|##########| 100/100 [00:00<00:00, 214.66it/s]
-Train Epoch 19
-{
-    "Cosine_Loss": 0.3303235141932964,
-    "L1_Loss": 0.004041751970071346,
-    "L2_Loss": 0.008773571271449327,
-    "Loss": 0.008773571271449327,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.044897983851674324,
-    "Time_Data_Loading": 0.003414185841878255,
-    "Time_Epoch": 0.008939890066782634,
-    "Time_Log_Info": 0.00014444986979166667,
-    "Time_Process_Batch": 0.00048820972442626954,
-    "Time_Train_Batch": 0.003699294726053874
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 19 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.34it/s] 42%|####2     | 42/100 [00:00<00:00, 208.49it/s] 65%|######5   | 65/100 [00:00<00:00, 216.17it/s] 88%|########8 | 88/100 [00:00<00:00, 218.56it/s]100%|##########| 100/100 [00:00<00:00, 216.33it/s]
-Train Epoch 20
-{
-    "Cosine_Loss": 0.3301628616452217,
-    "L1_Loss": 0.003989507855148986,
-    "L2_Loss": 0.008626629861537368,
-    "Loss": 0.008626629861537368,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.045373715998293845,
-    "Time_Data_Loading": 0.003299971421559652,
-    "Time_Epoch": 0.009009341398874918,
-    "Time_Log_Info": 0.00014745791753133138,
-    "Time_Process_Batch": 0.0004836241404215495,
-    "Time_Train_Batch": 0.003753801186879476
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 20 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 183.29it/s] 40%|####      | 40/100 [00:00<00:00, 195.97it/s] 64%|######4   | 64/100 [00:00<00:00, 211.94it/s] 86%|########6 | 86/100 [00:00<00:00, 213.64it/s]100%|##########| 100/100 [00:00<00:00, 206.18it/s]
-Train Epoch 21
-{
-    "Cosine_Loss": 0.31626416608691216,
-    "L1_Loss": 0.003490653041517362,
-    "L2_Loss": 0.007484266089741141,
-    "Loss": 0.007484266089741141,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0430204056456364,
-    "Time_Data_Loading": 0.003574232260386149,
-    "Time_Epoch": 0.009185755252838134,
-    "Time_Log_Info": 0.00014755725860595703,
-    "Time_Process_Batch": 0.0004883488019307454,
-    "Time_Train_Batch": 0.0038550217946370442
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 21 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 179.96it/s] 41%|####1     | 41/100 [00:00<00:00, 204.82it/s] 64%|######4   | 64/100 [00:00<00:00, 215.59it/s] 86%|########6 | 86/100 [00:00<00:00, 216.62it/s]100%|##########| 100/100 [00:00<00:00, 211.93it/s]
-Train Epoch 22
-{
-    "Cosine_Loss": 0.3241591902077198,
-    "L1_Loss": 0.0038297423953190446,
-    "L2_Loss": 0.00834338363725692,
-    "Loss": 0.00834338363725692,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.049661547607275904,
-    "Time_Data_Loading": 0.0034982721010843915,
-    "Time_Epoch": 0.008933393160502116,
-    "Time_Log_Info": 0.00014681816101074218,
-    "Time_Process_Batch": 0.00048601627349853516,
-    "Time_Train_Batch": 0.0037136197090148924
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 22 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 159.53it/s] 40%|####      | 40/100 [00:00<00:00, 204.09it/s] 63%|######3   | 63/100 [00:00<00:00, 212.83it/s] 88%|########8 | 88/100 [00:00<00:00, 223.98it/s]100%|##########| 100/100 [00:00<00:00, 215.21it/s]
-Train Epoch 23
-{
-    "Cosine_Loss": 0.305076801776886,
-    "L1_Loss": 0.0033325730357319115,
-    "L2_Loss": 0.0071231706021353605,
-    "Loss": 0.0071231706021353605,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05252039270091302,
-    "Time_Data_Loading": 0.0033750613530476887,
-    "Time_Epoch": 0.008944396177927654,
-    "Time_Log_Info": 0.00015013217926025392,
-    "Time_Process_Batch": 0.0004902005195617676,
-    "Time_Train_Batch": 0.0037109375
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 23 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.82it/s] 42%|####2     | 42/100 [00:00<00:00, 211.53it/s] 66%|######6   | 66/100 [00:00<00:00, 222.62it/s] 90%|######### | 90/100 [00:00<00:00, 228.82it/s]100%|##########| 100/100 [00:00<00:00, 224.56it/s]
-Train Epoch 24
-{
-    "Cosine_Loss": 0.3012566390633583,
-    "L1_Loss": 0.003348567448556423,
-    "L2_Loss": 0.0071676963986828926,
-    "Loss": 0.0071676963986828926,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.045120998122564517,
-    "Time_Data_Loading": 0.0031726837158203127,
-    "Time_Epoch": 0.008518898487091064,
-    "Time_Log_Info": 0.00015032291412353516,
-    "Time_Process_Batch": 0.00047996441523234047,
-    "Time_Train_Batch": 0.0036010146141052246
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 24 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 174.22it/s] 42%|####2     | 42/100 [00:00<00:00, 208.25it/s] 66%|######6   | 66/100 [00:00<00:00, 221.05it/s] 91%|#########1| 91/100 [00:00<00:00, 230.13it/s]100%|##########| 100/100 [00:00<00:00, 223.26it/s]
-Train Epoch 25
-{
-    "Cosine_Loss": 0.30392824158072473,
-    "L1_Loss": 0.0035010096803307533,
-    "L2_Loss": 0.0075795043027028445,
-    "Loss": 0.0075795043027028445,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.041529283678051455,
-    "Time_Data_Loading": 0.0033089439074198406,
-    "Time_Epoch": 0.00877831776936849,
-    "Time_Log_Info": 0.000152738889058431,
-    "Time_Process_Batch": 0.00046530564626057945,
-    "Time_Train_Batch": 0.0035200913747151694
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 25 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 166.94it/s] 39%|###9      | 39/100 [00:00<00:00, 194.97it/s] 63%|######3   | 63/100 [00:00<00:00, 214.88it/s] 85%|########5 | 85/100 [00:00<00:00, 211.64it/s]100%|##########| 100/100 [00:00<00:00, 209.87it/s]
-Train Epoch 26
-{
-    "Cosine_Loss": 0.29423107966780665,
-    "L1_Loss": 0.0033738013776019216,
-    "L2_Loss": 0.007273916872218251,
-    "Loss": 0.007273916872218251,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03732190488850847,
-    "Time_Data_Loading": 0.003516693909962972,
-    "Time_Epoch": 0.00942229429880778,
-    "Time_Log_Info": 0.00014963547388712565,
-    "Time_Process_Batch": 0.0004951318105061848,
-    "Time_Train_Batch": 0.003761891523996989
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 26 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.48it/s] 43%|####3     | 43/100 [00:00<00:00, 216.77it/s] 67%|######7   | 67/100 [00:00<00:00, 223.89it/s] 91%|#########1| 91/100 [00:00<00:00, 227.18it/s]100%|##########| 100/100 [00:00<00:00, 223.29it/s]
-Train Epoch 27
-{
-    "Cosine_Loss": 0.2971381485462189,
-    "L1_Loss": 0.0034266912180464714,
-    "L2_Loss": 0.007432425387669354,
-    "Loss": 0.007432425387669354,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.053639995610816414,
-    "Time_Data_Loading": 0.0032659411430358888,
-    "Time_Epoch": 0.00884916385014852,
-    "Time_Log_Info": 0.00015166203180948893,
-    "Time_Process_Batch": 0.00047797759373982747,
-    "Time_Train_Batch": 0.0035507599512736004
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 27 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.96it/s] 43%|####3     | 43/100 [00:00<00:00, 213.55it/s] 68%|######8   | 68/100 [00:00<00:00, 227.00it/s] 92%|#########2| 92/100 [00:00<00:00, 230.49it/s]100%|##########| 100/100 [00:00<00:00, 226.30it/s]
-Train Epoch 28
-{
-    "Cosine_Loss": 0.2978657428920269,
-    "L1_Loss": 0.0034109115961473437,
-    "L2_Loss": 0.007362905584741384,
-    "Loss": 0.007362905584741384,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05477083432562949,
-    "Time_Data_Loading": 0.003134051958719889,
-    "Time_Epoch": 0.008455169200897217,
-    "Time_Log_Info": 0.000145721435546875,
-    "Time_Process_Batch": 0.0004697442054748535,
-    "Time_Train_Batch": 0.003597406546274821
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 28 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.34it/s] 43%|####3     | 43/100 [00:00<00:00, 212.03it/s] 66%|######6   | 66/100 [00:00<00:00, 219.56it/s] 89%|########9 | 89/100 [00:00<00:00, 222.49it/s]100%|##########| 100/100 [00:00<00:00, 219.05it/s]
-Train Epoch 29
-{
-    "Cosine_Loss": 0.30245230451226235,
-    "L1_Loss": 0.0033430992369540037,
-    "L2_Loss": 0.007214431283064187,
-    "Loss": 0.007214431283064187,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04970812111445753,
-    "Time_Data_Loading": 0.0032595038414001466,
-    "Time_Epoch": 0.008680136998494466,
-    "Time_Log_Info": 0.00015679200490315755,
-    "Time_Process_Batch": 0.0004921634991963704,
-    "Time_Train_Batch": 0.003682518005371094
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 29 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.78it/s] 44%|####4     | 44/100 [00:00<00:00, 222.13it/s] 69%|######9   | 69/100 [00:00<00:00, 230.71it/s] 93%|#########3| 93/100 [00:00<00:00, 230.89it/s]100%|##########| 100/100 [00:00<00:00, 227.80it/s]
-Train Epoch 30
-{
-    "Cosine_Loss": 0.2942559544742107,
-    "L1_Loss": 0.0032476911891717464,
-    "L2_Loss": 0.006957027271855622,
-    "Loss": 0.006957027271855622,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.056937241638449904,
-    "Time_Data_Loading": 0.00318983793258667,
-    "Time_Epoch": 0.008584022521972656,
-    "Time_Log_Info": 0.00014609495798746744,
-    "Time_Process_Batch": 0.00045477946599324545,
-    "Time_Train_Batch": 0.003508150577545166
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 30 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.46it/s] 43%|####3     | 43/100 [00:00<00:00, 214.41it/s] 67%|######7   | 67/100 [00:00<00:00, 223.48it/s] 92%|#########2| 92/100 [00:00<00:00, 231.16it/s]100%|##########| 100/100 [00:00<00:00, 225.62it/s]
-Train Epoch 31
-{
-    "Cosine_Loss": 0.2749888303875923,
-    "L1_Loss": 0.003176717007299885,
-    "L2_Loss": 0.006930219319183379,
-    "Loss": 0.006930219319183379,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04728808679426606,
-    "Time_Data_Loading": 0.00326459805170695,
-    "Time_Epoch": 0.008466299374898274,
-    "Time_Log_Info": 0.0001467148462931315,
-    "Time_Process_Batch": 0.0004604458808898926,
-    "Time_Train_Batch": 0.003497608502705892
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 31 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.92it/s] 44%|####4     | 44/100 [00:00<00:00, 220.95it/s] 69%|######9   | 69/100 [00:00<00:00, 230.75it/s] 94%|#########3| 94/100 [00:00<00:00, 234.65it/s]100%|##########| 100/100 [00:00<00:00, 230.16it/s]
-Train Epoch 32
-{
-    "Cosine_Loss": 0.28504313468933107,
-    "L1_Loss": 0.003185147917829454,
-    "L2_Loss": 0.006777640292420983,
-    "Loss": 0.006777640292420983,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05694293422390842,
-    "Time_Data_Loading": 0.0031748811403910318,
-    "Time_Epoch": 0.008333178361256917,
-    "Time_Log_Info": 0.00015635490417480468,
-    "Time_Process_Batch": 0.00045826435089111326,
-    "Time_Train_Batch": 0.003435043493906657
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 32 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.39it/s] 42%|####2     | 42/100 [00:00<00:00, 207.22it/s] 64%|######4   | 64/100 [00:00<00:00, 208.36it/s] 87%|########7 | 87/100 [00:00<00:00, 214.39it/s]100%|##########| 100/100 [00:00<00:00, 211.62it/s]
-Train Epoch 33
-{
-    "Cosine_Loss": 0.2807516568899155,
-    "L1_Loss": 0.0031846121000126005,
-    "L2_Loss": 0.006886016665957868,
-    "Loss": 0.006886016665957868,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04636609282017332,
-    "Time_Data_Loading": 0.003370638688405355,
-    "Time_Epoch": 0.008948210875193279,
-    "Time_Log_Info": 0.0001500566800435384,
-    "Time_Process_Batch": 0.0004908164342244466,
-    "Time_Train_Batch": 0.0038466493288675943
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 33 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.57it/s] 43%|####3     | 43/100 [00:00<00:00, 210.70it/s] 65%|######5   | 65/100 [00:00<00:00, 201.94it/s] 90%|######### | 90/100 [00:00<00:00, 216.91it/s]100%|##########| 100/100 [00:00<00:00, 213.86it/s]
-Train Epoch 34
-{
-    "Cosine_Loss": 0.2758822283148766,
-    "L1_Loss": 0.002900095406221226,
-    "L2_Loss": 0.0062172738718800245,
-    "Loss": 0.0062172738718800245,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04281182514771786,
-    "Time_Data_Loading": 0.003433521588643392,
-    "Time_Epoch": 0.008862014611562092,
-    "Time_Log_Info": 0.00014806588490804036,
-    "Time_Process_Batch": 0.000485074520111084,
-    "Time_Train_Batch": 0.003709284464518229
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 34 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.48it/s] 43%|####3     | 43/100 [00:00<00:00, 209.33it/s] 64%|######4   | 64/100 [00:00<00:00, 202.54it/s] 88%|########8 | 88/100 [00:00<00:00, 213.50it/s]100%|##########| 100/100 [00:00<00:00, 212.42it/s]
-Train Epoch 35
-{
-    "Cosine_Loss": 0.2816439925134182,
-    "L1_Loss": 0.003212690654909238,
-    "L2_Loss": 0.006999223043676466,
-    "Loss": 0.006999223043676466,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04862540655493376,
-    "Time_Data_Loading": 0.003541227181752523,
-    "Time_Epoch": 0.00900272528330485,
-    "Time_Log_Info": 0.0001484990119934082,
-    "Time_Process_Batch": 0.0004939556121826172,
-    "Time_Train_Batch": 0.003644144535064697
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 35 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 183.03it/s] 43%|####3     | 43/100 [00:00<00:00, 215.83it/s] 68%|######8   | 68/100 [00:00<00:00, 228.87it/s] 93%|#########3| 93/100 [00:00<00:00, 233.66it/s]100%|##########| 100/100 [00:00<00:00, 227.94it/s]
-Train Epoch 36
-{
-    "Cosine_Loss": 0.2717878936231136,
-    "L1_Loss": 0.002908564907265827,
-    "L2_Loss": 0.006253285345155746,
-    "Loss": 0.006253285345155746,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04907704715442151,
-    "Time_Data_Loading": 0.003170637289683024,
-    "Time_Epoch": 0.008372318744659425,
-    "Time_Log_Info": 0.00014870166778564454,
-    "Time_Process_Batch": 0.0004492640495300293,
-    "Time_Train_Batch": 0.0035252809524536134
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 36 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.32it/s] 43%|####3     | 43/100 [00:00<00:00, 210.15it/s] 66%|######6   | 66/100 [00:00<00:00, 218.49it/s] 90%|######### | 90/100 [00:00<00:00, 226.09it/s]100%|##########| 100/100 [00:00<00:00, 222.02it/s]
-Train Epoch 37
-{
-    "Cosine_Loss": 0.26224890545010565,
-    "L1_Loss": 0.0029132523282896726,
-    "L2_Loss": 0.006340811334084719,
-    "Loss": 0.006340811334084719,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04690298839670277,
-    "Time_Data_Loading": 0.00325398047765096,
-    "Time_Epoch": 0.008672038714090982,
-    "Time_Log_Info": 0.0001476764678955078,
-    "Time_Process_Batch": 0.00046596129735310875,
-    "Time_Train_Batch": 0.0036206483840942384
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 37 Memory Usage: 1761 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.10it/s] 42%|####2     | 42/100 [00:00<00:00, 209.91it/s] 63%|######3   | 63/100 [00:00<00:00, 203.17it/s] 87%|########7 | 87/100 [00:00<00:00, 217.25it/s]100%|##########| 100/100 [00:00<00:00, 211.11it/s]
-Train Epoch 38
-{
-    "Cosine_Loss": 0.2666435258090496,
-    "L1_Loss": 0.002757929674116895,
-    "L2_Loss": 0.006024176895152777,
-    "Loss": 0.006024176895152777,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04136233504713232,
-    "Time_Data_Loading": 0.0034458120663960774,
-    "Time_Epoch": 0.009120150407155355,
-    "Time_Log_Info": 0.00014795859654744467,
-    "Time_Process_Batch": 0.0004896879196166992,
-    "Time_Train_Batch": 0.003792921702067057
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 38 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 178.98it/s] 42%|####2     | 42/100 [00:00<00:00, 210.75it/s] 67%|######7   | 67/100 [00:00<00:00, 224.32it/s] 90%|######### | 90/100 [00:00<00:00, 219.25it/s]100%|##########| 100/100 [00:00<00:00, 217.12it/s]
-Train Epoch 39
-{
-    "Cosine_Loss": 0.27265439510345457,
-    "L1_Loss": 0.002890632412163541,
-    "L2_Loss": 0.006252033940982073,
-    "Loss": 0.006252033940982073,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0509156827791287,
-    "Time_Data_Loading": 0.0034660577774047853,
-    "Time_Epoch": 0.008846394220987956,
-    "Time_Log_Info": 0.00014746586481730143,
-    "Time_Process_Batch": 0.0004751284917195638,
-    "Time_Train_Batch": 0.003569523493448893
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 39 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.87it/s] 44%|####4     | 44/100 [00:00<00:00, 219.34it/s] 67%|######7   | 67/100 [00:00<00:00, 221.20it/s] 91%|#########1| 91/100 [00:00<00:00, 224.41it/s]100%|##########| 100/100 [00:00<00:00, 221.56it/s]
-Train Epoch 40
-{
-    "Cosine_Loss": 0.2649473039805889,
-    "L1_Loss": 0.0029084601602517067,
-    "L2_Loss": 0.006349103823304177,
-    "Loss": 0.006349103823304177,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04966879879354792,
-    "Time_Data_Loading": 0.003208307425181071,
-    "Time_Epoch": 0.00860070784886678,
-    "Time_Log_Info": 0.0001528620719909668,
-    "Time_Process_Batch": 0.00048775275548299153,
-    "Time_Train_Batch": 0.003656319777170817
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 40 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.83it/s] 42%|####2     | 42/100 [00:00<00:00, 208.73it/s] 65%|######5   | 65/100 [00:00<00:00, 215.71it/s] 89%|########9 | 89/100 [00:00<00:00, 221.84it/s]100%|##########| 100/100 [00:00<00:00, 217.96it/s]
-Train Epoch 41
-{
-    "Cosine_Loss": 0.26860974341630933,
-    "L1_Loss": 0.0026543738739565016,
-    "L2_Loss": 0.005710603366605937,
-    "Loss": 0.005710603366605937,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.051373908127318374,
-    "Time_Data_Loading": 0.003284939130147298,
-    "Time_Epoch": 0.008695284525553385,
-    "Time_Log_Info": 0.00015482107798258464,
-    "Time_Process_Batch": 0.0004912296930948894,
-    "Time_Train_Batch": 0.0036985238393147787
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 41 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 202.52it/s] 45%|####5     | 45/100 [00:00<00:00, 220.87it/s] 69%|######9   | 69/100 [00:00<00:00, 227.93it/s] 92%|#########2| 92/100 [00:00<00:00, 228.39it/s]100%|##########| 100/100 [00:00<00:00, 226.42it/s]
-Train Epoch 42
-{
-    "Cosine_Loss": 0.2548838119208813,
-    "L1_Loss": 0.002682096440112218,
-    "L2_Loss": 0.005786690849345177,
-    "Loss": 0.005786690849345177,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.049550863376953205,
-    "Time_Data_Loading": 0.003129243850708008,
-    "Time_Epoch": 0.008427317937215168,
-    "Time_Log_Info": 0.0001577893892923991,
-    "Time_Process_Batch": 0.0004754424095153809,
-    "Time_Train_Batch": 0.0035810311635335284
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 42 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 174.40it/s] 42%|####2     | 42/100 [00:00<00:00, 209.48it/s] 64%|######4   | 64/100 [00:00<00:00, 214.18it/s] 87%|########7 | 87/100 [00:00<00:00, 218.69it/s]100%|##########| 100/100 [00:00<00:00, 215.36it/s]
-Train Epoch 43
-{
-    "Cosine_Loss": 0.2664787116646767,
-    "L1_Loss": 0.0029043251473922283,
-    "L2_Loss": 0.006330895281862468,
-    "Loss": 0.006330895281862468,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.056465729395752076,
-    "Time_Data_Loading": 0.0034348090489705403,
-    "Time_Epoch": 0.008802652359008789,
-    "Time_Log_Info": 0.0001451730728149414,
-    "Time_Process_Batch": 0.00048327048619588217,
-    "Time_Train_Batch": 0.0036567489306132
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 43 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.65it/s] 44%|####4     | 44/100 [00:00<00:00, 218.61it/s] 67%|######7   | 67/100 [00:00<00:00, 221.65it/s] 91%|#########1| 91/100 [00:00<00:00, 226.72it/s]100%|##########| 100/100 [00:00<00:00, 223.73it/s]
-Train Epoch 44
-{
-    "Cosine_Loss": 0.26105312958359717,
-    "L1_Loss": 0.002792808327358216,
-    "L2_Loss": 0.006086695417761803,
-    "Loss": 0.006086695417761803,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05232967750820421,
-    "Time_Data_Loading": 0.0032668193181355793,
-    "Time_Epoch": 0.008592549959818523,
-    "Time_Log_Info": 0.00015325546264648436,
-    "Time_Process_Batch": 0.0004697203636169434,
-    "Time_Train_Batch": 0.0035422364870707195
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 44 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 157.11it/s] 36%|###6      | 36/100 [00:00<00:00, 176.87it/s] 56%|#####6    | 56/100 [00:00<00:00, 187.05it/s] 78%|#######8  | 78/100 [00:00<00:00, 199.16it/s]100%|##########| 100/100 [00:00<00:00, 206.13it/s]100%|##########| 100/100 [00:00<00:00, 196.49it/s]
-Train Epoch 45
-{
-    "Cosine_Loss": 0.2615225200355053,
-    "L1_Loss": 0.0027324145560851322,
-    "L2_Loss": 0.005873004215536639,
-    "Loss": 0.005873004215536639,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.052482460871529496,
-    "Time_Data_Loading": 0.003669436772664388,
-    "Time_Epoch": 0.009710160891215007,
-    "Time_Log_Info": 0.0001428683598836263,
-    "Time_Process_Batch": 0.0005094607671101888,
-    "Time_Train_Batch": 0.004138370354970296
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 45 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.80it/s] 45%|####5     | 45/100 [00:00<00:00, 223.23it/s] 69%|######9   | 69/100 [00:00<00:00, 229.63it/s] 92%|#########2| 92/100 [00:00<00:00, 229.45it/s]100%|##########| 100/100 [00:00<00:00, 225.79it/s]
-Train Epoch 46
-{
-    "Cosine_Loss": 0.26117786794900893,
-    "L1_Loss": 0.0028263725142460318,
-    "L2_Loss": 0.006178704074118286,
-    "Loss": 0.006178704074118286,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0574308187702502,
-    "Time_Data_Loading": 0.003143493334452311,
-    "Time_Epoch": 0.008518079916636149,
-    "Time_Log_Info": 0.0001567403475443522,
-    "Time_Process_Batch": 0.00046152273813883463,
-    "Time_Train_Batch": 0.0036022305488586427
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 46 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.54it/s] 42%|####2     | 42/100 [00:00<00:00, 210.97it/s] 66%|######6   | 66/100 [00:00<00:00, 221.94it/s] 90%|######### | 90/100 [00:00<00:00, 227.73it/s]100%|##########| 100/100 [00:00<00:00, 223.08it/s]
-Train Epoch 47
-{
-    "Cosine_Loss": 0.2655484490096569,
-    "L1_Loss": 0.002887262892909348,
-    "L2_Loss": 0.00633673788048327,
-    "Loss": 0.00633673788048327,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05398934830113717,
-    "Time_Data_Loading": 0.0031434297561645508,
-    "Time_Epoch": 0.008541492621103923,
-    "Time_Log_Info": 0.0001595616340637207,
-    "Time_Process_Batch": 0.0004540522893269857,
-    "Time_Train_Batch": 0.0036960721015930178
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 47 Memory Usage: 1761 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 201.91it/s] 45%|####5     | 45/100 [00:00<00:00, 223.12it/s] 69%|######9   | 69/100 [00:00<00:00, 228.19it/s] 94%|#########3| 94/100 [00:00<00:00, 233.56it/s]100%|##########| 100/100 [00:00<00:00, 227.13it/s]
-Train Epoch 48
-{
-    "Cosine_Loss": 0.258651071190834,
-    "L1_Loss": 0.002606938763638027,
-    "L2_Loss": 0.005655090600484982,
-    "Loss": 0.005655090600484982,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05077535813460031,
-    "Time_Data_Loading": 0.0031855384508768718,
-    "Time_Epoch": 0.008487204710642496,
-    "Time_Log_Info": 0.00014998912811279297,
-    "Time_Process_Batch": 0.000473026434580485,
-    "Time_Train_Batch": 0.0035109917322794595
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 48 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.08it/s] 45%|####5     | 45/100 [00:00<00:00, 225.35it/s] 70%|#######   | 70/100 [00:00<00:00, 233.88it/s] 95%|#########5| 95/100 [00:00<00:00, 235.93it/s]100%|##########| 100/100 [00:00<00:00, 229.85it/s]
-Train Epoch 49
-{
-    "Cosine_Loss": 0.25011464819312096,
-    "L1_Loss": 0.0024373199278488757,
-    "L2_Loss": 0.005225253798998892,
-    "Loss": 0.005225253798998892,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04712478226013673,
-    "Time_Data_Loading": 0.003146020571390788,
-    "Time_Epoch": 0.008372747898101806,
-    "Time_Log_Info": 0.0001526514689127604,
-    "Time_Process_Batch": 0.00046215057373046877,
-    "Time_Train_Batch": 0.0034720579783121745
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 49 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.61it/s] 39%|###9      | 39/100 [00:00<00:00, 193.72it/s] 62%|######2   | 62/100 [00:00<00:00, 209.46it/s] 85%|########5 | 85/100 [00:00<00:00, 216.31it/s]100%|##########| 100/100 [00:00<00:00, 212.27it/s]
-Train Epoch 50
-{
-    "Cosine_Loss": 0.2549349325895309,
-    "L1_Loss": 0.0026423930225428194,
-    "L2_Loss": 0.005759055146481842,
-    "Loss": 0.005759055146481842,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06117880376770927,
-    "Time_Data_Loading": 0.003434125582377116,
-    "Time_Epoch": 0.008942139148712159,
-    "Time_Log_Info": 0.00014950831731160483,
-    "Time_Process_Batch": 0.0004808545112609863,
-    "Time_Train_Batch": 0.0037676175435384113
-}
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/models/model_epoch_50.pth
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 50 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 185.97it/s] 39%|###9      | 39/100 [00:00<00:00, 190.71it/s] 61%|######1   | 61/100 [00:00<00:00, 203.82it/s] 84%|########4 | 84/100 [00:00<00:00, 212.73it/s]100%|##########| 100/100 [00:00<00:00, 205.10it/s]
-Train Epoch 51
-{
-    "Cosine_Loss": 0.25566111467778685,
-    "L1_Loss": 0.002421688969479874,
-    "L2_Loss": 0.005287681778427213,
-    "Loss": 0.005287681778427213,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04089605672063044,
-    "Time_Data_Loading": 0.0035686254501342773,
-    "Time_Epoch": 0.009255468845367432,
-    "Time_Log_Info": 0.00014141400655110677,
-    "Time_Process_Batch": 0.000491027037302653,
-    "Time_Train_Batch": 0.003906269868214925
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 51 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.36it/s] 44%|####4     | 44/100 [00:00<00:00, 215.40it/s] 66%|######6   | 66/100 [00:00<00:00, 191.21it/s] 86%|########6 | 86/100 [00:00<00:00, 189.16it/s]100%|##########| 100/100 [00:00<00:00, 195.93it/s]
-Train Epoch 52
-{
-    "Cosine_Loss": 0.25139182567596435,
-    "L1_Loss": 0.002387663966510445,
-    "L2_Loss": 0.005166773884557187,
-    "Loss": 0.005166773884557187,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05102955768717038,
-    "Time_Data_Loading": 0.0037029306093851726,
-    "Time_Epoch": 0.009602502981821696,
-    "Time_Log_Info": 0.0001374959945678711,
-    "Time_Process_Batch": 0.0005553364753723145,
-    "Time_Train_Batch": 0.004092013835906983
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 52 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.41it/s] 44%|####4     | 44/100 [00:00<00:00, 221.99it/s] 68%|######8   | 68/100 [00:00<00:00, 227.56it/s] 92%|#########2| 92/100 [00:00<00:00, 230.49it/s]100%|##########| 100/100 [00:00<00:00, 227.53it/s]
-Train Epoch 53
-{
-    "Cosine_Loss": 0.24896440640091896,
-    "L1_Loss": 0.0024069524911465123,
-    "L2_Loss": 0.005212644828716293,
-    "Loss": 0.005212644828716293,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06315604330758105,
-    "Time_Data_Loading": 0.0031400243441263836,
-    "Time_Epoch": 0.008389333883921305,
-    "Time_Log_Info": 0.00014437039693196614,
-    "Time_Process_Batch": 0.00047301451365152996,
-    "Time_Train_Batch": 0.003550302982330322
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 53 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.26it/s] 42%|####2     | 42/100 [00:00<00:00, 210.65it/s] 66%|######6   | 66/100 [00:00<00:00, 220.45it/s] 89%|########9 | 89/100 [00:00<00:00, 221.63it/s]100%|##########| 100/100 [00:00<00:00, 218.39it/s]
-Train Epoch 54
-{
-    "Cosine_Loss": 0.25210922986268997,
-    "L1_Loss": 0.0024844855978153647,
-    "L2_Loss": 0.00538430149666965,
-    "Loss": 0.00538430149666965,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.07045252845101231,
-    "Time_Data_Loading": 0.0033071319262186686,
-    "Time_Epoch": 0.008707348505655925,
-    "Time_Log_Info": 0.0001516143480936686,
-    "Time_Process_Batch": 0.000493013858795166,
-    "Time_Train_Batch": 0.003661962350209554
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 54 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 164.68it/s] 41%|####1     | 41/100 [00:00<00:00, 205.30it/s] 65%|######5   | 65/100 [00:00<00:00, 217.82it/s] 89%|########9 | 89/100 [00:00<00:00, 225.16it/s]100%|##########| 100/100 [00:00<00:00, 218.53it/s]
-Train Epoch 55
-{
-    "Cosine_Loss": 0.24273563116788865,
-    "L1_Loss": 0.002184747611172497,
-    "L2_Loss": 0.004666276364587247,
-    "Loss": 0.004666276364587247,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.047618392168263884,
-    "Time_Data_Loading": 0.003491707642873128,
-    "Time_Epoch": 0.0088227113087972,
-    "Time_Log_Info": 0.00015213489532470704,
-    "Time_Process_Batch": 0.0004557530085245768,
-    "Time_Train_Batch": 0.0035097201665242514
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 55 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.20it/s] 43%|####3     | 43/100 [00:00<00:00, 214.29it/s] 67%|######7   | 67/100 [00:00<00:00, 224.18it/s] 91%|#########1| 91/100 [00:00<00:00, 227.45it/s]100%|##########| 100/100 [00:00<00:00, 223.59it/s]
-Train Epoch 56
-{
-    "Cosine_Loss": 0.2535892182588577,
-    "L1_Loss": 0.002308307987404987,
-    "L2_Loss": 0.004970016840379685,
-    "Loss": 0.004970016840379685,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06438423926692054,
-    "Time_Data_Loading": 0.0032681743303934734,
-    "Time_Epoch": 0.008560752868652344,
-    "Time_Log_Info": 0.00014943281809488932,
-    "Time_Process_Batch": 0.00045767625172932945,
-    "Time_Train_Batch": 0.003561818599700928
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 56 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 202.40it/s] 46%|####6     | 46/100 [00:00<00:00, 225.54it/s] 69%|######9   | 69/100 [00:00<00:00, 223.80it/s] 93%|#########3| 93/100 [00:00<00:00, 227.36it/s]100%|##########| 100/100 [00:00<00:00, 225.21it/s]
-Train Epoch 57
-{
-    "Cosine_Loss": 0.24287014484405517,
-    "L1_Loss": 0.002175335512147285,
-    "L2_Loss": 0.004725573604227975,
-    "Loss": 0.004725573604227975,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.047972823186965455,
-    "Time_Data_Loading": 0.0032379190127054852,
-    "Time_Epoch": 0.008480838934580485,
-    "Time_Log_Info": 0.00015162229537963868,
-    "Time_Process_Batch": 0.0004578709602355957,
-    "Time_Train_Batch": 0.0035355130831400553
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 57 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.03it/s] 43%|####3     | 43/100 [00:00<00:00, 213.49it/s] 67%|######7   | 67/100 [00:00<00:00, 223.75it/s] 91%|#########1| 91/100 [00:00<00:00, 227.97it/s]100%|##########| 100/100 [00:00<00:00, 222.70it/s]
-Train Epoch 58
-{
-    "Cosine_Loss": 0.24664179518818855,
-    "L1_Loss": 0.0022439658443909136,
-    "L2_Loss": 0.0048364132619462905,
-    "Loss": 0.0048364132619462905,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06708616301438042,
-    "Time_Data_Loading": 0.0033075928688049315,
-    "Time_Epoch": 0.008638433615366618,
-    "Time_Log_Info": 0.0001580953598022461,
-    "Time_Process_Batch": 0.0004530032475789388,
-    "Time_Train_Batch": 0.003548105557759603
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 58 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.90it/s] 43%|####3     | 43/100 [00:00<00:00, 215.70it/s] 67%|######7   | 67/100 [00:00<00:00, 225.85it/s] 90%|######### | 90/100 [00:00<00:00, 208.52it/s]100%|##########| 100/100 [00:00<00:00, 211.93it/s]
-Train Epoch 59
-{
-    "Cosine_Loss": 0.24588036611676217,
-    "L1_Loss": 0.0020400639157742264,
-    "L2_Loss": 0.004401945802383125,
-    "Loss": 0.004401945802383125,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05156892918948301,
-    "Time_Data_Loading": 0.003456258773803711,
-    "Time_Epoch": 0.008945119380950928,
-    "Time_Log_Info": 0.00014142990112304689,
-    "Time_Process_Batch": 0.000486457347869873,
-    "Time_Train_Batch": 0.0037619829177856444
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 59 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.46it/s] 43%|####3     | 43/100 [00:00<00:00, 214.05it/s] 65%|######5   | 65/100 [00:00<00:00, 212.59it/s] 87%|########7 | 87/100 [00:00<00:00, 212.11it/s]100%|##########| 100/100 [00:00<00:00, 213.66it/s]
-Train Epoch 60
-{
-    "Cosine_Loss": 0.2405770580470562,
-    "L1_Loss": 0.0020390741620212793,
-    "L2_Loss": 0.00442066649440676,
-    "Loss": 0.00442066649440676,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04257104595084229,
-    "Time_Data_Loading": 0.0034123698870340982,
-    "Time_Epoch": 0.008864653110504151,
-    "Time_Log_Info": 0.00014937321345011393,
-    "Time_Process_Batch": 0.0004848996798197428,
-    "Time_Train_Batch": 0.003736257553100586
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 60 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.42it/s] 44%|####4     | 44/100 [00:00<00:00, 217.98it/s] 68%|######8   | 68/100 [00:00<00:00, 223.98it/s] 92%|#########2| 92/100 [00:00<00:00, 228.91it/s]100%|##########| 100/100 [00:00<00:00, 225.42it/s]
-Train Epoch 61
-{
-    "Cosine_Loss": 0.2440759487450123,
-    "L1_Loss": 0.0020824118150630966,
-    "L2_Loss": 0.004449943153886125,
-    "Loss": 0.004449943153886125,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04386438763994988,
-    "Time_Data_Loading": 0.003168237209320068,
-    "Time_Epoch": 0.00914382537206014,
-    "Time_Log_Info": 0.00014236768086751302,
-    "Time_Process_Batch": 0.0004636486371358236,
-    "Time_Train_Batch": 0.003600664933522542
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 61 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 191.91it/s] 44%|####4     | 44/100 [00:00<00:00, 216.16it/s] 68%|######8   | 68/100 [00:00<00:00, 223.77it/s] 91%|#########1| 91/100 [00:00<00:00, 225.35it/s]100%|##########| 100/100 [00:00<00:00, 222.29it/s]
-Train Epoch 62
-{
-    "Cosine_Loss": 0.24319021701812743,
-    "L1_Loss": 0.0019260231527732684,
-    "L2_Loss": 0.004108724830439314,
-    "Loss": 0.004108724830439314,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.07087070026059336,
-    "Time_Data_Loading": 0.003262464205423991,
-    "Time_Epoch": 0.008645371596018473,
-    "Time_Log_Info": 0.00015116135279337565,
-    "Time_Process_Batch": 0.0004785776138305664,
-    "Time_Train_Batch": 0.0035872062047322593
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 62 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.82it/s] 42%|####2     | 42/100 [00:00<00:00, 208.74it/s] 65%|######5   | 65/100 [00:00<00:00, 214.28it/s] 88%|########8 | 88/100 [00:00<00:00, 219.10it/s]100%|##########| 100/100 [00:00<00:00, 216.96it/s]
-Train Epoch 63
-{
-    "Cosine_Loss": 0.2422287279367447,
-    "L1_Loss": 0.002076861691311933,
-    "L2_Loss": 0.004446251507615671,
-    "Loss": 0.004446251507615671,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.06157770218343216,
-    "Time_Data_Loading": 0.003204794724782308,
-    "Time_Epoch": 0.008752413590749105,
-    "Time_Log_Info": 0.00015450716018676757,
-    "Time_Process_Batch": 0.0004924416542053222,
-    "Time_Train_Batch": 0.0038124958674112955
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 63 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 201.78it/s] 45%|####5     | 45/100 [00:00<00:00, 221.64it/s] 69%|######9   | 69/100 [00:00<00:00, 227.69it/s] 93%|#########3| 93/100 [00:00<00:00, 230.49it/s]100%|##########| 100/100 [00:00<00:00, 226.69it/s]
-Train Epoch 64
-{
-    "Cosine_Loss": 0.24527693450450896,
-    "L1_Loss": 0.0018333179759792984,
-    "L2_Loss": 0.0038812174671329558,
-    "Loss": 0.0038812174671329558,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05580829437907482,
-    "Time_Data_Loading": 0.003283572196960449,
-    "Time_Epoch": 0.008432304859161377,
-    "Time_Log_Info": 0.00015710592269897462,
-    "Time_Process_Batch": 0.00045456886291503904,
-    "Time_Train_Batch": 0.0034397999445597333
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 64 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 185.29it/s] 42%|####2     | 42/100 [00:00<00:00, 211.03it/s] 66%|######6   | 66/100 [00:00<00:00, 223.88it/s] 90%|######### | 90/100 [00:00<00:00, 229.27it/s]100%|##########| 100/100 [00:00<00:00, 223.86it/s]
-Train Epoch 65
-{
-    "Cosine_Loss": 0.23451651364564896,
-    "L1_Loss": 0.0019436509540537372,
-    "L2_Loss": 0.00421467654989101,
-    "Loss": 0.00421467654989101,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04544573011687305,
-    "Time_Data_Loading": 0.0032332420349121095,
-    "Time_Epoch": 0.008531792958577474,
-    "Time_Log_Info": 0.00015257994333902996,
-    "Time_Process_Batch": 0.0004712343215942383,
-    "Time_Train_Batch": 0.0035701592763264975
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 65 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 178.33it/s] 38%|###8      | 38/100 [00:00<00:00, 190.85it/s] 62%|######2   | 62/100 [00:00<00:00, 210.46it/s] 87%|########7 | 87/100 [00:00<00:00, 222.64it/s]100%|##########| 100/100 [00:00<00:00, 216.69it/s]
-Train Epoch 66
-{
-    "Cosine_Loss": 0.24198203228414059,
-    "L1_Loss": 0.0018577906506834553,
-    "L2_Loss": 0.004020634073531255,
-    "Loss": 0.004020634073531255,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04094521234725619,
-    "Time_Data_Loading": 0.0032773693402608235,
-    "Time_Epoch": 0.008806721369425455,
-    "Time_Log_Info": 0.00014316638310750326,
-    "Time_Process_Batch": 0.00047089258829752603,
-    "Time_Train_Batch": 0.0037820895512898764
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 66 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.00it/s] 43%|####3     | 43/100 [00:00<00:00, 211.51it/s] 68%|######8   | 68/100 [00:00<00:00, 224.96it/s] 91%|#########1| 91/100 [00:00<00:00, 224.81it/s]100%|##########| 100/100 [00:00<00:00, 221.78it/s]
-Train Epoch 67
-{
-    "Cosine_Loss": 0.24072225794196128,
-    "L1_Loss": 0.001958304935833439,
-    "L2_Loss": 0.004245220713783055,
-    "Loss": 0.004245220713783055,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05968121485368556,
-    "Time_Data_Loading": 0.0032856504122416178,
-    "Time_Epoch": 0.00870283047358195,
-    "Time_Log_Info": 0.00015267531077067057,
-    "Time_Process_Batch": 0.00046022733052571613,
-    "Time_Train_Batch": 0.0035991271336873374
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 67 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.17it/s] 44%|####4     | 44/100 [00:00<00:00, 222.29it/s] 67%|######7   | 67/100 [00:00<00:00, 193.48it/s] 91%|#########1| 91/100 [00:00<00:00, 208.71it/s]100%|##########| 100/100 [00:00<00:00, 209.19it/s]
-Train Epoch 68
-{
-    "Cosine_Loss": 0.2493867790699005,
-    "L1_Loss": 0.001954027054598555,
-    "L2_Loss": 0.0041318313661031425,
-    "Loss": 0.0041318313661031425,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.09006508464210697,
-    "Time_Data_Loading": 0.0031763394673665363,
-    "Time_Epoch": 0.009152857462565105,
-    "Time_Log_Info": 0.0001557469367980957,
-    "Time_Process_Batch": 0.0004551092783610026,
-    "Time_Train_Batch": 0.0035781304041544596
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 68 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 174.07it/s] 41%|####1     | 41/100 [00:00<00:00, 206.25it/s] 62%|######2   | 62/100 [00:00<00:00, 204.80it/s] 83%|########2 | 83/100 [00:00<00:00, 204.88it/s]100%|##########| 100/100 [00:00<00:00, 204.54it/s]
-Train Epoch 69
-{
-    "Cosine_Loss": 0.2301190910488367,
-    "L1_Loss": 0.001653927081497386,
-    "L2_Loss": 0.0035336915403604507,
-    "Loss": 0.0035336915403604507,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.039510040272090804,
-    "Time_Data_Loading": 0.003572853406270345,
-    "Time_Epoch": 0.009272877375284832,
-    "Time_Log_Info": 0.00014055172602335612,
-    "Time_Process_Batch": 0.0005128065745035808,
-    "Time_Train_Batch": 0.0039027849833170574
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 69 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.06it/s] 43%|####3     | 43/100 [00:00<00:00, 213.89it/s] 67%|######7   | 67/100 [00:00<00:00, 221.76it/s] 91%|#########1| 91/100 [00:00<00:00, 226.28it/s]100%|##########| 100/100 [00:00<00:00, 222.16it/s]
-Train Epoch 70
-{
-    "Cosine_Loss": 0.23973685435950756,
-    "L1_Loss": 0.0020521627221023664,
-    "L2_Loss": 0.0045053336571436375,
-    "Loss": 0.0045053336571436375,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04856574825140399,
-    "Time_Data_Loading": 0.0033507664998372396,
-    "Time_Epoch": 0.008581781387329101,
-    "Time_Log_Info": 0.00015476147333780925,
-    "Time_Process_Batch": 0.0004654725392659505,
-    "Time_Train_Batch": 0.00351409912109375
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 70 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.87it/s] 43%|####3     | 43/100 [00:00<00:00, 217.47it/s] 66%|######6   | 66/100 [00:00<00:00, 220.79it/s] 89%|########9 | 89/100 [00:00<00:00, 223.04it/s]100%|##########| 100/100 [00:00<00:00, 221.12it/s]
-Train Epoch 71
-{
-    "Cosine_Loss": 0.2349596782028675,
-    "L1_Loss": 0.001688881284208037,
-    "L2_Loss": 0.0036189213825855403,
-    "Loss": 0.0036189213825855403,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.044485280245170886,
-    "Time_Data_Loading": 0.0032362580299377442,
-    "Time_Epoch": 0.008900944391886394,
-    "Time_Log_Info": 0.00015046993891398112,
-    "Time_Process_Batch": 0.00047387282053629556,
-    "Time_Train_Batch": 0.0036594669024149575
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 71 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.19it/s] 43%|####3     | 43/100 [00:00<00:00, 216.15it/s] 67%|######7   | 67/100 [00:00<00:00, 218.68it/s] 90%|######### | 90/100 [00:00<00:00, 220.09it/s]100%|##########| 100/100 [00:00<00:00, 218.13it/s]
-Train Epoch 72
-{
-    "Cosine_Loss": 0.23377128556370735,
-    "L1_Loss": 0.0020111557509517298,
-    "L2_Loss": 0.0044408141111489385,
-    "Loss": 0.0044408141111489385,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04980718250001871,
-    "Time_Data_Loading": 0.003261558214823405,
-    "Time_Epoch": 0.008717099825541178,
-    "Time_Log_Info": 0.0001473069190979004,
-    "Time_Process_Batch": 0.0004745999972025553,
-    "Time_Train_Batch": 0.0037394205729166666
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 72 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.96it/s] 44%|####4     | 44/100 [00:00<00:00, 217.51it/s] 68%|######8   | 68/100 [00:00<00:00, 226.18it/s] 92%|#########2| 92/100 [00:00<00:00, 231.52it/s]100%|##########| 100/100 [00:00<00:00, 225.99it/s]
-Train Epoch 73
-{
-    "Cosine_Loss": 0.23081056714057924,
-    "L1_Loss": 0.0016685619315830991,
-    "L2_Loss": 0.0036313794588204475,
-    "Loss": 0.0036313794588204475,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04510475678191938,
-    "Time_Data_Loading": 0.003180837631225586,
-    "Time_Epoch": 0.008614508310953777,
-    "Time_Log_Info": 0.00014767249425252278,
-    "Time_Process_Batch": 0.00047902266184488934,
-    "Time_Train_Batch": 0.003549667199452718
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 73 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 188.45it/s] 42%|####2     | 42/100 [00:00<00:00, 210.22it/s] 65%|######5   | 65/100 [00:00<00:00, 217.88it/s] 89%|########9 | 89/100 [00:00<00:00, 226.21it/s]100%|##########| 100/100 [00:00<00:00, 220.57it/s]
-Train Epoch 74
-{
-    "Cosine_Loss": 0.2250613287091255,
-    "L1_Loss": 0.0016172752535203471,
-    "L2_Loss": 0.003503651354694739,
-    "Loss": 0.003503651354694739,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03649437274789193,
-    "Time_Data_Loading": 0.0032297730445861816,
-    "Time_Epoch": 0.008644513289133708,
-    "Time_Log_Info": 0.00015258391698201498,
-    "Time_Process_Batch": 0.00048357248306274414,
-    "Time_Train_Batch": 0.00367278258005778
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 74 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 204.43it/s] 44%|####4     | 44/100 [00:00<00:00, 215.49it/s] 66%|######6   | 66/100 [00:00<00:00, 216.53it/s] 90%|######### | 90/100 [00:00<00:00, 224.32it/s]100%|##########| 100/100 [00:00<00:00, 220.67it/s]
-Train Epoch 75
-{
-    "Cosine_Loss": 0.2298339684307575,
-    "L1_Loss": 0.0016991634404985234,
-    "L2_Loss": 0.0036937895731534807,
-    "Loss": 0.0036937895731534807,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04796552740345874,
-    "Time_Data_Loading": 0.0032822489738464355,
-    "Time_Epoch": 0.008670334021250408,
-    "Time_Log_Info": 0.00014405250549316407,
-    "Time_Process_Batch": 0.0004784981409708659,
-    "Time_Train_Batch": 0.0036299387613932294
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 75 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 151.70it/s] 39%|###9      | 39/100 [00:00<00:00, 195.00it/s] 63%|######3   | 63/100 [00:00<00:00, 212.81it/s] 87%|########7 | 87/100 [00:00<00:00, 222.56it/s]100%|##########| 100/100 [00:00<00:00, 214.94it/s]
-Train Epoch 76
-{
-    "Cosine_Loss": 0.22990411132574082,
-    "L1_Loss": 0.001506586882751435,
-    "L2_Loss": 0.0032560460455715655,
-    "Loss": 0.0032560460455715655,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03392984262834091,
-    "Time_Data_Loading": 0.0034082611401875813,
-    "Time_Epoch": 0.00897541840871175,
-    "Time_Log_Info": 0.00014403263727823893,
-    "Time_Process_Batch": 0.00048162142435709634,
-    "Time_Train_Batch": 0.0037024299303690593
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 76 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.26it/s] 43%|####3     | 43/100 [00:00<00:00, 209.76it/s] 65%|######5   | 65/100 [00:00<00:00, 211.56it/s] 87%|########7 | 87/100 [00:00<00:00, 214.50it/s]100%|##########| 100/100 [00:00<00:00, 212.70it/s]
-Train Epoch 77
-{
-    "Cosine_Loss": 0.2384742158651352,
-    "L1_Loss": 0.0018048416363308207,
-    "L2_Loss": 0.003948118599364534,
-    "Loss": 0.003948118599364534,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04850790325057119,
-    "Time_Data_Loading": 0.0034232060114542644,
-    "Time_Epoch": 0.008923943837483723,
-    "Time_Log_Info": 0.00014420747756958008,
-    "Time_Process_Batch": 0.0005001505215962728,
-    "Time_Train_Batch": 0.00374987522761027
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 77 Memory Usage: 1760 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.15it/s] 42%|####2     | 42/100 [00:00<00:00, 209.86it/s] 66%|######6   | 66/100 [00:00<00:00, 221.38it/s] 89%|########9 | 89/100 [00:00<00:00, 220.08it/s]100%|##########| 100/100 [00:00<00:00, 217.05it/s]
-Train Epoch 78
-{
-    "Cosine_Loss": 0.22577303469181062,
-    "L1_Loss": 0.0017729990021325649,
-    "L2_Loss": 0.0038468745071440933,
-    "Loss": 0.0038468745071440933,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05099247538481336,
-    "Time_Data_Loading": 0.0032971024513244627,
-    "Time_Epoch": 0.00876072645187378,
-    "Time_Log_Info": 0.000152587890625,
-    "Time_Process_Batch": 0.0004950563112894694,
-    "Time_Train_Batch": 0.0037157813707987468
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 78 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 183.35it/s] 41%|####1     | 41/100 [00:00<00:00, 204.45it/s] 62%|######2   | 62/100 [00:00<00:00, 206.88it/s] 83%|########2 | 83/100 [00:00<00:00, 203.48it/s]100%|##########| 100/100 [00:00<00:00, 204.82it/s]
-Train Epoch 79
-{
-    "Cosine_Loss": 0.22251865670084953,
-    "L1_Loss": 0.0017085629468783737,
-    "L2_Loss": 0.0037723042955622077,
-    "Loss": 0.0037723042955622077,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04418348478640269,
-    "Time_Data_Loading": 0.0035796046257019045,
-    "Time_Epoch": 0.009372222423553466,
-    "Time_Log_Info": 0.00014152924219767253,
-    "Time_Process_Batch": 0.0005082090695699056,
-    "Time_Train_Batch": 0.003890053431193034
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 79 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.63it/s] 44%|####4     | 44/100 [00:00<00:00, 216.42it/s] 69%|######9   | 69/100 [00:00<00:00, 227.81it/s] 93%|#########3| 93/100 [00:00<00:00, 230.22it/s]100%|##########| 100/100 [00:00<00:00, 226.27it/s]
-Train Epoch 80
-{
-    "Cosine_Loss": 0.22643015921115875,
-    "L1_Loss": 0.001489054444245994,
-    "L2_Loss": 0.0032043908536434173,
-    "Loss": 0.0032043908536434173,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03811556069475273,
-    "Time_Data_Loading": 0.003230118751525879,
-    "Time_Epoch": 0.008498088518778483,
-    "Time_Log_Info": 0.0001562674840291341,
-    "Time_Process_Batch": 0.00046230554580688475,
-    "Time_Train_Batch": 0.003500072161356608
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 80 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.47it/s] 44%|####4     | 44/100 [00:00<00:00, 218.72it/s] 68%|######8   | 68/100 [00:00<00:00, 224.84it/s] 92%|#########2| 92/100 [00:00<00:00, 228.40it/s]100%|##########| 100/100 [00:00<00:00, 224.36it/s]
-Train Epoch 81
-{
-    "Cosine_Loss": 0.23077360033988953,
-    "L1_Loss": 0.0016611201810883358,
-    "L2_Loss": 0.0036577186884824186,
-    "Loss": 0.0036577186884824186,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.046114259675709944,
-    "Time_Data_Loading": 0.0032234946886698407,
-    "Time_Epoch": 0.008511674404144288,
-    "Time_Log_Info": 0.00014696915944417316,
-    "Time_Process_Batch": 0.00047405163447062173,
-    "Time_Train_Batch": 0.00356596310933431
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 81 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 182.52it/s] 43%|####3     | 43/100 [00:00<00:00, 211.41it/s] 67%|######7   | 67/100 [00:00<00:00, 222.53it/s] 90%|######### | 90/100 [00:00<00:00, 225.08it/s]100%|##########| 100/100 [00:00<00:00, 221.11it/s]
-Train Epoch 82
-{
-    "Cosine_Loss": 0.22771735601127147,
-    "L1_Loss": 0.001486557901953347,
-    "L2_Loss": 0.0032040828524623065,
-    "Loss": 0.0032040828524623065,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03262952306641978,
-    "Time_Data_Loading": 0.003273038069407145,
-    "Time_Epoch": 0.008687925338745118,
-    "Time_Log_Info": 0.00014888048171997071,
-    "Time_Process_Batch": 0.0004756927490234375,
-    "Time_Train_Batch": 0.003622750441233317
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 82 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 173.48it/s] 39%|###9      | 39/100 [00:00<00:00, 194.41it/s] 61%|######1   | 61/100 [00:00<00:00, 204.51it/s] 84%|########4 | 84/100 [00:00<00:00, 212.15it/s]100%|##########| 100/100 [00:00<00:00, 209.16it/s]
-Train Epoch 83
-{
-    "Cosine_Loss": 0.21937620714306832,
-    "L1_Loss": 0.0014297134114895015,
-    "L2_Loss": 0.003084600509610027,
-    "Loss": 0.003084600509610027,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.038450461242833855,
-    "Time_Data_Loading": 0.0035089850425720215,
-    "Time_Epoch": 0.009067706267038981,
-    "Time_Log_Info": 0.00014914671579996746,
-    "Time_Process_Batch": 0.0005070845286051433,
-    "Time_Train_Batch": 0.0037851293881734213
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 83 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.01it/s] 44%|####4     | 44/100 [00:00<00:00, 215.85it/s] 68%|######8   | 68/100 [00:00<00:00, 223.36it/s] 92%|#########2| 92/100 [00:00<00:00, 227.94it/s]100%|##########| 100/100 [00:00<00:00, 223.71it/s]
-Train Epoch 84
-{
-    "Cosine_Loss": 0.23365509510040283,
-    "L1_Loss": 0.0014561201457399876,
-    "L2_Loss": 0.0031604776415042578,
-    "Loss": 0.0031604776415042578,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.039704780649085475,
-    "Time_Data_Loading": 0.003271047274271647,
-    "Time_Epoch": 0.008579524358113606,
-    "Time_Log_Info": 0.0001485149065653483,
-    "Time_Process_Batch": 0.0004677693049112956,
-    "Time_Train_Batch": 0.003544815381368001
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 84 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 172.43it/s] 42%|####2     | 42/100 [00:00<00:00, 206.60it/s] 65%|######5   | 65/100 [00:00<00:00, 213.43it/s] 88%|########8 | 88/100 [00:00<00:00, 218.00it/s]100%|##########| 100/100 [00:00<00:00, 215.04it/s]
-Train Epoch 85
-{
-    "Cosine_Loss": 0.21589758157730102,
-    "L1_Loss": 0.0013656012999126688,
-    "L2_Loss": 0.0029561139515135435,
-    "Loss": 0.0029561139515135435,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.033039189711252845,
-    "Time_Data_Loading": 0.0034217039744059243,
-    "Time_Epoch": 0.0088432510693868,
-    "Time_Log_Info": 0.00014030933380126953,
-    "Time_Process_Batch": 0.00047434568405151366,
-    "Time_Train_Batch": 0.0036958734194437663
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 85 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.78it/s] 44%|####4     | 44/100 [00:00<00:00, 216.73it/s] 67%|######7   | 67/100 [00:00<00:00, 222.45it/s] 90%|######### | 90/100 [00:00<00:00, 202.29it/s]100%|##########| 100/100 [00:00<00:00, 207.90it/s]
-Train Epoch 86
-{
-    "Cosine_Loss": 0.22636712804436684,
-    "L1_Loss": 0.0013872581371106208,
-    "L2_Loss": 0.002975017726421356,
-    "Loss": 0.002975017726421356,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.035284323699002584,
-    "Time_Data_Loading": 0.003361825148264567,
-    "Time_Epoch": 0.009076587359110514,
-    "Time_Log_Info": 0.00014830827713012694,
-    "Time_Process_Batch": 0.0005070646603902181,
-    "Time_Train_Batch": 0.003981896241505941
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 86 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.71it/s] 43%|####3     | 43/100 [00:00<00:00, 213.36it/s] 67%|######7   | 67/100 [00:00<00:00, 222.36it/s] 90%|######### | 90/100 [00:00<00:00, 222.29it/s]100%|##########| 100/100 [00:00<00:00, 220.12it/s]
-Train Epoch 87
-{
-    "Cosine_Loss": 0.2234399914741516,
-    "L1_Loss": 0.0014080667472444474,
-    "L2_Loss": 0.0030338837299495936,
-    "Loss": 0.0030338837299495936,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0373845748922929,
-    "Time_Data_Loading": 0.0032502055168151856,
-    "Time_Epoch": 0.008648280302683513,
-    "Time_Log_Info": 0.00014864206314086915,
-    "Time_Process_Batch": 0.00047233899434407555,
-    "Time_Train_Batch": 0.0036828319231669107
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 87 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 183.22it/s] 42%|####2     | 42/100 [00:00<00:00, 207.52it/s] 66%|######6   | 66/100 [00:00<00:00, 218.74it/s] 90%|######### | 90/100 [00:00<00:00, 226.58it/s]100%|##########| 100/100 [00:00<00:00, 221.66it/s]
-Train Epoch 88
-{
-    "Cosine_Loss": 0.21945800200104715,
-    "L1_Loss": 0.0014678758441004902,
-    "L2_Loss": 0.003229954068083316,
-    "Loss": 0.003229954068083316,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03811486085658657,
-    "Time_Data_Loading": 0.0031926830609639487,
-    "Time_Epoch": 0.008759347597757976,
-    "Time_Log_Info": 0.00014812548955281575,
-    "Time_Process_Batch": 0.000478661060333252,
-    "Time_Train_Batch": 0.003682223955790202
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 88 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.45it/s] 43%|####3     | 43/100 [00:00<00:00, 212.75it/s] 67%|######7   | 67/100 [00:00<00:00, 223.40it/s] 91%|#########1| 91/100 [00:00<00:00, 228.03it/s]100%|##########| 100/100 [00:00<00:00, 223.34it/s]
-Train Epoch 89
-{
-    "Cosine_Loss": 0.21202116668224336,
-    "L1_Loss": 0.0013234612008091063,
-    "L2_Loss": 0.0028497950383462012,
-    "Loss": 0.0028497950383462012,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.034860163930762834,
-    "Time_Data_Loading": 0.0032091379165649415,
-    "Time_Epoch": 0.008547822634379068,
-    "Time_Log_Info": 0.00014950037002563475,
-    "Time_Process_Batch": 0.0004677693049112956,
-    "Time_Train_Batch": 0.003618319829305013
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 89 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.09it/s] 41%|####1     | 41/100 [00:00<00:00, 205.07it/s] 65%|######5   | 65/100 [00:00<00:00, 219.96it/s] 89%|########9 | 89/100 [00:00<00:00, 226.53it/s]100%|##########| 100/100 [00:00<00:00, 221.04it/s]
-Train Epoch 90
-{
-    "Cosine_Loss": 0.22209469646215438,
-    "L1_Loss": 0.001395842912606895,
-    "L2_Loss": 0.003048284682445228,
-    "Loss": 0.003048284682445228,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.030552972867232596,
-    "Time_Data_Loading": 0.003277448813120524,
-    "Time_Epoch": 0.008628638585408528,
-    "Time_Log_Info": 0.00015154679616292318,
-    "Time_Process_Batch": 0.0004855076471964518,
-    "Time_Train_Batch": 0.003607519467671712
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 90 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 202.31it/s] 45%|####5     | 45/100 [00:00<00:00, 220.94it/s] 69%|######9   | 69/100 [00:00<00:00, 227.56it/s] 93%|#########3| 93/100 [00:00<00:00, 231.44it/s]100%|##########| 100/100 [00:00<00:00, 227.69it/s]
-Train Epoch 91
-{
-    "Cosine_Loss": 0.2177850589156151,
-    "L1_Loss": 0.0014170150744030252,
-    "L2_Loss": 0.003126295927213505,
-    "Loss": 0.003126295927213505,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03522727358850204,
-    "Time_Data_Loading": 0.003170939286549886,
-    "Time_Epoch": 0.008372974395751954,
-    "Time_Log_Info": 0.00015167792638142902,
-    "Time_Process_Batch": 0.00045723517735799153,
-    "Time_Train_Batch": 0.003522964318593343
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 91 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.03it/s] 44%|####4     | 44/100 [00:00<00:00, 221.33it/s] 67%|######7   | 67/100 [00:00<00:00, 223.40it/s] 91%|#########1| 91/100 [00:00<00:00, 228.00it/s]100%|##########| 100/100 [00:00<00:00, 225.82it/s]
-Train Epoch 92
-{
-    "Cosine_Loss": 0.21071726560592652,
-    "L1_Loss": 0.0014047450057114474,
-    "L2_Loss": 0.0031015117786591874,
-    "Loss": 0.0031015117786591874,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03597219652238436,
-    "Time_Data_Loading": 0.003185009956359863,
-    "Time_Epoch": 0.008440800507863363,
-    "Time_Log_Info": 0.0001484036445617676,
-    "Time_Process_Batch": 0.0004790107409159342,
-    "Time_Train_Batch": 0.0035511096318562823
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 92 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.98it/s] 40%|####      | 40/100 [00:00<00:00, 193.33it/s] 60%|######    | 60/100 [00:00<00:00, 195.39it/s] 83%|########2 | 83/100 [00:00<00:00, 205.89it/s]100%|##########| 100/100 [00:00<00:00, 204.01it/s]
-Train Epoch 93
-{
-    "Cosine_Loss": 0.21964769892394542,
-    "L1_Loss": 0.0013150048232637346,
-    "L2_Loss": 0.0028785461094230414,
-    "Loss": 0.0028785461094230414,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0263659771854617,
-    "Time_Data_Loading": 0.003457498550415039,
-    "Time_Epoch": 0.009262375036875407,
-    "Time_Log_Info": 0.00014796654383341472,
-    "Time_Process_Batch": 0.0005012472470601399,
-    "Time_Train_Batch": 0.004044429461161295
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 93 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.12it/s] 44%|####4     | 44/100 [00:00<00:00, 218.38it/s] 68%|######8   | 68/100 [00:00<00:00, 227.65it/s] 91%|#########1| 91/100 [00:00<00:00, 228.35it/s]100%|##########| 100/100 [00:00<00:00, 225.55it/s]
-Train Epoch 94
-{
-    "Cosine_Loss": 0.21487229593098164,
-    "L1_Loss": 0.0012018196273129434,
-    "L2_Loss": 0.00260793978581205,
-    "Loss": 0.00260793978581205,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02569882567038178,
-    "Time_Data_Loading": 0.0032020211219787598,
-    "Time_Epoch": 0.008433091640472411,
-    "Time_Log_Info": 0.0001556237538655599,
-    "Time_Process_Batch": 0.00045912663141886394,
-    "Time_Train_Batch": 0.0035553574562072754
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 94 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.54it/s] 44%|####4     | 44/100 [00:00<00:00, 220.65it/s] 69%|######9   | 69/100 [00:00<00:00, 230.21it/s] 94%|#########3| 94/100 [00:00<00:00, 234.71it/s]100%|##########| 100/100 [00:00<00:00, 230.12it/s]
-Train Epoch 95
-{
-    "Cosine_Loss": 0.21893075004220008,
-    "L1_Loss": 0.0014423178706783801,
-    "L2_Loss": 0.003173120303545147,
-    "Loss": 0.003173120303545147,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0434051282695043,
-    "Time_Data_Loading": 0.0031133294105529785,
-    "Time_Epoch": 0.008332868417104086,
-    "Time_Log_Info": 0.0001501758893330892,
-    "Time_Process_Batch": 0.000456388791402181,
-    "Time_Train_Batch": 0.0035051663716634115
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 95 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.95it/s] 43%|####3     | 43/100 [00:00<00:00, 212.98it/s] 67%|######7   | 67/100 [00:00<00:00, 224.27it/s] 91%|#########1| 91/100 [00:00<00:00, 229.55it/s]100%|##########| 100/100 [00:00<00:00, 221.92it/s]
-Train Epoch 96
-{
-    "Cosine_Loss": 0.21457882188260555,
-    "L1_Loss": 0.001370633103651926,
-    "L2_Loss": 0.0030090672080405056,
-    "Loss": 0.0030090672080405056,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0366209489587834,
-    "Time_Data_Loading": 0.0032449205716451007,
-    "Time_Epoch": 0.008624168237050374,
-    "Time_Log_Info": 0.0001461346944173177,
-    "Time_Process_Batch": 0.00047818024953206383,
-    "Time_Train_Batch": 0.003623620669047038
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 96 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.52it/s] 44%|####4     | 44/100 [00:00<00:00, 218.89it/s] 68%|######8   | 68/100 [00:00<00:00, 226.49it/s] 92%|#########2| 92/100 [00:00<00:00, 229.67it/s]100%|##########| 100/100 [00:00<00:00, 226.01it/s]
-Train Epoch 97
-{
-    "Cosine_Loss": 0.2207897648215294,
-    "L1_Loss": 0.0014080759231001139,
-    "L2_Loss": 0.003095214110799134,
-    "Loss": 0.003095214110799134,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04739258198719199,
-    "Time_Data_Loading": 0.0032162865002950034,
-    "Time_Epoch": 0.00842800537745158,
-    "Time_Log_Info": 0.00014632145563761394,
-    "Time_Process_Batch": 0.00046956936518351237,
-    "Time_Train_Batch": 0.0035242517789204914
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 97 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.49it/s] 43%|####3     | 43/100 [00:00<00:00, 215.09it/s] 68%|######8   | 68/100 [00:00<00:00, 227.99it/s] 92%|#########2| 92/100 [00:00<00:00, 230.41it/s]100%|##########| 100/100 [00:00<00:00, 225.28it/s]
-Train Epoch 98
-{
-    "Cosine_Loss": 0.21822199001908302,
-    "L1_Loss": 0.0014946501655504108,
-    "L2_Loss": 0.0033129638247191904,
-    "Loss": 0.0033129638247191904,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03753671707415009,
-    "Time_Data_Loading": 0.0032449920972188314,
-    "Time_Epoch": 0.008697144190470378,
-    "Time_Log_Info": 0.00015189647674560547,
-    "Time_Process_Batch": 0.0004745999972025553,
-    "Time_Train_Batch": 0.0035092711448669435
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 98 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.26it/s] 43%|####3     | 43/100 [00:00<00:00, 214.17it/s] 67%|######7   | 67/100 [00:00<00:00, 223.49it/s] 91%|#########1| 91/100 [00:00<00:00, 229.64it/s]100%|##########| 100/100 [00:00<00:00, 225.24it/s]
-Train Epoch 99
-{
-    "Cosine_Loss": 0.22394104287028313,
-    "L1_Loss": 0.0012426660693017767,
-    "L2_Loss": 0.0026857126096729187,
-    "Loss": 0.0026857126096729187,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03689755241477883,
-    "Time_Data_Loading": 0.003208796183268229,
-    "Time_Epoch": 0.008471318085988363,
-    "Time_Log_Info": 0.00014218489329020182,
-    "Time_Process_Batch": 0.0004618088404337565,
-    "Time_Train_Batch": 0.0035692453384399414
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 99 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.61it/s] 44%|####4     | 44/100 [00:00<00:00, 217.82it/s] 67%|######7   | 67/100 [00:00<00:00, 221.97it/s] 91%|#########1| 91/100 [00:00<00:00, 227.45it/s]100%|##########| 100/100 [00:00<00:00, 224.42it/s]
-Train Epoch 100
-{
-    "Cosine_Loss": 0.22065893173217774,
-    "L1_Loss": 0.0012563026795396582,
-    "L2_Loss": 0.0027037772454787047,
-    "Loss": 0.0027037772454787047,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.046498853329178476,
-    "Time_Data_Loading": 0.0032779693603515623,
-    "Time_Epoch": 0.00875478188196818,
-    "Time_Log_Info": 0.0001452167828877767,
-    "Time_Process_Batch": 0.00045978625615437826,
-    "Time_Train_Batch": 0.003525960445404053
-}
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/models/model_epoch_100.pth
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 100 Memory Usage: 1761 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 157.65it/s] 38%|###8      | 38/100 [00:00<00:00, 190.00it/s] 58%|#####8    | 58/100 [00:00<00:00, 191.31it/s] 80%|########  | 80/100 [00:00<00:00, 201.15it/s]100%|##########| 100/100 [00:00<00:00, 200.15it/s]
-Train Epoch 101
-{
-    "Cosine_Loss": 0.20556352458894253,
-    "L1_Loss": 0.0014979020250029862,
-    "L2_Loss": 0.003383294898085296,
-    "Loss": 0.003383294898085296,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.028154452508954934,
-    "Time_Data_Loading": 0.0035996198654174804,
-    "Time_Epoch": 0.009546434879302979,
-    "Time_Log_Info": 0.00014187892278035483,
-    "Time_Process_Batch": 0.0005444725354512533,
-    "Time_Train_Batch": 0.004022351900736491
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 101 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.30it/s] 43%|####3     | 43/100 [00:00<00:00, 210.56it/s] 66%|######6   | 66/100 [00:00<00:00, 214.85it/s] 88%|########8 | 88/100 [00:00<00:00, 216.76it/s]100%|##########| 100/100 [00:00<00:00, 214.40it/s]
-Train Epoch 102
-{
-    "Cosine_Loss": 0.20844996951520442,
-    "L1_Loss": 0.0011549667504732496,
-    "L2_Loss": 0.0025312107388162984,
-    "Loss": 0.0025312107388162984,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.024609014777026914,
-    "Time_Data_Loading": 0.00329972505569458,
-    "Time_Epoch": 0.008851484457651774,
-    "Time_Log_Info": 0.00014511744181315103,
-    "Time_Process_Batch": 0.0004894614219665527,
-    "Time_Train_Batch": 0.0038206060727437336
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 102 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.88it/s] 39%|###9      | 39/100 [00:00<00:00, 193.43it/s] 63%|######3   | 63/100 [00:00<00:00, 212.32it/s] 88%|########8 | 88/100 [00:00<00:00, 223.55it/s]100%|##########| 100/100 [00:00<00:00, 217.51it/s]
-Train Epoch 103
-{
-    "Cosine_Loss": 0.22089190080761908,
-    "L1_Loss": 0.0012898403074359521,
-    "L2_Loss": 0.0028435584239196033,
-    "Loss": 0.0028435584239196033,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.029685091127927877,
-    "Time_Data_Loading": 0.0033320943514506024,
-    "Time_Epoch": 0.008764628569285076,
-    "Time_Log_Info": 0.00014661153157552082,
-    "Time_Process_Batch": 0.0004832625389099121,
-    "Time_Train_Batch": 0.003682692845662435
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 103 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.58it/s] 43%|####3     | 43/100 [00:00<00:00, 210.09it/s] 66%|######6   | 66/100 [00:00<00:00, 217.50it/s] 90%|######### | 90/100 [00:00<00:00, 224.18it/s]100%|##########| 100/100 [00:00<00:00, 220.09it/s]
-Train Epoch 104
-{
-    "Cosine_Loss": 0.21996814802289008,
-    "L1_Loss": 0.0011387190339155495,
-    "L2_Loss": 0.002452717525884509,
-    "Loss": 0.002452717525884509,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.031869619081628574,
-    "Time_Data_Loading": 0.0032953222592671714,
-    "Time_Epoch": 0.008640849590301513,
-    "Time_Log_Info": 0.0001454790433247884,
-    "Time_Process_Batch": 0.00047514438629150393,
-    "Time_Train_Batch": 0.0036377191543579103
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 104 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.24it/s] 44%|####4     | 44/100 [00:00<00:00, 218.92it/s] 68%|######8   | 68/100 [00:00<00:00, 226.12it/s] 93%|#########3| 93/100 [00:00<00:00, 233.38it/s]100%|##########| 100/100 [00:00<00:00, 226.44it/s]
-Train Epoch 105
-{
-    "Cosine_Loss": 0.21173236146569252,
-    "L1_Loss": 0.0013601860517519525,
-    "L2_Loss": 0.0030581843428080903,
-    "Loss": 0.0030581843428080903,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.029295660825625874,
-    "Time_Data_Loading": 0.0032320300738016765,
-    "Time_Epoch": 0.008409587542215984,
-    "Time_Log_Info": 0.00015616019566853842,
-    "Time_Process_Batch": 0.0004751284917195638,
-    "Time_Train_Batch": 0.0034798304239908855
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 105 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.89it/s] 43%|####3     | 43/100 [00:00<00:00, 214.36it/s] 67%|######7   | 67/100 [00:00<00:00, 223.15it/s] 90%|######### | 90/100 [00:00<00:00, 218.62it/s]100%|##########| 100/100 [00:00<00:00, 216.95it/s]
-Train Epoch 106
-{
-    "Cosine_Loss": 0.20866203159093857,
-    "L1_Loss": 0.0011935648968210443,
-    "L2_Loss": 0.00260703923064284,
-    "Loss": 0.00260703923064284,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.030436437368323938,
-    "Time_Data_Loading": 0.0032031059265136717,
-    "Time_Epoch": 0.008753522237141927,
-    "Time_Log_Info": 0.0001424709955851237,
-    "Time_Process_Batch": 0.0005125284194946289,
-    "Time_Train_Batch": 0.0038060704867045087
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 106 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.18it/s] 40%|####      | 40/100 [00:00<00:00, 195.72it/s] 62%|######2   | 62/100 [00:00<00:00, 203.45it/s] 84%|########4 | 84/100 [00:00<00:00, 208.97it/s]100%|##########| 100/100 [00:00<00:00, 206.47it/s]
-Train Epoch 107
-{
-    "Cosine_Loss": 0.2106892015039921,
-    "L1_Loss": 0.0010792305157519876,
-    "L2_Loss": 0.0023336879815906287,
-    "Loss": 0.0023336879815906287,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.024284005628944103,
-    "Time_Data_Loading": 0.0034857829411824542,
-    "Time_Epoch": 0.009153795242309571,
-    "Time_Log_Info": 0.00014368693033854166,
-    "Time_Process_Batch": 0.0005126794179280599,
-    "Time_Train_Batch": 0.003911058108011882
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 107 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.59it/s] 40%|####      | 40/100 [00:00<00:00, 182.01it/s] 65%|######5   | 65/100 [00:00<00:00, 208.21it/s] 89%|########9 | 89/100 [00:00<00:00, 218.04it/s]100%|##########| 100/100 [00:00<00:00, 212.84it/s]
-Train Epoch 108
-{
-    "Cosine_Loss": 0.20727499887347223,
-    "L1_Loss": 0.0012656679694191552,
-    "L2_Loss": 0.002774593521025963,
-    "Loss": 0.002774593521025963,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0324572671270198,
-    "Time_Data_Loading": 0.003397933642069499,
-    "Time_Epoch": 0.008905124664306641,
-    "Time_Log_Info": 0.00014959176381429035,
-    "Time_Process_Batch": 0.0004903872807820638,
-    "Time_Train_Batch": 0.003774658838907878
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 108 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.79it/s] 44%|####4     | 44/100 [00:00<00:00, 219.26it/s] 68%|######8   | 68/100 [00:00<00:00, 227.88it/s] 92%|#########2| 92/100 [00:00<00:00, 230.91it/s]100%|##########| 100/100 [00:00<00:00, 227.31it/s]
-Train Epoch 109
-{
-    "Cosine_Loss": 0.21184664122760297,
-    "L1_Loss": 0.001137671526230406,
-    "L2_Loss": 0.0024972521275049074,
-    "Loss": 0.0024972521275049074,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.027869982862816868,
-    "Time_Data_Loading": 0.0032067418098449705,
-    "Time_Epoch": 0.008521020412445068,
-    "Time_Log_Info": 0.00014957586924235026,
-    "Time_Process_Batch": 0.0004650592803955078,
-    "Time_Train_Batch": 0.003493185838063558
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 109 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 201.83it/s] 45%|####5     | 45/100 [00:00<00:00, 223.18it/s] 69%|######9   | 69/100 [00:00<00:00, 228.23it/s] 92%|#########2| 92/100 [00:00<00:00, 228.85it/s]100%|##########| 100/100 [00:00<00:00, 227.08it/s]
-Train Epoch 110
-{
-    "Cosine_Loss": 0.20766089640557767,
-    "L1_Loss": 0.0013477749485173262,
-    "L2_Loss": 0.0030212918837787582,
-    "Loss": 0.0030212918837787582,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.028928988702379,
-    "Time_Data_Loading": 0.003175687789916992,
-    "Time_Epoch": 0.00839537779490153,
-    "Time_Log_Info": 0.0001460115114847819,
-    "Time_Process_Batch": 0.00045769214630126954,
-    "Time_Train_Batch": 0.003541696071624756
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 110 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.60it/s] 44%|####4     | 44/100 [00:00<00:00, 219.71it/s] 68%|######8   | 68/100 [00:00<00:00, 225.53it/s] 92%|#########2| 92/100 [00:00<00:00, 229.31it/s]100%|##########| 100/100 [00:00<00:00, 226.06it/s]
-Train Epoch 111
-{
-    "Cosine_Loss": 0.21365427277982235,
-    "L1_Loss": 0.0012908807079656981,
-    "L2_Loss": 0.002806849215994589,
-    "Loss": 0.002806849215994589,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.054524084332682604,
-    "Time_Data_Loading": 0.0031520644823710125,
-    "Time_Epoch": 0.008422032992045084,
-    "Time_Log_Info": 0.00014896392822265624,
-    "Time_Process_Batch": 0.0004628777503967285,
-    "Time_Train_Batch": 0.003590889771779378
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 111 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.30it/s] 44%|####4     | 44/100 [00:00<00:00, 216.84it/s] 68%|######8   | 68/100 [00:00<00:00, 225.83it/s] 92%|#########2| 92/100 [00:00<00:00, 230.15it/s]100%|##########| 100/100 [00:00<00:00, 225.54it/s]
-Train Epoch 112
-{
-    "Cosine_Loss": 0.21037179306149484,
-    "L1_Loss": 0.0012565039651235566,
-    "L2_Loss": 0.0028017219144385306,
-    "Loss": 0.0028017219144385306,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.027437229611613816,
-    "Time_Data_Loading": 0.0031909624735514323,
-    "Time_Epoch": 0.008482301235198974,
-    "Time_Log_Info": 0.00014464457829793293,
-    "Time_Process_Batch": 0.0004761775334676107,
-    "Time_Train_Batch": 0.0035605430603027344
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 112 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.44it/s] 43%|####3     | 43/100 [00:00<00:00, 211.91it/s] 67%|######7   | 67/100 [00:00<00:00, 222.67it/s] 91%|#########1| 91/100 [00:00<00:00, 226.61it/s]100%|##########| 100/100 [00:00<00:00, 222.46it/s]
-Train Epoch 113
-{
-    "Cosine_Loss": 0.20630303055047988,
-    "L1_Loss": 0.0010414809131179936,
-    "L2_Loss": 0.0022238095063949,
-    "Loss": 0.0022238095063949,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03744462423430037,
-    "Time_Data_Loading": 0.0032587687174479166,
-    "Time_Epoch": 0.008609549204508463,
-    "Time_Log_Info": 0.00014861424763997397,
-    "Time_Process_Batch": 0.000479729970296224,
-    "Time_Train_Batch": 0.003587528069814046
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 113 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.36it/s] 41%|####1     | 41/100 [00:00<00:00, 202.95it/s] 63%|######3   | 63/100 [00:00<00:00, 208.15it/s] 85%|########5 | 85/100 [00:00<00:00, 211.91it/s]100%|##########| 100/100 [00:00<00:00, 210.20it/s]
-Train Epoch 114
-{
-    "Cosine_Loss": 0.2027032668888569,
-    "L1_Loss": 0.0010075102059636265,
-    "L2_Loss": 0.002206648790743202,
-    "Loss": 0.002206648790743202,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.01959685096554324,
-    "Time_Data_Loading": 0.0033796509106953938,
-    "Time_Epoch": 0.008990649382273357,
-    "Time_Log_Info": 0.00014687379201253254,
-    "Time_Process_Batch": 0.0005181233088175455,
-    "Time_Train_Batch": 0.003866287072499593
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 114 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.07it/s] 44%|####4     | 44/100 [00:00<00:00, 218.28it/s] 68%|######8   | 68/100 [00:00<00:00, 225.98it/s] 92%|#########2| 92/100 [00:00<00:00, 230.57it/s]100%|##########| 100/100 [00:00<00:00, 226.26it/s]
-Train Epoch 115
-{
-    "Cosine_Loss": 0.20176990658044816,
-    "L1_Loss": 0.001296900677261874,
-    "L2_Loss": 0.0028947902354411782,
-    "Loss": 0.0028947902354411782,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0325165850874464,
-    "Time_Data_Loading": 0.003168793519337972,
-    "Time_Epoch": 0.008438372611999511,
-    "Time_Log_Info": 0.00014923810958862306,
-    "Time_Process_Batch": 0.00045726696650187176,
-    "Time_Train_Batch": 0.0035738666852315267
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 115 Memory Usage: 1752 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.70it/s] 44%|####4     | 44/100 [00:00<00:00, 218.60it/s] 66%|######6   | 66/100 [00:00<00:00, 205.27it/s] 89%|########9 | 89/100 [00:00<00:00, 212.74it/s]100%|##########| 100/100 [00:00<00:00, 212.56it/s]
-Train Epoch 116
-{
-    "Cosine_Loss": 0.20404937922954558,
-    "L1_Loss": 0.0011807274798047729,
-    "L2_Loss": 0.0026287174742901697,
-    "Loss": 0.0026287174742901697,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02298475394100137,
-    "Time_Data_Loading": 0.0035642345746358236,
-    "Time_Epoch": 0.009011348088582357,
-    "Time_Log_Info": 0.00014487504959106445,
-    "Time_Process_Batch": 0.0004825790723164876,
-    "Time_Train_Batch": 0.003632330894470215
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 116 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.14it/s] 42%|####2     | 42/100 [00:00<00:00, 205.22it/s] 63%|######3   | 63/100 [00:00<00:00, 200.59it/s] 84%|########4 | 84/100 [00:00<00:00, 202.10it/s]100%|##########| 100/100 [00:00<00:00, 204.73it/s]
-Train Epoch 117
-{
-    "Cosine_Loss": 0.2031571139395237,
-    "L1_Loss": 0.0010359891821281053,
-    "L2_Loss": 0.0022570556571008637,
-    "Loss": 0.0022570556571008637,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02696975865939237,
-    "Time_Data_Loading": 0.0036698261896769206,
-    "Time_Epoch": 0.009190261363983154,
-    "Time_Log_Info": 0.00013684829076131185,
-    "Time_Process_Batch": 0.0004976550738016764,
-    "Time_Train_Batch": 0.0038179357846577964
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 117 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.91it/s] 43%|####3     | 43/100 [00:00<00:00, 210.97it/s] 66%|######6   | 66/100 [00:00<00:00, 218.49it/s] 88%|########8 | 88/100 [00:00<00:00, 218.89it/s]100%|##########| 100/100 [00:00<00:00, 216.54it/s]
-Train Epoch 118
-{
-    "Cosine_Loss": 0.21234599456191064,
-    "L1_Loss": 0.001407790316734463,
-    "L2_Loss": 0.0031540937721729278,
-    "Loss": 0.0031540937721729278,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.07377572463069783,
-    "Time_Data_Loading": 0.0032946030298868817,
-    "Time_Epoch": 0.008751193682352701,
-    "Time_Log_Info": 0.00014633735020955403,
-    "Time_Process_Batch": 0.0004722754160563151,
-    "Time_Train_Batch": 0.0037664930025736493
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 118 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 209.13it/s] 44%|####4     | 44/100 [00:00<00:00, 220.58it/s] 67%|######7   | 67/100 [00:00<00:00, 219.08it/s] 91%|#########1| 91/100 [00:00<00:00, 224.06it/s]100%|##########| 100/100 [00:00<00:00, 222.79it/s]
-Train Epoch 119
-{
-    "Cosine_Loss": 0.20207678839564325,
-    "L1_Loss": 0.0013046449405374006,
-    "L2_Loss": 0.0029047663265373558,
-    "Loss": 0.0029047663265373558,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03323565223625963,
-    "Time_Data_Loading": 0.0031847437222798664,
-    "Time_Epoch": 0.008634408315022787,
-    "Time_Log_Info": 0.00014913479487101237,
-    "Time_Process_Batch": 0.0004716952641805013,
-    "Time_Train_Batch": 0.003657738367716471
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 119 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.92it/s] 44%|####4     | 44/100 [00:00<00:00, 217.37it/s] 68%|######8   | 68/100 [00:00<00:00, 224.34it/s] 91%|#########1| 91/100 [00:00<00:00, 226.47it/s]100%|##########| 100/100 [00:00<00:00, 223.70it/s]
-Train Epoch 120
-{
-    "Cosine_Loss": 0.20309682622551917,
-    "L1_Loss": 0.0016086885068216361,
-    "L2_Loss": 0.003720424369093962,
-    "Loss": 0.003720424369093962,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03244407402157947,
-    "Time_Data_Loading": 0.0032042702039082843,
-    "Time_Epoch": 0.008545895417531332,
-    "Time_Log_Info": 0.00014832019805908204,
-    "Time_Process_Batch": 0.00047880013783772787,
-    "Time_Train_Batch": 0.003601364294687907
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 120 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.83it/s] 43%|####3     | 43/100 [00:00<00:00, 212.86it/s] 67%|######7   | 67/100 [00:00<00:00, 222.09it/s] 91%|#########1| 91/100 [00:00<00:00, 227.77it/s]100%|##########| 100/100 [00:00<00:00, 222.94it/s]
-Train Epoch 121
-{
-    "Cosine_Loss": 0.2024035019427538,
-    "L1_Loss": 0.0010852039186283946,
-    "L2_Loss": 0.0024148841900750993,
-    "Loss": 0.0024148841900750993,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.019615601411568092,
-    "Time_Data_Loading": 0.003248294194539388,
-    "Time_Epoch": 0.008600290616353352,
-    "Time_Log_Info": 0.00014539162317911785,
-    "Time_Process_Batch": 0.00047048727671305336,
-    "Time_Train_Batch": 0.003594366709391276
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 121 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 179.82it/s] 40%|####      | 40/100 [00:00<00:00, 202.59it/s] 62%|######2   | 62/100 [00:00<00:00, 210.28it/s] 85%|########5 | 85/100 [00:00<00:00, 217.50it/s]100%|##########| 100/100 [00:00<00:00, 212.28it/s]
-Train Epoch 122
-{
-    "Cosine_Loss": 0.20486795969307423,
-    "L1_Loss": 0.0010231904927059078,
-    "L2_Loss": 0.002263554117525928,
-    "Loss": 0.002263554117525928,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.01891780365806028,
-    "Time_Data_Loading": 0.0033215880393981934,
-    "Time_Epoch": 0.008962710698445639,
-    "Time_Log_Info": 0.00013977289199829102,
-    "Time_Process_Batch": 0.0004916787147521973,
-    "Time_Train_Batch": 0.0038813193639119464
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 122 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.80it/s] 43%|####3     | 43/100 [00:00<00:00, 213.79it/s] 67%|######7   | 67/100 [00:00<00:00, 223.34it/s] 90%|######### | 90/100 [00:00<00:00, 225.36it/s]100%|##########| 100/100 [00:00<00:00, 221.75it/s]
-Train Epoch 123
-{
-    "Cosine_Loss": 0.19617936231195926,
-    "L1_Loss": 0.0012293451360892505,
-    "L2_Loss": 0.002735063147265464,
-    "Loss": 0.002735063147265464,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03703835797636259,
-    "Time_Data_Loading": 0.0031706889470418296,
-    "Time_Epoch": 0.008595959345499674,
-    "Time_Log_Info": 0.00015107393264770507,
-    "Time_Process_Batch": 0.0004845062891642253,
-    "Time_Train_Batch": 0.0036923487981160483
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 123 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 165.28it/s] 40%|####      | 40/100 [00:00<00:00, 199.57it/s] 63%|######3   | 63/100 [00:00<00:00, 212.42it/s] 86%|########6 | 86/100 [00:00<00:00, 219.22it/s]100%|##########| 100/100 [00:00<00:00, 213.23it/s]
-Train Epoch 124
-{
-    "Cosine_Loss": 0.20305901803076268,
-    "L1_Loss": 0.0011835517577128485,
-    "L2_Loss": 0.002609069050522521,
-    "Loss": 0.002609069050522521,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03985044058289759,
-    "Time_Data_Loading": 0.003394440809885661,
-    "Time_Epoch": 0.009204542636871338,
-    "Time_Log_Info": 0.00014089345932006837,
-    "Time_Process_Batch": 0.000496530532836914,
-    "Time_Train_Batch": 0.003766477108001709
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 124 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 154.65it/s] 39%|###9      | 39/100 [00:00<00:00, 194.31it/s] 61%|######1   | 61/100 [00:00<00:00, 204.08it/s] 84%|########4 | 84/100 [00:00<00:00, 213.28it/s]100%|##########| 100/100 [00:00<00:00, 207.09it/s]
-Train Epoch 125
-{
-    "Cosine_Loss": 0.20051197290420533,
-    "L1_Loss": 0.0009877299822983333,
-    "L2_Loss": 0.0021728540683398022,
-    "Loss": 0.0021728540683398022,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02088182543923949,
-    "Time_Data_Loading": 0.0036643385887145997,
-    "Time_Epoch": 0.00923533837000529,
-    "Time_Log_Info": 0.00014489094416300456,
-    "Time_Process_Batch": 0.0004818002382914225,
-    "Time_Train_Batch": 0.0037386377652486166
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 125 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.93it/s] 44%|####4     | 44/100 [00:00<00:00, 220.09it/s] 68%|######8   | 68/100 [00:00<00:00, 227.72it/s] 91%|#########1| 91/100 [00:00<00:00, 228.55it/s]100%|##########| 100/100 [00:00<00:00, 225.59it/s]
-Train Epoch 126
-{
-    "Cosine_Loss": 0.19785229660570622,
-    "L1_Loss": 0.0010418387953541241,
-    "L2_Loss": 0.0023112218332244083,
-    "Loss": 0.0023112218332244083,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.021374814048487564,
-    "Time_Data_Loading": 0.0031873663266499836,
-    "Time_Epoch": 0.009264616171518962,
-    "Time_Log_Info": 0.00015455087025960287,
-    "Time_Process_Batch": 0.00045948028564453126,
-    "Time_Train_Batch": 0.0035693566004435223
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 126 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.84it/s] 42%|####2     | 42/100 [00:00<00:00, 211.10it/s] 66%|######6   | 66/100 [00:00<00:00, 221.86it/s] 90%|######### | 90/100 [00:00<00:00, 227.82it/s]100%|##########| 100/100 [00:00<00:00, 222.47it/s]
-Train Epoch 127
-{
-    "Cosine_Loss": 0.20120020151138307,
-    "L1_Loss": 0.00105714976467425,
-    "L2_Loss": 0.0023159196024062113,
-    "Loss": 0.0023159196024062113,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.03278019947838061,
-    "Time_Data_Loading": 0.003212447961171468,
-    "Time_Epoch": 0.008552149931589762,
-    "Time_Log_Info": 0.00014990568161010742,
-    "Time_Process_Batch": 0.0004802544911702474,
-    "Time_Train_Batch": 0.0036314884821573895
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 127 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 191.46it/s] 43%|####3     | 43/100 [00:00<00:00, 212.96it/s] 66%|######6   | 66/100 [00:00<00:00, 218.60it/s] 90%|######### | 90/100 [00:00<00:00, 224.94it/s]100%|##########| 100/100 [00:00<00:00, 221.14it/s]
-Train Epoch 128
-{
-    "Cosine_Loss": 0.19264542527496814,
-    "L1_Loss": 0.0010319856405840255,
-    "L2_Loss": 0.0022921093954937533,
-    "Loss": 0.0022921093954937533,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.0182414887026556,
-    "Time_Data_Loading": 0.0032761057217915853,
-    "Time_Epoch": 0.008704038461049397,
-    "Time_Log_Info": 0.00014941692352294923,
-    "Time_Process_Batch": 0.00046753485997517904,
-    "Time_Train_Batch": 0.003624995549519857
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 128 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.45it/s] 43%|####3     | 43/100 [00:00<00:00, 212.98it/s] 67%|######7   | 67/100 [00:00<00:00, 222.04it/s] 91%|#########1| 91/100 [00:00<00:00, 227.64it/s]100%|##########| 100/100 [00:00<00:00, 223.32it/s]
-Train Epoch 129
-{
-    "Cosine_Loss": 0.19506584346294403,
-    "L1_Loss": 0.0010461224656319245,
-    "L2_Loss": 0.0023351237352471797,
-    "Loss": 0.0023351237352471797,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.023030628526094006,
-    "Time_Data_Loading": 0.003214903672536214,
-    "Time_Epoch": 0.008523372809092204,
-    "Time_Log_Info": 0.00014566183090209962,
-    "Time_Process_Batch": 0.0004790941874186198,
-    "Time_Train_Batch": 0.003605850537618001
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 129 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.76it/s] 43%|####3     | 43/100 [00:00<00:00, 213.39it/s] 66%|######6   | 66/100 [00:00<00:00, 220.14it/s] 90%|######### | 90/100 [00:00<00:00, 224.75it/s]100%|##########| 100/100 [00:00<00:00, 220.93it/s]
-Train Epoch 130
-{
-    "Cosine_Loss": 0.20150406189262868,
-    "L1_Loss": 0.0011355134393670595,
-    "L2_Loss": 0.0024931703048059715,
-    "Loss": 0.0024931703048059715,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04384281690250418,
-    "Time_Data_Loading": 0.0033577760060628254,
-    "Time_Epoch": 0.008602499961853027,
-    "Time_Log_Info": 0.00014977057774861652,
-    "Time_Process_Batch": 0.0004718979199727376,
-    "Time_Train_Batch": 0.00354692538579305
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 130 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.45it/s] 42%|####2     | 42/100 [00:00<00:00, 206.41it/s] 65%|######5   | 65/100 [00:00<00:00, 216.43it/s] 88%|########8 | 88/100 [00:00<00:00, 221.49it/s]100%|##########| 100/100 [00:00<00:00, 217.62it/s]
-Train Epoch 131
-{
-    "Cosine_Loss": 0.20625730082392693,
-    "L1_Loss": 0.0013487845147028565,
-    "L2_Loss": 0.003035442507825792,
-    "Loss": 0.003035442507825792,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.044423598711874776,
-    "Time_Data_Loading": 0.003309973080952962,
-    "Time_Epoch": 0.008728484312693277,
-    "Time_Log_Info": 0.00014733473459879558,
-    "Time_Process_Batch": 0.000482475757598877,
-    "Time_Train_Batch": 0.003700717290242513
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 131 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.16it/s] 43%|####3     | 43/100 [00:00<00:00, 217.75it/s] 67%|######7   | 67/100 [00:00<00:00, 226.32it/s] 90%|######### | 90/100 [00:00<00:00, 222.36it/s]100%|##########| 100/100 [00:00<00:00, 219.77it/s]
-Train Epoch 132
-{
-    "Cosine_Loss": 0.20963842689990997,
-    "L1_Loss": 0.0011225637223105877,
-    "L2_Loss": 0.00249084135517478,
-    "Loss": 0.00249084135517478,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.028077515130082702,
-    "Time_Data_Loading": 0.0032690684000651043,
-    "Time_Epoch": 0.008680411179860433,
-    "Time_Log_Info": 0.00014608303705851238,
-    "Time_Process_Batch": 0.0004830042521158854,
-    "Time_Train_Batch": 0.0036677916844685874
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 132 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.21it/s] 43%|####3     | 43/100 [00:00<00:00, 215.77it/s] 67%|######7   | 67/100 [00:00<00:00, 223.75it/s] 91%|#########1| 91/100 [00:00<00:00, 226.17it/s]100%|##########| 100/100 [00:00<00:00, 218.16it/s]
-Train Epoch 133
-{
-    "Cosine_Loss": 0.20552801668643952,
-    "L1_Loss": 0.0014471775831771084,
-    "L2_Loss": 0.0032689419022062793,
-    "Loss": 0.0032689419022062793,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04664381009587146,
-    "Time_Data_Loading": 0.0033292611440022784,
-    "Time_Epoch": 0.008688374360402425,
-    "Time_Log_Info": 0.00014262596766153972,
-    "Time_Process_Batch": 0.0004739085833231608,
-    "Time_Train_Batch": 0.0036762118339538573
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 133 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.61it/s] 43%|####3     | 43/100 [00:00<00:00, 214.07it/s] 65%|######5   | 65/100 [00:00<00:00, 171.09it/s] 88%|########8 | 88/100 [00:00<00:00, 189.37it/s]100%|##########| 100/100 [00:00<00:00, 193.13it/s]
-Train Epoch 134
-{
-    "Cosine_Loss": 0.20036160819232463,
-    "L1_Loss": 0.0011855030895094388,
-    "L2_Loss": 0.002691082516103052,
-    "Loss": 0.002691082516103052,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.018482112433428028,
-    "Time_Data_Loading": 0.0032024184862772622,
-    "Time_Epoch": 0.009734419981638591,
-    "Time_Log_Info": 0.00014278491338094075,
-    "Time_Process_Batch": 0.0004756927490234375,
-    "Time_Train_Batch": 0.0036996086438496906
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 134 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.99it/s] 44%|####4     | 44/100 [00:00<00:00, 215.54it/s] 69%|######9   | 69/100 [00:00<00:00, 227.17it/s] 92%|#########2| 92/100 [00:00<00:00, 221.61it/s]100%|##########| 100/100 [00:00<00:00, 220.82it/s]
-Train Epoch 135
-{
-    "Cosine_Loss": 0.1952604775875807,
-    "L1_Loss": 0.0011122725406312384,
-    "L2_Loss": 0.002501575381611474,
-    "Loss": 0.002501575381611474,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02798409477956568,
-    "Time_Data_Loading": 0.0033118645350138348,
-    "Time_Epoch": 0.008612632751464844,
-    "Time_Log_Info": 0.0001444697380065918,
-    "Time_Process_Batch": 0.0004779656728108724,
-    "Time_Train_Batch": 0.0035955746968587238
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 135 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 197.34it/s] 44%|####4     | 44/100 [00:00<00:00, 220.64it/s] 67%|######7   | 67/100 [00:00<00:00, 218.26it/s] 91%|#########1| 91/100 [00:00<00:00, 224.23it/s]100%|##########| 100/100 [00:00<00:00, 221.25it/s]
-Train Epoch 136
-{
-    "Cosine_Loss": 0.2041989939659834,
-    "L1_Loss": 0.00145629397011362,
-    "L2_Loss": 0.0032636206434108316,
-    "Loss": 0.0032636206434108316,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.07711168030290082,
-    "Time_Data_Loading": 0.0032640735308329264,
-    "Time_Epoch": 0.00862415631612142,
-    "Time_Log_Info": 0.00015151500701904297,
-    "Time_Process_Batch": 0.00047553380330403645,
-    "Time_Train_Batch": 0.0036240657170613605
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 136 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 178.00it/s] 43%|####3     | 43/100 [00:00<00:00, 216.45it/s] 68%|######8   | 68/100 [00:00<00:00, 227.70it/s] 91%|#########1| 91/100 [00:00<00:00, 221.95it/s]100%|##########| 100/100 [00:00<00:00, 218.41it/s]
-Train Epoch 137
-{
-    "Cosine_Loss": 0.19883874401450158,
-    "L1_Loss": 0.0011041766687412747,
-    "L2_Loss": 0.0024595231568673628,
-    "Loss": 0.0024595231568673628,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.025615648039887445,
-    "Time_Data_Loading": 0.0033150355021158854,
-    "Time_Epoch": 0.008708306153615316,
-    "Time_Log_Info": 0.0001494606335957845,
-    "Time_Process_Batch": 0.000495310624440511,
-    "Time_Train_Batch": 0.003653518358866374
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 137 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.02it/s] 44%|####4     | 44/100 [00:00<00:00, 217.33it/s] 67%|######7   | 67/100 [00:00<00:00, 220.08it/s] 90%|######### | 90/100 [00:00<00:00, 220.73it/s]100%|##########| 100/100 [00:00<00:00, 219.69it/s]
-Train Epoch 138
-{
-    "Cosine_Loss": 0.20082407169044017,
-    "L1_Loss": 0.0012066223070723936,
-    "L2_Loss": 0.0026881121669430287,
-    "Loss": 0.0026881121669430287,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.04939270975055081,
-    "Time_Data_Loading": 0.003223419189453125,
-    "Time_Epoch": 0.008663447697957356,
-    "Time_Log_Info": 0.00015546480814615887,
-    "Time_Process_Batch": 0.0005005200703938802,
-    "Time_Train_Batch": 0.0036890824635823567
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 138 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 187.64it/s] 43%|####3     | 43/100 [00:00<00:00, 214.94it/s] 66%|######6   | 66/100 [00:00<00:00, 220.87it/s] 89%|########9 | 89/100 [00:00<00:00, 213.16it/s]100%|##########| 100/100 [00:00<00:00, 213.42it/s]
-Train Epoch 139
-{
-    "Cosine_Loss": 0.18954727083444595,
-    "L1_Loss": 0.001107320896408055,
-    "L2_Loss": 0.0025064383662538603,
-    "Loss": 0.0025064383662538603,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02113406912517121,
-    "Time_Data_Loading": 0.0033685843149820964,
-    "Time_Epoch": 0.008867156505584717,
-    "Time_Log_Info": 0.00014419953028361004,
-    "Time_Process_Batch": 0.0004989186922709147,
-    "Time_Train_Batch": 0.0037783026695251466
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 139 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.58it/s] 44%|####4     | 44/100 [00:00<00:00, 221.47it/s] 69%|######9   | 69/100 [00:00<00:00, 231.23it/s] 93%|#########3| 93/100 [00:00<00:00, 234.00it/s]100%|##########| 100/100 [00:00<00:00, 228.73it/s]
-Train Epoch 140
-{
-    "Cosine_Loss": 0.20354659631848335,
-    "L1_Loss": 0.0013042099800077266,
-    "L2_Loss": 0.002932238658540882,
-    "Loss": 0.002932238658540882,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.056428187936508035,
-    "Time_Data_Loading": 0.003196525573730469,
-    "Time_Epoch": 0.008434812227884928,
-    "Time_Log_Info": 0.00015177329381306967,
-    "Time_Process_Batch": 0.0004627386728922526,
-    "Time_Train_Batch": 0.0034580667813618976
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 140 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 176.03it/s] 39%|###9      | 39/100 [00:00<00:00, 192.45it/s] 59%|#####8    | 59/100 [00:00<00:00, 192.12it/s] 79%|#######9  | 79/100 [00:00<00:00, 191.47it/s]100%|##########| 100/100 [00:00<00:00, 194.45it/s]
-Train Epoch 141
-{
-    "Cosine_Loss": 0.20138820081949235,
-    "L1_Loss": 0.001011921121389605,
-    "L2_Loss": 0.0022572180267889054,
-    "Loss": 0.0022572180267889054,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.01812474474403416,
-    "Time_Data_Loading": 0.0038061221440633137,
-    "Time_Epoch": 0.009732556343078614,
-    "Time_Log_Info": 0.00013344685236612956,
-    "Time_Process_Batch": 0.0005231897036234537,
-    "Time_Train_Batch": 0.0040889143943786625
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 141 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 195.58it/s] 44%|####4     | 44/100 [00:00<00:00, 220.08it/s] 67%|######7   | 67/100 [00:00<00:00, 222.82it/s] 90%|######### | 90/100 [00:00<00:00, 222.87it/s]100%|##########| 100/100 [00:00<00:00, 222.00it/s]
-Train Epoch 142
-{
-    "Cosine_Loss": 0.1977172789722681,
-    "L1_Loss": 0.0010565022259834223,
-    "L2_Loss": 0.0023508949199458583,
-    "Loss": 0.0023508949199458583,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.026891299931780282,
-    "Time_Data_Loading": 0.00320972204208374,
-    "Time_Epoch": 0.008571386337280273,
-    "Time_Log_Info": 0.0001487096150716146,
-    "Time_Process_Batch": 0.0004796504974365234,
-    "Time_Train_Batch": 0.0036520600318908692
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 142 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.12it/s] 44%|####4     | 44/100 [00:00<00:00, 216.62it/s] 67%|######7   | 67/100 [00:00<00:00, 222.15it/s] 90%|######### | 90/100 [00:00<00:00, 224.97it/s]100%|##########| 100/100 [00:00<00:00, 221.69it/s]
-Train Epoch 143
-{
-    "Cosine_Loss": 0.19703701503574847,
-    "L1_Loss": 0.0011218860634835436,
-    "L2_Loss": 0.0025109111482743175,
-    "Loss": 0.0025109111482743175,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.028861270363130416,
-    "Time_Data_Loading": 0.003207985560099284,
-    "Time_Epoch": 0.008815578619639079,
-    "Time_Log_Info": 0.0001468976338704427,
-    "Time_Process_Batch": 0.0004880944887797038,
-    "Time_Train_Batch": 0.003657666842142741
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 143 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.92it/s] 44%|####4     | 44/100 [00:00<00:00, 218.40it/s] 67%|######7   | 67/100 [00:00<00:00, 223.55it/s] 91%|#########1| 91/100 [00:00<00:00, 227.34it/s]100%|##########| 100/100 [00:00<00:00, 223.62it/s]
-Train Epoch 144
-{
-    "Cosine_Loss": 0.2020512080937624,
-    "L1_Loss": 0.0011488168148207478,
-    "L2_Loss": 0.002603830294101499,
-    "Loss": 0.002603830294101499,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.021478909351010315,
-    "Time_Data_Loading": 0.0032648682594299317,
-    "Time_Epoch": 0.00853812297185262,
-    "Time_Log_Info": 0.00014721949895222982,
-    "Time_Process_Batch": 0.000465850035349528,
-    "Time_Train_Batch": 0.0035580992698669434
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 144 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 185.65it/s] 42%|####2     | 42/100 [00:00<00:00, 207.31it/s] 65%|######5   | 65/100 [00:00<00:00, 216.08it/s] 88%|########8 | 88/100 [00:00<00:00, 217.69it/s]100%|##########| 100/100 [00:00<00:00, 216.39it/s]
-Train Epoch 145
-{
-    "Cosine_Loss": 0.18710913971066476,
-    "L1_Loss": 0.0009305000321182888,
-    "L2_Loss": 0.0020437313927686774,
-    "Loss": 0.0020437313927686774,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.02156535845499377,
-    "Time_Data_Loading": 0.0033613284428914386,
-    "Time_Epoch": 0.009061861038208007,
-    "Time_Log_Info": 0.000147092342376709,
-    "Time_Process_Batch": 0.0004815340042114258,
-    "Time_Train_Batch": 0.003693707784016927
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 145 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.80it/s] 44%|####4     | 44/100 [00:00<00:00, 216.88it/s] 68%|######8   | 68/100 [00:00<00:00, 225.17it/s] 91%|#########1| 91/100 [00:00<00:00, 222.43it/s]100%|##########| 100/100 [00:00<00:00, 220.45it/s]
-Train Epoch 146
-{
-    "Cosine_Loss": 0.19897524677217007,
-    "L1_Loss": 0.0012478310262667948,
-    "L2_Loss": 0.0028176388161955403,
-    "Loss": 0.0028176388161955403,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.05664757837167372,
-    "Time_Data_Loading": 0.003301374117533366,
-    "Time_Epoch": 0.008644549051920573,
-    "Time_Log_Info": 0.00014891624450683594,
-    "Time_Process_Batch": 0.00046265522638956705,
-    "Time_Train_Batch": 0.003629887104034424
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 146 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 186.95it/s] 43%|####3     | 43/100 [00:00<00:00, 215.57it/s] 66%|######6   | 66/100 [00:00<00:00, 220.48it/s] 89%|########9 | 89/100 [00:00<00:00, 221.38it/s]100%|##########| 100/100 [00:00<00:00, 219.26it/s]
-Train Epoch 147
-{
-    "Cosine_Loss": 0.195649755820632,
-    "L1_Loss": 0.001251300546573475,
-    "L2_Loss": 0.002765656702686101,
-    "Loss": 0.002765656702686101,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.050396658196817726,
-    "Time_Data_Loading": 0.003208768367767334,
-    "Time_Epoch": 0.008705369631449382,
-    "Time_Log_Info": 0.00014878511428833007,
-    "Time_Process_Batch": 0.0004840413729349772,
-    "Time_Train_Batch": 0.0037422736485799154
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 147 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.93it/s] 43%|####3     | 43/100 [00:00<00:00, 215.48it/s] 65%|######5   | 65/100 [00:00<00:00, 215.25it/s] 89%|########9 | 89/100 [00:00<00:00, 224.41it/s]100%|##########| 100/100 [00:00<00:00, 222.02it/s]
-Train Epoch 148
-{
-    "Cosine_Loss": 0.19675900824368,
-    "L1_Loss": 0.0011413482812349684,
-    "L2_Loss": 0.0025780395936453714,
-    "Loss": 0.0025780395936453714,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.026740107420254164,
-    "Time_Data_Loading": 0.0032404502232869464,
-    "Time_Epoch": 0.00858927567799886,
-    "Time_Log_Info": 0.00015212297439575194,
-    "Time_Process_Batch": 0.0004881540934244792,
-    "Time_Train_Batch": 0.0036084254582722983
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 148 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 176.05it/s] 43%|####3     | 43/100 [00:00<00:00, 214.46it/s] 66%|######6   | 66/100 [00:00<00:00, 217.21it/s] 89%|########9 | 89/100 [00:00<00:00, 219.21it/s]100%|##########| 100/100 [00:00<00:00, 215.84it/s]
-Train Epoch 149
-{
-    "Cosine_Loss": 0.19293838329613208,
-    "L1_Loss": 0.0010896441264776513,
-    "L2_Loss": 0.0024673584557604045,
-    "Loss": 0.0024673584557604045,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.023375226958724512,
-    "Time_Data_Loading": 0.0033444722493489584,
-    "Time_Epoch": 0.008942778905232747,
-    "Time_Log_Info": 0.0001524964968363444,
-    "Time_Process_Batch": 0.0005019982655843099,
-    "Time_Train_Batch": 0.0037056605021158853
-}
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 149 Memory Usage: 1748 MB
-
-  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 194.38it/s] 44%|####4     | 44/100 [00:00<00:00, 220.70it/s] 67%|######7   | 67/100 [00:00<00:00, 222.69it/s] 91%|#########1| 91/100 [00:00<00:00, 228.01it/s]100%|##########| 100/100 [00:00<00:00, 225.07it/s]
-Train Epoch 150
-{
-    "Cosine_Loss": 0.1863456402719021,
-    "L1_Loss": 0.0010704167859512382,
-    "L2_Loss": 0.0024053273064782842,
-    "Loss": 0.0024053273064782842,
-    "Optimizer/policy0_lr": 0.0001,
-    "Policy_Grad_Norms": 0.029480085093175602,
-    "Time_Data_Loading": 0.003156153361002604,
-    "Time_Epoch": 0.008477532863616943,
-    "Time_Log_Info": 0.00015099445978800457,
-    "Time_Process_Batch": 0.0004674832026163737,
-    "Time_Train_Batch": 0.0036127607027689615
-}
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/models/model_epoch_150.pth
-
-saving latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth...
-
-save checkpoint to /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last.pth
-
-saved backup of latest model at /mnt/workspace/JCIIOT2026/JCIIOT/robomimic/robosuite/runs/grasp_bc/20260810174321/last_bak.pth
-
-
-Epoch 150 Memory Usage: 1752 MB
-
-[2026-08-10T17:46:32][train_grasp_bc] finished run successfully!

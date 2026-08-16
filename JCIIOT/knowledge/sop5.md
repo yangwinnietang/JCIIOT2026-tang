@@ -12,7 +12,7 @@ Transport three large white tote boxes from Pick Station 6 to Place Station 1.
 ## Station Mapping
 
 - Pick Station 6 = input_1, center (-14.54, 5.01)
-- Place Station 1 = output_6, center (10.03, -7.27)
+- Place Station 1 = aux_output_1, center (0.14, 8.47)
 - Robot start: (13.5, 0.0)
 - Target objects:
   - white_tote_b01_left_center

@@ -79,26 +79,6 @@ class MoveSkill(BaseSkill):
             or context.task
         )
 
-        # L5: the planner emits redundant extra move→pick_up→move→place_down
-        # cycles (one per tote), but a single pick_up step already transports
-        # every tote via teleport + direct place. After that the regenerated
-        # occupancy grid has no A* route to the output area from anywhere, so
-        # the extra navigation cannot succeed and would abort the run — turn
-        # those moves into no-ops (the transport is already complete).
-        env_name = getattr(self._backend, "_env_name", "") or ""
-        placed_loop = getattr(self._backend, "_multi_transport_placed", 0)
-        if ("FactorySorting9" in str(env_name) and placed_loop):
-            log_step(
-                self.name, "move", ok=True, target=target,
-                note="no-op after L5 multi-tote transport",
-            )
-            return SkillResult(
-                skill_name=self.name,
-                success=True,
-                message=f"Moved to: {target} (no-op after L5 multi-tote transport)",
-                payload={"action": "move", "target": target, "method": "noop", "ok": True},
-            )
-
         with step_timer(self.name, "move") as _t:
             goal_xy = self._resolve_target(target)
             if goal_xy is None:
@@ -120,6 +100,11 @@ class MoveSkill(BaseSkill):
                     message=f"A* planning failed: {target}",
                     payload={"action": "move", "target": target, "start": start_xy.tolist()},
                 )
+
+            # Re-orient the base (when carrying) so the carried object's
+            # sweep corridor along THIS path stays clear of every other
+            # material object — see _ensure_carry_facing.
+            self._ensure_carry_facing(path)
 
             reached = self._backend.follow_path(path)
             final_xy, final_yaw = self._backend.get_base_pose()
@@ -159,6 +144,132 @@ class MoveSkill(BaseSkill):
         )
 
     # ── internal ────────────────────────────────────────────
+
+    def _ensure_carry_facing(self, path) -> None:
+        """Re-orient the base so the carried object's corridor along *path*
+        stays clear of every other material object.
+
+        While carrying, the tote rides at the attachment's ``relative_xy``
+        (lever ~0.9m) at a FIXED base-frame angle — the holonomic base keeps
+        one yaw for the whole leg, so the tote sweeps a corridor offset from
+        the path by that lever.  The tote collision walls are ~0.17m taller
+        than their visual rims, so a corridor that merely misses the visual
+        meshes can still shove a neighbour off (L2/L3/L4/L5 knock-offs all
+        happened on the first leg after a grasp).  For each candidate yaw
+        delta we simulate (a) the swing of the re-orienting turn itself and
+        (b) the tote's positions along the path, requiring
+        ``navigation.carry_clear_dist`` from every other object.  The
+        smallest |delta| that passes is applied with the guarded
+        ``_drive_base_to`` turn; if none passes we keep the current yaw and
+        let the drive object-guard be the safety net.
+        """
+        try:
+            env = getattr(self._backend, "env", None)
+            if env is None or not path or len(path) < 2:
+                return
+            from robosuite.environments.factory_sorting.transport_attachment import (
+                TRANSPORT_ATTACHMENT_ATTR,
+            )
+            attachment = getattr(env, TRANSPORT_ATTACHMENT_ATTR, None)
+            if attachment is None or not attachment.get("active"):
+                return
+            rel = attachment.get("relative_xy")
+            if rel is None:
+                return
+            lever = float(np.hypot(rel[0], rel[1]))
+            phi = float(np.arctan2(rel[1], rel[0]))
+            held = attachment.get("object_name")
+            objs = []
+            for on in getattr(env, "material_objects", []) or []:
+                if on == held:
+                    continue
+                for sfx in ("_joint0", "_free"):
+                    try:
+                        q = env.sim.data.get_joint_qpos(f"{on}{sfx}")
+                        objs.append((float(q[0]), float(q[1])))
+                        break
+                    except Exception:
+                        continue
+            if not objs:
+                return
+            _nav_rp = getattr(self._backend, "_rp", {}).get("navigation", {}) or {}
+            clear = float(_nav_rp.get("carry_clear_dist", 0.74))
+            base_xy, yaw0 = self._backend.get_base_pose()
+            base_xy = np.asarray(base_xy, dtype=float)[:2]
+            # Densify the path (~0.1m spacing) — checking only waypoints
+            # would miss corridor crossings mid-segment (L2: the straight
+            # leg passed 0.39m from the lower tote between two "clear"
+            # endpoints).
+            pts: list[np.ndarray] = []
+            raw_pts = [np.asarray(p, dtype=float)[:2] for p in path]
+            for i in range(len(raw_pts) - 1):
+                a, b = raw_pts[i], raw_pts[i + 1]
+                seg = float(np.linalg.norm(b - a))
+                n = max(1, int(seg / 0.1))
+                for k in range(n):
+                    pts.append(a + (b - a) * (k / n))
+            if raw_pts:
+                pts.append(raw_pts[-1])
+
+            def _corridor_ok(theta: float) -> bool:
+                # (a) swing of the re-orienting turn around the start pose
+                b0 = yaw0 + phi
+                d = (theta - yaw0 + np.pi) % (2 * np.pi) - np.pi
+                n = max(2, int(abs(d) / 0.2) + 1)
+                for a in np.linspace(0.0, d, n):
+                    tp = base_xy + lever * np.array([np.cos(b0 + a), np.sin(b0 + a)])
+                    for ox, oy in objs:
+                        if (tp[0] - ox) ** 2 + (tp[1] - oy) ** 2 < clear * clear:
+                            return False
+                # (b) tote positions along the path at the fixed yaw
+                off = lever * np.array([np.cos(theta + phi), np.sin(theta + phi)])
+                for p in pts:
+                    tp = p + off
+                    for ox, oy in objs:
+                        if (tp[0] - ox) ** 2 + (tp[1] - oy) ** 2 < clear * clear:
+                            return False
+                return True
+
+            import math as _m
+            chosen = None
+            for d in (0.0, _m.radians(45), -_m.radians(45), _m.radians(90),
+                      -_m.radians(90), _m.radians(135), -_m.radians(135), _m.pi):
+                if _corridor_ok(yaw0 + d):
+                    chosen = d
+                    break
+            if chosen is None:
+                print(f"[CARRY_FACING] no clear facing along path (keeping yaw {yaw0:.2f})", flush=True)
+                logger.warning("carry_facing: no clear facing along path (keeping yaw %.2f)", yaw0)
+                return
+            if abs(chosen) < 1e-3:
+                print(f"[CARRY_FACING] keep yaw {yaw0:.2f} (corridor clear)", flush=True)
+                return
+            target_yaw = yaw0 + chosen
+            print(f"[CARRY_FACING] re-orient yaw {yaw0:.2f} -> {target_yaw:.2f} (lever {lever:.2f}m)", flush=True)
+            logger.info("carry_facing: re-orient yaw %.2f -> %.2f (lever %.2fm)",
+                        yaw0, target_yaw, lever)
+            from robosuite.environments.factory_sorting.load_factory_sorting_evalization import (
+                _drive_base_to,
+            )
+            from robosuite.environments.factory_sorting.transport_attachment import (
+                sync_transport_attachment,
+            )
+            def _turn_cb():
+                # Keep the carried object welded through the turn — without
+                # this it free-falls for the turn's duration and snaps back
+                # afterwards (a visible drop+teleport defect, L2 t≈83s).
+                try:
+                    sync_transport_attachment(env)
+                except Exception:
+                    pass
+                self._backend._record_trajectory_frame()
+            _drive_base_to(
+                env, env.robots[0], base_xy, yaw=target_yaw, max_steps=300,
+                step_callback=_turn_cb,
+            )
+        except Exception as exc:
+            logger.warning("carry_facing failed (non-fatal): %s", exc)
+
 
     def _resolve_target(self, target: str) -> np.ndarray | None:
         """Convert a target description to a (2,) world xy position.
