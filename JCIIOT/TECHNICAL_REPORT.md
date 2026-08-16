@@ -1,367 +1,287 @@
-# Technical Report — JCIIOT 2026 Industrial Embodied Intelligence Challenge
+# SOP-Runner: Technical Report
 
-**Team:** SOP-Runner
-**Score:** 100/100 (L1=10, L2=15, L3=20, L4=25, L5=30) — physics-compliant, zero collision penalties
-**Date:** 2026-08-15
+## JCIIOT 2026 Industrial Embodied Intelligence Challenge
 
----
+**Team:** SOP-Runner<br>
+**Submission date:** 16 August 2026<br>
+**Repository-scored result:** **100/100** (L1=10, L2=15, L3=20, L4=25, L5=30), with no collision deduction in the saved final scorer outputs
+
+[Chinese report and reviewer landing page](../README.md) · [Videos](../videos/) · [Trajectory evidence](../trajectories/) · [Compact implementation](../code/)
 
 ## Abstract
 
-This report describes our system for the JCIIOT 2026 Industrial Embodied
-Intelligence Challenge, in which a Tiago dual-arm mobile robot must grasp,
-transport, and place factory materials across five FactorySorting scenes
-simulated in MuJoCo via robosuite.
+SOP-Runner is an auditable mobile-manipulation system for five FactorySorting tasks performed by a dual-arm Tiago robot in MuJoCo/robosuite. It translates a natural-language SOP into an explicit `move → pick_up → move → place_down` skill program, then executes the program with clearance-cost A*, a rendered-shell safety layer, a deterministic six-phase operational-space grasp servo, conservative multi-object reselection, and lever-arm-aware radial placement.
 
-The system follows the competition's **LLM → Agent → Skill** pipeline: GLM-5.2
-decomposes the natural-language task into `move → pick_up → place_down` skill
-sequences; our skills execute them with a clearance-aware A* navigator, a
-deterministic six-phase OSC waypoint-servo grasp policy, and a geometric
-lever-arm-aligned placement controller. **All robot and object motion is
-produced by physics-stepped simulation — no teleportation, no direct object
-qpos writes to accomplish transport, no collision-flag manipulation, no
-frame recording tampering.** Every score below comes from a full end-to-end
-recorded run scored by the official program.
+The submitted final runs score 10/10, 15/15, 20/20, 25/25 and 30/30 through the scoring path shipped with the competition repository. All seven transported objects leave their source and finish within the 0.8 m target tolerance; the saved scorer outputs contain no collision deduction. The evidence package includes the exact trajectory, scorer output, structured run result and three-view video for every level.
 
-Final results (all runs on 2026-08-15, scored by the official scoring
-program, zero collision penalties on every level):
+This report distinguishes reproducible evidence from claims: the scores are repository-generated self-evaluation results, not post-competition organizer certification; one successful final trajectory is submitted per level, not a multi-seed statistical evaluation.
 
-| Level | Scene | Task | Score | Final placement error |
-|-------|-------|------|-------|----------------------|
-| L1 | FactorySorting1 | container: input_5 → output_4 | **10/10** | 0.12 m |
-| L2 | FactorySorting3 | tote: input_6 → output_4 | **15/15** | 0.08 m |
-| L3 | FactorySorting5 | tote: aux_input_1 → output_5 | **20/20** | 0.02 m |
-| L4 | FactorySorting7 | container: input_2 → output_5 | **25/25** | 0.08 m |
-| L5 | FactorySorting9 | 3 totes: input_1 → aux_output_1 | **30/30** | 0.37 / 0.57 / 0.45 m |
-| **Total** | | | **100/100** | tolerance: 0.8 m |
+## 1. Task and evaluation
 
----
+Each scene asks the robot to transport one or more factory containers from a named source station to a named target station. Under the published rule, half of an object's points are awarded after it leaves the source by more than 1 m along x or y, and half after its planar distance to the target table center falls below 0.8 m. Any collision deducts five points; time breaks equal scores. L5 contains three independently scored white totes.
 
-## 1. Method Overview
+The solution therefore has four coupled objectives:
 
-```
-Task text (SOP)
-    │
-    ▼
-SOP knowledge (self-generated from .docx via workflows/generate_sop_knowledge.py)
-    │
-    ▼
-LLM Planner (GLM-5.2) ──► ordered skill plan: [move → pick_up → move → place_down] (×3 for L5)
-    │
-    ▼
-MoveSkill ─── clearance-aware cost-weighted A* on the occupancy grid
-    │           + holonomic pure-pursuit base driving (physics-stepped)
-    ▼
-PickUpSkill ─┬─ already-moved object reselection (multi-object stations)
-             ├─ wall-normal stance correction: small-increment base driving
-             │  with proxy-contact guard and yaw alignment
-             ├─ adaptive grasp targets: nominal sites / xwall relocation
-             │  (+x wall for input-line totes, −y wall for aux-input totes)
-             └─ scripted 6-phase OSC grasp servo + lift verification
-    │            (grasp runs in a sandboxed eval env; only the grasped
-    │             object's pose and the world-consistent base pose are
-    │             synced back to the navigation env)
-    ▼
-PlaceDownSkill ─┬─ lever-arm facing alignment via a virtual facing station
-                ├─ lever-length matching back-drive (away from the table)
-                ├─ per-object drop-spot spreading (multi-object targets)
-                └─ physics lower-and-release placement
+1. infer the correct semantic source, object and destination from the SOP;
+2. navigate narrow factory corridors without contact;
+3. obtain a verifiable bilateral grasp and preserve object identity;
+4. release within the target region without disturbing earlier placements.
+
+## 2. System architecture
+
+```mermaid
+flowchart LR
+    A["Task text + SOP documents"] --> B["SOP knowledge generation"]
+    B --> C["LLM planner"]
+    C --> D["TaskFlow: typed skill plan"]
+    D --> E["MoveSkill"]
+    D --> F["PickUpSkill"]
+    D --> G["PlaceDownSkill"]
+    E --> H["MuJoCo / robosuite environment"]
+    F --> H
+    G --> H
+    H --> I["Per-frame trajectory + grasp events"]
+    I --> J["Competition scorer"]
+    I --> K["Three-view replay"]
 ```
 
-## 2. Key Techniques
+The LLM is restricted to task decomposition. Motion generation and safety decisions are deterministic geometry/state-machine code. `TaskFlow` records every planned step, its inputs, preconditions, timeout, attempt count and outcome in `result_*.json`.
 
-### 2.1 Clearance-aware A* navigation (`skills/move.py`)
+### Artifact layers
 
-Binary obstacle inflation over-blocks the factory's tight corridors. We keep
-every cell passable (so a path is always found when the baseline finds one)
-but inflate the **step cost** near obstacles, biasing routes toward corridor
-centres. Diagonal corner-cutting is forbidden. Base driving follows the path
-with small physics-stepped increments (`follow_path`, max 0.45 m/s).
+- [`code/`](../code/) is a compact reviewer-facing package containing only our skills, workflows, knowledge, parameters and model artifact.
+- [`JCIIOT/`](../JCIIOT/) is the full upstream-compatible runnable project.
+- [`trajectories/`](../trajectories/) contains the submitted evidence in a short, level-based layout.
+- [`videos/`](../videos/) contains five composed three-view videos and fifteen individual views.
 
-### 2.2 Scripted 6-phase OSC grasp servo
+The compact and full layouts are intentional, not divergent implementations; their mapping is documented in [`code/README.md`](../code/README.md).
 
-The baseline behavioural-cloning policy suffered a train/inference RGB
-observation mismatch (mean pixel diff ~30) and diverged. We replaced the
-action generator with a deterministic Operational-Space-Control waypoint
-servo driven only by low-dimensional state: safe lift → XY approach →
-descent → gripper-end settle (±3 cm) → close → hold, then a lift
-verification. Same input, same motion — fully reproducible.
+## 3. Method
 
-### 2.3 Adaptive grasp targets (xwall relocation)
+### 3.1 SOP knowledge generation and constrained planning
 
-- **Containers** (L1/L4): nominal grasp sites already face the aisle — kept.
-- **Input-line totes** (L2/L5): nominal sites put the left gripper on the
-  unreachable far side; sites are relocated to the +x wall
-  (`inset 0.30 m`, `span ±0.12 m`).
-- **Aux-input totes** (L3, north-side table, Y≈8.5): the nominal sites pass
-  the naive +x check while being metres away in Y. The relocation for
-  aux-input stations is forced to the **−y (south) wall**, and the approach
-  stance is snapped to the wall normal so the base is centred on the object
-  — a skewed stance puts the far arm at the edge of its kinematic reach and
-  fails the grasp.
+`workflows/generate_sop_knowledge.py` parses the competition `.docx` files with python-docx, sends embedded images to a vision-language endpoint for descriptions, asks a text model for structured steps, and enriches the result with canonical station names and coordinates from `task_config.json` and the scene semantic maps. It emits the five `sop_gen_case_*.md` files used by the planner.
 
-### 2.4 Stance correction with contact guard
+At runtime, the planner produces only registered skills. L1–L4 use four steps; L5 uses three explicit four-step cycles. The result file retains the planner's structured reasoning and each skill result for review.
 
-The semantic approach point is rarely a good grasp pose. Before grasping,
-the base is driven to `object + standoff(0.85 m) · wall_normal` with
-**0.02 m qpos increments, each followed by a full physics step** (the same
-driving model as the navigation backend). A contact guard trials every
-increment (translation *and* yaw) before committing it: if a robot geom
-would touch a scene proxy, the increment is reverted, the drive backs off
-5 cm, and stops — the judge collision flag is therefore never raised by
-stance driving. Every increment is recorded into the trajectory, so the
-recorded base motion is continuous (no jump cuts).
+### 3.2 Clearance-cost A*
 
-### 2.5 Sandboxed grasp env with world-consistent sync
+Binary obstacle inflation blocks useful narrow corridors, while an uninflated shortest path hugs equipment. We retain the baseline passable-cell set but change the local edge cost:
 
-Grasping runs in a freshly created evaluation environment (identical scene).
-After a successful grasp:
+```text
+step_cost = base_step × (1 + w × tight_penalty(clearance))
+w = 6.0; tight_clearance = 0.30 m
+```
 
-- **only the grasped object** is synced to the navigation env (syncing all
-  objects would reset already-placed ones to their spawn poses — an
-  artefact we eliminated);
-- the navigation base is **driven** (same physics-stepped driver) to the
-  grasp env's world base pose, so the world state stays consistent —
-  mobile-base qpos are spawn-relative and must never be copied between
-  envs directly;
-- the transport attachment then captures a truthful base-relative carry
-  offset (typically a clean frontal ~0.9 m carry).
+`tight_penalty` rises smoothly as the Euclidean distance transform approaches an obstacle. Diagonal motion is rejected when either orthogonal neighbor is blocked, preventing corner cutting. If enhanced A* finds no route, the caller explicitly falls back to the baseline planner, so the enhancement does not silently remove baseline reachability.
 
-### 2.6 Lever-arm-aligned placement (`skills/place_down.py`)
+This builds on the classical A* search formulation of [Hart, Nilsson and Raphael (1968)](https://doi.org/10.1109/TSSC.1968.300136); our contribution is the competition-specific clearance cost and its integration with rendered-shell constraints.
 
-The place animation turns the base to face the station and releases the
-object wherever the carry lever arm puts it: `obj = base + R(yaw)·rel`.
-A naive "drive to compensate" approach both undershoots (clamped drives)
-and risks collisions. Instead we exploit the geometry:
+### 3.3 Rendered-shell safety layer
 
-- `phi = atan2(rel_y, rel_x)` — the object's angle in the base frame;
-- facing a **virtual station** placed on the ray `yaw_v = psi − phi`
-  (where `psi` is the base→target bearing) rotates the object exactly onto
-  the base→target line;
-- if the lever length `|rel|` differs from the base→target distance by more
-  than 0.25 m, the base first backs **away** from the table along that line
-  (collision-free direction) until the distances match;
-- for multi-object targets (L5), drop spots are spread along the table's
-  long axis (0 / +0.45 / −0.45 m) so a tote never lands on an already
-  placed one — stacked totes would protrude into the swing plane of the
-  next tote's lever arm.
+Several factory machines have rendered meshes that extend beyond their smaller physical collision proxies. A path can consequently be collision-free for the judge while the visible robot appears to intersect a machine in video.
 
-The release itself is a physics lower-and-release: the object is lowered
-through simulation steps to just above the table surface and dropped.
+`_visual_shell_grid` projects actual rendered surface triangles through the robot body height band into a 2.5 cm danger grid. Convex hulls are deliberately avoided because they would fill legitimate openings in racks. The same layer is used by route planning and close-range stance guards, aligning scored safety and visual evidence.
 
-### 2.7 Multi-object pick reselection (`skills/pick_up.py`)
+### 3.4 Six-phase dual-arm grasp servo
 
-L5's planner occasionally repeats the same object name for every cycle.
-Before grasping we check the requested object's live position: if it has
-already been transported away from the pick station, the nearest
-same-family object still at the station is grasped instead. Grasping a
-stale name would re-grasp an object that is no longer there.
+An early behavior-cloning controller was sensitive to a train/inference image-domain mismatch. The final scored controller instead uses a deterministic low-dimensional operational-space waypoint servo:
 
-### 2.8 SOP knowledge generation (self-generated)
+1. lift both end effectors to a clearance height;
+2. approach the target in XY;
+3. descend;
+4. settle both end-effector centers around the selected wall;
+5. close both grippers;
+6. hold and verify lift success.
 
-`workflows/generate_sop_knowledge.py` parses the `.docx` SOP files
-(python-docx), describes embedded images with GLM-5V-Turbo, structures the
-SOP with GLM-5.2 (json_mode), enriches with canonical coordinates from
-`task_config.json` and the semantic maps, and emits `sop_gen_case_*.md`
-(L1–L5 = cases 1/3/5/7/9). The competition-shipped `sop*.md` files are not
-reused. Errata are honoured: L3 picks from "Placement Point 1"
-(aux_input_1); L5 places to aux_output_1.
+The control idea follows the operational-space formulation introduced by [Khatib (1987)](https://doi.org/10.1109/JRA.1987.1087068). The submitted BC checkpoint is retained for provenance and ablation; it is not the final action generator.
 
-### 2.9 Visual-shell-aware navigation (F6, `skills/library.py` + patch)
+### 3.5 Reachability-aware wall selection and stance correction
 
-The Siemens production-line machines ship as **visual-only meshes**
-(`contype=0`): their physics is carried by smaller invisible AABB proxies,
-so a trajectory can be collision-clean for the judge while the robot's
-visible body still pierces the machine's white housing in rendered videos.
-We close that gap in two layers, both computed from the machines' **true
-surface triangles** (convex hulls would hollow-block legitimate stances
-inside rack openings):
+Nominal sites are not uniformly reachable by both arms. The controller uses station topology:
 
-1. *Planner layer* — at skill wiring time the machines' surface footprint
-   (z-band 0.05–1.75 m, 2.5 cm cells) is merged into the occupancy grid as
-   hard obstacles inflated by the body's visible radius (0.27 m + 2 cm), so
-   the clearance-aware A* simply routes around the housings
-   (`_merge_visual_shells_into_grid`, skills/library.py).
-2. *Driver layer* — `_drive_base_to` / `_follow_path_direct` additionally
-   test every base increment against the shell grid and revert + back-off /
-   side-step on violation, covering stance micro-drives the planner never
-   sees.
+- aisle-facing containers retain their nominal grasp sites;
+- regular input-line totes use the `+x` wall (`inset=0.30 m`, `span=±0.12 m`);
+- the northern auxiliary-input tote uses the `−y` wall, with the base centered along the wall normal.
 
-Effect: the final runs score 100/100 with **zero** guard activations and
-zero visual-body interpenetrations (previously the torso column visibly
-entered machine housings for ~1–2 s on L1/L4/L5).
+Before grasping, the base moves toward an object-relative stance using generalized-coordinate increments of at most 0.02 m. Each increment is followed by a simulation step and a trajectory record. A trial pose is reverted and backed away if it contacts a scene proxy, another movable object, or a rendered shell.
 
-## 3. Physics-compliance statement
+This must be described precisely: close-range stance correction is bounded incremental kinematic qpos motion with simulation stepping and contact checks, not a wheel-ground dynamics controller. It does not perform a single-step jump across a route.
 
-The system contains **no** rule-violating operations:
+### 3.6 World-consistent sandbox grasping
 
-- ❌ no base teleportation — all base motion uses physics-stepped small increments;
-- ❌ no object qpos teleport — objects move only via grasp, carry attachment, and physics lower-and-release;
-- ❌ no collision-flag clearing — `has_judge_collision` is never touched; a contact guard prevents contacts instead (final runs: zero collisions on all 5 levels);
-- ❌ no frame/trajectory tampering — every drive increment is recorded; frames recorded from the sandboxed grasp env override non-grasped objects with their true navigation-env poses so the recording reflects the real world state;
-- ❌ no no-op bypasses — every move/pick/place executes for real.
+Grasp control runs in a fresh evaluation environment with the same scene configuration. A naive all-object synchronization would reset objects already transported in the navigation environment. Our minimal protocol synchronizes only the currently grasped object's state, then moves the navigation base incrementally to the sandbox base's world pose. Mobile-base coordinates are spawn-relative, so raw base qpos copying is intentionally avoided.
 
-## 4. Results & Analysis
+During sandbox recording, non-grasped objects are written from their real navigation-environment state. This prevents a recording artifact in which earlier objects appear to jump back to their spawn positions.
 
-### 4.1 Final runs (2026-08-16, official scorer, zero collision penalties)
+### 3.7 Conservative multi-object reselection
 
-| Level | Trajectory | Left source | Placement | Score |
-|-------|-----------|-------------|-----------|-------|
-| L1 | `trajectory_20260816_111213_OK` | ✓ (7.2/11.2 m) | 0.17 m | 10/10 |
-| L2 | `trajectory_20260816_111600_OK` | ✓ | ✓ | 15/15 |
-| L3 | `trajectory_20260816_111938_OK` | ✓ | ✓ | 20/20 |
-| L4 | `trajectory_20260816_112331_OK` | ✓ | ✓ | 25/25 |
-| L5 tote 1-3 | `trajectory_20260816_112911_OK` | ✓ all | ✓ all | 30/30 |
+The L5 planner can repeat a stale object name. Before each grasp, `PickUpSkill` reads the requested object's live position. It substitutes another object only if the requested object is provably more than 1.5 m from the pick station and a same-family candidate remains near the station. The rule is therefore state-gated and family-constrained rather than a blind index rotation.
 
-All trajectories pass `verify_trajectories.py` (grasp_end events, station
-matching, final positions, no collision frames), `audit_trajectory_physics.py`
-(per-frame continuity: no teleports; only benign sub-7.5 cm guard back-off /
-release-settle adjustments), `audit_contacts.py` (no object-object or
-bulldozing contacts; only invisible proxy/support and nominal grasp contacts),
-`audit_scene_integrity.py` (no knock-overs, no pushes, no placement
-disturbance), and `audit_visual_overlap.py` (**no interpenetration between
-the robot's visible body and any visible machine surface** — verified at
-triangle level, see §2.9).
+### 3.8 Lever-arm alignment and radial placement
 
-### 4.2 Strengths
+A carried object's base-frame offset is `rel=(rel_x, rel_y)`. Facing the base toward the target is insufficient when `rel_y ≠ 0`. We define
 
-- Deterministic grasping: near-100% grasp success across containers and totes.
-- Placement accuracy 0.02–0.68 m against a 0.8 m tolerance, on every object.
-- Zero collision penalties while navigating the tightest corridors, thanks to
-  clearance-aware planning plus the stance contact guard.
-- L5 completes all three pick-transport-place cycles end-to-end with distinct
-  `grasp_end` events per tote.
+```text
+phi   = atan2(rel_y, rel_x)
+psi   = atan2(target_y - base_y, target_x - base_x)
+yaw_v = psi - phi
+```
 
-### 4.3 Limitations
+and create a virtual facing station on `yaw_v`, rotating the carry lever onto the base-to-target ray. For crowded L5 placement, candidate slots are ranked using live object positions and swing clearance. The robot turns outside the table, then approaches the selected slot radially. A trend-aware guard aborts before a new closest approach violates the configured separation and tries the next candidate.
 
-- The BC checkpoint is loaded by the pipeline but the scripted servo performs
-  the grasp; the learned model is not used for action generation.
-- Grasping runs in a sandboxed eval env for controller isolation; world-state
-  consistency is restored by the sync protocol in §2.5.
-- Run time is dominated by the physics-stepped drivers (L5 ≈ 11 minutes
-  wall-clock for 12 skill steps).
+The environment-provided `transport_attachment` continuously synchronizes the carried object during transport and lowering. We retain that mechanism rather than presenting the behavior as pure contact-dynamics holding. At placement, the object is interpolated down to a table-aware release height, the attachment is cleared, the grippers open, and gravity settles the object.
 
-## 5. Novelty Statement
+## 4. Results and analysis
 
-1. **Lever-arm facing alignment with virtual facing stations** — we cast the
-   placement problem as a closed-form bearing correction
-   (`yaw_v = atan2(tgt−base) − atan2(rel_y, rel_x)`) that rotates a carried
-   object onto the target *without any base translation near the table*,
-   eliminating both the under-constrained "drive-and-hope" compensation and
-   its collision risk. Combined with lever-length matching (backing away
-   from the table) and drop-spot spreading, this achieves 0.02–0.68 m
-   placement under a fixed carry offset — a geometric placement technique we
-   have not seen in mobile-manipulation baselines of this kind.
-2. **Reachability-aware grasp target relocation** — beyond a static +x-wall
-   remap, the selector distinguishes input-line vs aux-input stations and
-   snaps the approach stance to the wall normal, which is what makes
-   dual-arm tote grasping kinematically feasible at all (the naive nominal
-   sites leave one arm 0.75+ m short).
-3. **Contact-guarded incremental driving** — a trial-then-commit base driver
-   with revert-and-back-off that provides hard zero-collision guarantees for
-   stance correction inside cluttered station proxies, while remaining
-   purely physics-stepped (fully legal motion).
-4. **World-consistent sandbox grasping** — a minimal sync protocol (grasped
-   object only + world-pose base drive) that lets a sandboxed eval env be
-   used for grasp control without leaking spawn-pose artefacts into the
-   recorded trajectory.
-5. **Visual-shell-aware navigation** — collision layers and video evidence
-   are reconciled by planning/guarding against the machines' *rendered*
-   triangle surfaces rather than their (smaller) physics proxies, so the
-   robot never even appears to intersect equipment on camera while staying
-   collision-free for the judge.
+### 4.1 Final submitted runs
 
-## 6. Third-Party Libraries
+| Level | Task | Frames | Successful grasp events | Target error | Wall time | Evidence | Score |
+|---|---|---:|---:|---:|---:|---|---:|
+| L1 | container, `input_5 → output_4` | 2,051 | 1 | **0.17 m** | 219.762 s | [score JSON](../trajectories/L1/score_20260816_111213_OK.json) | **10/10** |
+| L2 | green tote, `input_6 → output_4` | 1,800 | 1 | **0.14 m** | 212.008 s | [score JSON](../trajectories/L2/score_20260816_111600_OK.json) | **15/15** |
+| L3 | blue tote, `aux_input_1 → output_5` | 1,969 | 1 | **0.11 m** | 226.280 s | [score JSON](../trajectories/L3/score_20260816_111938_OK.json) | **20/20** |
+| L4 | container, `input_2 → output_5` | 2,734 | 1 | **0.12 m** | 333.210 s | [score JSON](../trajectories/L4/score_20260816_112331_OK.json) | **25/25** |
+| L5 | three white totes, `input_1 → aux_output_1` | 6,060 | 3 | **0.09 / 0.56 / 0.55 m** | 815.948 s | [score JSON](../trajectories/L5/score_20260816_112911_OK.json) | **30/30** |
+| **Total** | seven objects | **14,614** | **7** | all `< 0.8 m` | — | [evidence index](../trajectories/README.md) | **100/100** |
 
-| Library | Version | Usage |
-|---------|---------|-------|
-| mujoco | 3.9.0 | Physics simulation |
-| robosuite | local copy | Robot environment abstraction |
-| robomimic | local copy | BC policy framework (checkpoint loading) |
-| torch | 2.7.0 | Neural network inference (BC checkpoint) |
-| numpy | 1.26.4 | Numerical operations |
-| scipy | 1.15.3 | Clearance field for A* (distance transform) |
-| python-docx | 1.2.0 | SOP .docx parsing |
-| openai client | — | GLM API (OpenAI-compatible endpoint) |
-| opencv-python | 4.8+ | Image handling for VLM |
-| imageio + imageio-ffmpeg | 2.37 | Offline video rendering |
+The scorer labels confirm that every object left its source and reached its target after a successful grasp. The final score files contain no collision deduction. L5 records three separate `grasp_start/grasp_end(success=true)` pairs for `left_center`, `left_back` and `left_front`.
 
-**LLM/VLM:** 智谱 GLM-5.2 (text) and GLM-5V-Turbo (vision) via
-`https://open.bigmodel.cn/api/paas/v4`. All libraries/models are publicly
-available; no private or license-restricted assets are used.
+### 4.2 Qualitative evidence
 
-## 7. Reproducibility
+Each level has a composed 1280×720 H.264/MP4 video with bird's-eye, robot-view and follow cameras, plus the three source camera files. The README preview images are extracted from the real videos. All twenty files passed first/middle/last-frame decoding checks.
+
+[Open the video center](../videos/README.md)
+
+### 4.3 What the results demonstrate
+
+- one shared skill architecture handles containers, ordinary totes, an auxiliary-input tote and a three-object destination;
+- all target errors have at least 0.24 m margin to the 0.8 m threshold, except no object is close to the boundary by more than the L5 0.56/0.55 m placements;
+- L5 preserves three object identities and avoids overwriting earlier placements;
+- scored collision avoidance and rendered-shell avoidance are treated as separate constraints.
+
+## 5. Novelty statement
+
+The novelty claim is scoped to **algorithmic and systems innovation over the competition baseline**, not invention of A*, operational-space control or behavior cloning.
+
+1. **Closed-form carry-lever alignment.** A virtual station rotates an arbitrary base-frame carry offset onto the target ray; crowded targets add outside-table turning and a radial final approach.
+2. **Rendered-shell-aware safety.** Surface-triangle occupancy reconciles the smaller scoring proxies with visible machine geometry and is shared by global planning and local stance guards.
+3. **Station-topology grasp adaptation.** Wall selection and wall-normal stance couple semantic station type with dual-arm reachability instead of relying on one global grasp-site convention.
+4. **Minimal sandbox synchronization.** Only the active object and the base world pose are reconciled, preventing multi-object state rollback while preserving controller isolation.
+5. **State-gated multi-object identity recovery.** A stale LLM name is corrected only after geometric proof that it has left the station and a same-family replacement remains.
+6. **Evidence as part of the control design.** Every bounded increment, sandbox phase and release frame is recorded, and final JSON, events, score and video are tied to the same timestamped run.
+
+## 6. Compliance and implementation disclosure
+
+The final implementation intentionally discloses the following details:
+
+- there is no code that clears `has_judge_collision`; the flag is read for recording/termination only;
+- there is no one-step base jump over a navigation route; close-range correction uses bounded qpos increments with simulation steps, while route navigation uses the environment path follower;
+- carrying and lowering use the competition environment's `transport_attachment`, which synchronizes object qpos continuously; sandbox reconciliation also writes the active object's state;
+- the final BC checkpoint is not used to generate the submitted grasp actions;
+- `_factory_physics_patch.py` installs the enhanced grasp/place/record routines at import time using runtime function rebinding. This preserves on-disk competition harness files but introduces indirection, so both the patch and every importing skill are included for audit;
+- scores are self-evaluation outputs produced with the repository's competition scoring code.
+
+Historical development notes contain rejected teleport/direct-place experiments. Those entries are retained for transparency and explicitly marked as superseded; they are not the final submitted implementation.
+
+## 7. Third-party components and prior work
+
+| Component | Submitted environment version | Role |
+|---|---:|---|
+| [MuJoCo](https://mujoco.org/) | 3.9.0 | physics simulation |
+| [robosuite](https://robosuite.ai/) | vendored project copy | robot/environment abstraction |
+| [robomimic](https://robomimic.github.io/) | vendored project copy | BC training/checkpoint framework |
+| PyTorch | 2.7.0 | model artifact loading/training |
+| NumPy | 1.26.4 | geometry and state operations |
+| SciPy | 1.15.3 | Euclidean distance transform |
+| python-docx | 1.2.0 | SOP document parsing |
+| OpenCV | 4.8.1.78 | image processing |
+| ImageIO / imageio-ffmpeg | 2.37.3 / 0.6.0 | video generation |
+
+The exact environment is pinned in [`JCIIOT/requirements.txt`](../JCIIOT/requirements.txt). Source and scene assets originate from the [official JCIIOT2026 repository](https://github.com/JCIIOT2026/JCIIOT2026). Each upstream component remains subject to its own license and the competition's asset terms.
+
+## 8. Reproducibility
+
+### 8.1 Installation
 
 ```bash
-# System deps (headless rendering): libosmesa6-dev, xvfb
-pip install -r JCIIOT/requirements.txt
+git clone https://github.com/yangwinnietang/JCIIOT2026-tang.git
+cd JCIIOT2026-tang
+git lfs pull
 
 cd JCIIOT
-export DISPLAY=:99 MUJOCO_GL=osmesa GATE_OLLAMA=true
-export LD_LIBRARY_PATH="/etc/dsw/runtime/dynamic_libs/lib:$LD_LIBRARY_PATH"
-export PYTHONPATH="src:robosuite/robosuite:robomimic:."
-export OPENAI_API_KEY=<GLM key> OPENAI_BASE_URL="https://open.bigmodel.cn/api/paas/v4" OPENAI_MODEL="glm-5.2"
-
-# Run one level headlessly (task-index 0..4 = L1..L5):
-TS=$(date +%Y%m%d_%H%M%S)
-.venv/bin/python -m robot_agent.task_subprocess_runner \
-  --task "<task text>" --task-index <0-4> --timestamp "$TS" \
-  --result-json "recordings/<env_name>/result_${TS}.json" --app-dir "."
-
-# Score with the official scoring functions:
-.venv/bin/python score_dev.py "recordings/<env_name>/trajectory_${TS}_*.json" \
-  --task-index <0-4> --save
-
-# Or use the official UI: streamlit run app.py
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pip install -e .
 ```
 
-Offline tools (not part of the scored pipeline):
+Headless Linux rendering:
 
 ```bash
-# Trajectory integrity checks
-.venv/bin/python verify_trajectories.py
-# Physics-continuity audit (teleport detection)
-.venv/bin/python audit_trajectory_physics.py recordings/<env>/trajectory_*.json
-# Three-view video rendering from a trajectory
-.venv/bin/python replay_to_video.py --level L1 --camera all --full --step 2 --width 640 --height 480
+sudo apt-get install -y libosmesa6-dev xvfb
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+export MUJOCO_GL=osmesa
+export GATE_OLLAMA=true
+export PYTHONPATH="src:robosuite/robosuite:robomimic:."
 ```
 
-### Modified files
+Configure the same public OpenAI-compatible endpoint used by the final planner without committing a secret:
 
-All competition-harness files are **byte-identical** to the upstream
-repository (`git diff origin/master` is empty for every forbidden path).
-Our entire implementation lives in the officially allowed locations:
+```bash
+export OPENAI_API_KEY="<your-compatible-api-key>"
+export OPENAI_BASE_URL="https://open.bigmodel.cn/api/paas/v4"
+export OPENAI_MODEL="glm-5.2"
+```
 
-| File | Change |
-|------|--------|
-| `src/robot_agent/skills/move.py` | clearance-aware A* (allowed edit scope) |
-| `src/robot_agent/skills/library.py` | merges machine visual-shell surfaces into the occupancy grid at skill wiring (allowed) |
-| `src/robot_agent/skills/pick_up.py` | already-moved reselection; imports the physics patch (allowed) |
-| `src/robot_agent/skills/place_down.py` | lever-arm facing alignment, drop-spot spreading, output-port metadata injection (allowed) |
-| `src/robot_agent/skills/_factory_physics_patch.py` | **our grasp/placement physics** (stance-corrected, contact-guarded base driver; adaptive grasp-target relocation; per-phase re-centring; world-consistent sandbox sync & recording) — installed onto the harness **at runtime only** via `types.FunctionType` re-binding; no harness file on disk is modified |
-| `src/robot_agent/workflows/generate_sop_knowledge.py` | SOP knowledge generation (allowed) |
-| `knowledge/robot_params.json` | tuned execution parameters incl. `grasp_policy.checkpoint_path = models/model_epoch_150.pth` (allowed) |
-| `models/model_epoch_150.pth` | our trained BC checkpoint (data file referenced by the allowed config) |
-| `app.py`, `src/robot_agent/core/`, `src/robot_agent/environments/`, `knowledge/task_config.json`, vendored `robosuite/` | **untouched — 0 diff vs origin/master** |
+### 8.2 Run and score
 
-Runtime monkey-patching disclosure: `skills/_factory_physics_patch.py`
-installs replacements for the scripted grasp routine and the backend's
-grasp/record methods at import time, re-binding each function's globals to
-its host module so behaviour is identical to an in-place definition. This
-is transparent, declared here and in the file's docstring, and confined to
-the allowed skills directory.
+The interactive competition entry point is:
 
-Additive tooling (new files only; they do not modify any harness file and
-are not on the `app.py` execution path): `robosuite/scripts/train_grasp_bc.py`,
-`robosuite/scripts/merge_grasp_datasets.py`, `robosuite/scripts/bc_grasp_config.json`,
-`robosuite/robosuite/environments/factory_sorting/load_factory_sorting_collect.py`
-(demonstration collection for Task D), `robosuite/TASK_D_README.md`, and the
-root-level dev tools (`score_dev.py`, `verify_trajectories.py`,
-`audit_trajectory_physics.py`, `audit_contacts.py`, `audit_visual_overlap.py`
-— visual-layer interpenetration audit, `verify_visual_triangle.py` —
-triangle-accurate surface verification, `render_frame.py`,
-`verify_videos.py` — encode-corruption detection, `replay_to_video.py`).
+```bash
+streamlit run app.py
+```
 
-`team_submission/` mirrors the final skills (including the patch module),
-workflows, knowledge docs, parameters, and the BC checkpoint for judge
-review.
+For one headless level (`task-index` 0–4 maps to L1–L5):
+
+```bash
+TS=$(date +%Y%m%d_%H%M%S)
+python -m robot_agent.task_subprocess_runner \
+  --task "<task text>" --task-index <0-4> --timestamp "$TS" \
+  --result-json "recordings/<env_name>/result_${TS}.json" --app-dir .
+
+python score_dev.py "recordings/<env_name>/trajectory_${TS}_OK.json" \
+  --task-index <0-4> --save
+```
+
+The submitted trajectories can be reviewed without the simulation runtime in [`trajectories/`](../trajectories/). A strict rerun still requires the competition scene assets and a compatible live LLM endpoint.
+
+### 8.3 Reviewer audit path
+
+Recommended review order:
+
+1. check the exact scores in [`trajectories/README.md`](../trajectories/README.md);
+2. watch the five composed videos in [`videos/`](../videos/);
+3. inspect the compact code using [`code/README.md`](../code/README.md);
+4. compare the compact code with the installed files under `JCIIOT/`;
+5. run Python compilation and, in a configured simulation environment, the included trajectory/contact/visual audit tools.
+
+## 9. Limitations
+
+- One final successful trajectory per level is submitted; there is no multi-seed success-rate estimate or confidence interval.
+- L5 takes approximately 13.6 minutes wall time. The controller prioritizes clearance and deterministic state transitions over speed.
+- Geometry-specific wall and station priors limit zero-shot generalization to unseen object sizes and table orientations.
+- A live external LLM service is required to regenerate the same planning path; provider-side model updates may affect byte-identical reproduction.
+- Runtime rebinding keeps allowed modifications localized but makes the execution path less direct than static backend integration.
+- The BC checkpoint demonstrates the explored learning path but not the final action policy; future work should close the visual-domain gap and report a controlled learned-versus-scripted ablation.
+
+## 10. Submission index
+
+- Chinese primary report: [`README.md`](../README.md)
+- Compact implementation: [`code/`](../code/)
+- Full runnable project: [`JCIIOT/`](../JCIIOT/)
+- Final trajectories and score files: [`trajectories/`](../trajectories/)
+- Five composed + fifteen individual videos: [`videos/`](../videos/)
+- Full Chinese development log: [`DEVELOPMENT_LOG_ZH.md`](DEVELOPMENT_LOG_ZH.md)
+- Submission manifest: [`MANIFEST.md`](../MANIFEST.md)

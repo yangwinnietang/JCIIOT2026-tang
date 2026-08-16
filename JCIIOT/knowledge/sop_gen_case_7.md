@@ -207,5 +207,5 @@ The destination is defined as Place Station
 The target material type has been specified
 The required handling quantity is clear
 3.2 Target Material Confirmation
-Before execution, verify the target item based on the task 
+Before execution, verify the target item based on the task
 ```

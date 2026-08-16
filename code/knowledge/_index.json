@@ -1,0 +1,70 @@
+{
+  "updated_at": "2026-08-16T15:00:00+08:00",
+  "document_count": 6,
+  "documents": {
+    "my_strategy.md": {
+      "title": "SOP-Runner Final Execution Strategy — JCIIOT 2026",
+      "category": "reference",
+      "tags": [
+        "reference",
+        "strategy",
+        "grasp",
+        "l5",
+        "placement",
+        "safety",
+        "final"
+      ],
+      "added_at": "2026-08-10T20:36:00"
+    },
+    "sop_gen_case_1.md": {
+      "title": "L1 SOP — Generated from case_1.docx",
+      "category": "sop_generated",
+      "tags": [
+        "sop",
+        "l1",
+        "auto-generated"
+      ],
+      "added_at": "2026-08-14T12:00:00"
+    },
+    "sop_gen_case_3.md": {
+      "title": "L2 SOP — Generated from case_3.docx",
+      "category": "sop_generated",
+      "tags": [
+        "sop",
+        "l2",
+        "auto-generated"
+      ],
+      "added_at": "2026-08-14T12:00:00"
+    },
+    "sop_gen_case_5.md": {
+      "title": "L3 SOP — Generated from case_5.docx",
+      "category": "sop_generated",
+      "tags": [
+        "sop",
+        "l3",
+        "auto-generated"
+      ],
+      "added_at": "2026-08-14T12:00:00"
+    },
+    "sop_gen_case_7.md": {
+      "title": "L4 SOP — Generated from case_7.docx",
+      "category": "sop_generated",
+      "tags": [
+        "sop",
+        "l4",
+        "auto-generated"
+      ],
+      "added_at": "2026-08-14T12:00:00"
+    },
+    "sop_gen_case_9.md": {
+      "title": "L5 SOP — Generated from case_9.docx",
+      "category": "sop_generated",
+      "tags": [
+        "sop",
+        "l5",
+        "auto-generated"
+      ],
+      "added_at": "2026-08-14T12:00:00"
+    }
+  }
+}

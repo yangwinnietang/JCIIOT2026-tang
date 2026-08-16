@@ -2,7 +2,8 @@
 #
 # Layout follows the checklist in
 # src/competition_platform/interface/skill_contract.py:
-#   skills  -> BaseSkill subclasses (our entry point: my_pick_up.py)
+#   skills  -> BaseSkill subclasses (submission entry point: my_pick_up.py;
+#              runtime module: src/robot_agent/skills/pick_up.py)
 #   models  -> trained BC grasp checkpoint
 #   knowledge -> team strategy knowledge consumed by the planner
 
@@ -10,19 +11,17 @@ team:
   name: "SOP-Runner"
 
 model:
-  # Behavioural-cloning grasp policy (robomimic BC, GPT_Backbone
-  # vision+low_dim).  Trained on demonstrations collected in all five
-  # FactorySorting scenes (see TECHNICAL_REPORT.md, section "Grasp policy
-  # training").  The scripted grasp policy (deterministic OSC waypoint servo)
-  # is the primary grasping method; the BC checkpoint provides the learned
-  # component used inside the scripted pipeline.
+  # Archival behavioural-cloning checkpoint (robomimic BC, vision+low_dim),
+  # trained on demonstrations from the FactorySorting scenes.  The final
+  # scored controller uses the deterministic OSC waypoint servo for action
+  # generation; this checkpoint is retained for provenance and ablation.
   checkpoint: models/model_epoch_150.pth
   framework: robomimic
   device: cpu            # inference runs on CPU; training used a single GPU
 
 skills:
   - path: skills/my_pick_up.py
-    class: MyPickUpSkill
+    class: PickUpSkill
     provides: [pick_up]
 
 knowledge:

@@ -199,5 +199,5 @@ Is anything else blocking the area?
 Is there a risk of collision?
 Is the current position convenient for grasping?
 Step 2: Find the Target Material and Pick It Up
-Once you're at the starting point, identify the 
+Once you're at the starting point, identify the
 ```

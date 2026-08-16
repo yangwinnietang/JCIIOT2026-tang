@@ -1,0 +1,58 @@
+# Team submission configuration — JCIIOT 2026 "RunningRobot" challenge
+#
+# Layout follows the checklist in
+# src/competition_platform/interface/skill_contract.py:
+#   skills  -> BaseSkill subclasses (submission entry point: my_pick_up.py;
+#              runtime module: src/robot_agent/skills/pick_up.py)
+#   models  -> trained BC grasp checkpoint
+#   knowledge -> team strategy knowledge consumed by the planner
+
+team:
+  name: "SOP-Runner"
+
+model:
+  # Archival behavioural-cloning checkpoint (robomimic BC, vision+low_dim),
+  # trained on demonstrations from the FactorySorting scenes.  The final
+  # scored controller uses the deterministic OSC waypoint servo for action
+  # generation; this checkpoint is retained for provenance and ablation.
+  checkpoint: models/model_epoch_150.pth
+  framework: robomimic
+  device: cpu            # inference runs on CPU; training used a single GPU
+
+skills:
+  - path: skills/my_pick_up.py
+    class: PickUpSkill
+    provides: [pick_up]
+
+knowledge:
+  directory: knowledge/
+  entrypoint: knowledge/my_strategy.md
+
+# Runtime knobs that reproduce our reported scores (mirrors
+# knowledge/robot_params.json in the full repository).
+execution:
+  navigation:
+    max_steps: 4000
+    waypoint_tolerance: 0.03
+    settle_steps: 8
+    max_linear: 0.45
+    max_angular: 0.90
+    holonomic_base: true
+    control_freq: 20
+  grasp_stance:
+    # Object-relative base stance before grasping: drive to
+    # (object_x + standoff_x, object_y).  Tuned from the original 0.94
+    # (official L1 geometry) down to 0.85 for closer reach and higher
+    # grasp success across all five levels.
+    standoff_x: 0.85
+  grasp_policy:
+    eval_steps: 312
+    post_hold_steps: 12
+    initial_view_steps: 5
+  lift:
+    lift_height: 0.15
+    max_steps: 300
+  planning:
+    path_spacing: 0.35
+    clearance_weight: 6.0
+    tight_clearance_m: 0.30

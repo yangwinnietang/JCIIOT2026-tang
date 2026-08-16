@@ -12,15 +12,11 @@ venv/
 *.pth.download
 model_download_supervisor.log
 
-# Local tooling / state
+# Local tooling and state
 .qwen/
 MUJOCO_LOG.TXT
-
-# Notebook checkpoints
 .ipynb_checkpoints/
-
-# Collected training logs (not part of submission)
 *.log
 
-# Incomplete / running trajectories (only OK/FAIL should be committed)
+# Incomplete trajectories
 *RUNNING*
